@@ -7,4 +7,4 @@
 
 ## Wiki
 
-Puede acceder a la Wiki mediante el siguiente [enlace]()
+Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/siroale/Grupo-1/wiki)
