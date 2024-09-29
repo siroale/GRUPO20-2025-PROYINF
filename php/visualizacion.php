@@ -9,8 +9,9 @@
 <body>
 
     <?php include "includes/navbar.php" ?>
+    <?php include "includes/dbinc.php" ?>
+    
 
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur sed, deleniti voluptatum dolor eius blanditiis illo facilis incidunt dolores! Officiis voluptas officia ab doloremque blanditiis aspernatur aliquid neque in numquam?
 
     <h1>epico !!</h1>
 </body>

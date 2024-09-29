@@ -9,7 +9,14 @@
 <body>
 
     <?php include "includes/navbar.php" ?>
+    <?php include "includes/dbinc.php" ?>
 
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quam nesciunt, omnis eos eaque rem iste ad sequi sed repellendus eum sit quis molestias nobis, tempore magni! Placeat, itaque quia!
+    <h2>Subir un Archivo</h2>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <input type="submit" name="submit" value="Subir Archivo">
+
+</form>
+
 
 </body>
