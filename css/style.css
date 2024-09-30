@@ -587,7 +587,7 @@ button {
 .image_2 {
     width: 35%;
     float: left;
-    top: -35px;
+    top: 0px;
     position: absolute;
 }
 
@@ -1034,7 +1034,7 @@ textarea.massage_box::placeholder {
 .footer_section {
     width: 100%;
     float: left;
-    background-color: #021239;
+    background-color: #279989;
     height: auto;
     padding: 70px 0px 50px 0px;
 }
@@ -1068,7 +1068,7 @@ textarea.massage_box::placeholder {
 .copyright_section {
     width: 100%;
     float: left;
-    background-color: #e8531f;
+    background-color: #2a2a29;
     height: auto;
 }
 
