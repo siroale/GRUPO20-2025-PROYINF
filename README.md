@@ -38,6 +38,8 @@ Procedemos a configurar la base de datos con MySQL:
 sudo usermod -d /var/lib/mysql/ mysql
 sudo mysql_secure_installation
 sudo service mysql start
+mysql -u root -p -e 'CREATE DATABASE boletinesDB'
+mysql -u root -p boletinesDB < ./boletinesDB_backup.sql
 ```
 
 Ahora podemos clonar el repositorio y levantar la página usando el servidor de desarrollo de PHP:
