@@ -29,7 +29,7 @@ Primero asegurarse de tener instalados MySQL y PHP:
 ``` sh
 sudo apt update
 sudo apt install mysql-server
-sudo apt instal php libapache2-mod-php php-mysql
+sudo apt install php libapache2-mod-php php-mysql
 ```
 
 Procedemos a configurar la base de datos con MySQL:
