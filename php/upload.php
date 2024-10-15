@@ -31,7 +31,6 @@ if (isset($_POST["submit"])) {
         if ($upload_ok == 1) {
             if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
                 echo "El archivo " . htmlspecialchars(basename($_FILES["file"]["name"])) . " ha sido subido.";
-                echo "Hola???";
                 // 2. Guardar la ruta del archivo en la base de datos usando PDO
                 $file_path = $target_file; // Ruta completa del archivo
                 
