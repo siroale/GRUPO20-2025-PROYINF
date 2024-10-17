@@ -32,7 +32,17 @@
    </head>
    <body>
       <!-- header section start -->
-      <?php include "includes/dbinc.php" ?>
+       
+      <?php 
+      session_start();
+      include "includes/dbinc.php";
+   
+      if (isset($_SESSION['user_name'])) {
+         $nombreUsuario = $_SESSION['user_name'];
+      } else {
+         $nombreUsuario = 'Invitado';
+      }
+      ?>
       <div class="header_section">
          <div class="">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -58,6 +68,14 @@
                         <a class="nav-link" href="contact.html">Contact Us</a>
                      </li>
                   </ul>
+                  <div class="navbar-text">
+                     <?php echo "Hola, $nombreUsuario"; ?> <!-- Muestra el nombre del usuario -->
+                  </div>
+                  <div class="ml-auto">
+                     <form action="includes/logout.php" method="POST"> <!-- El formulario para hacer logout -->
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                     </form>
+                  </div>
                   <div class="search_icon"><a href="#"><img src="../images/search-icon.png"></a></div>
                </div>
             </nav>

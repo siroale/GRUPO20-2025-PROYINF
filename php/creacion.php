@@ -8,7 +8,16 @@
 
 <body>
 
-    <?php include "includes/dbinc.php" ?>
+    <?php       
+    session_start();
+    include "includes/dbinc.php";
+   
+    if (isset($_SESSION['user_name'])) {
+        $nombreUsuario = $_SESSION['user_name'];
+    } else {
+        $nombreUsuario = 'Invitado';
+    } 
+    ?>
 
     <button id="openModalBtn" class="upload-button">
             <span class="btn__icon">
@@ -21,6 +30,23 @@
             </span>
             <span class="btn__text">Upload</span>
     </button>
+
+    <!-- Un boton chanta de logout -->
+    <div class="navbar-text">
+        <?php echo "Hola, $nombreUsuario"; ?> <!-- Muestra el nombre del usuario -->
+    </div>
+    <div class="ml-auto">
+        <form action="includes/logout.php" method="POST"> <!-- El formulario para hacer logout -->
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
+
+    <!-- Boton que descarga mockup de pdf -->
+    <div id="generacion">
+    <form action="descargar.php" method="post">
+        <input type="submit" name="submit" value="Generar pdf">
+    </form>
+    </div>
 
     <div id="uploadModal" class="modal">
         <div class="modal-header">
