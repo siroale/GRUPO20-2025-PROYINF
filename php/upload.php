@@ -1,8 +1,9 @@
 <?php
 include "includes/dbinc.php";
+echo "insano";
 if (isset($_POST["submit"])) {
     // Verifica si se seleccionó un archivo
-    echo insano;
+    session_start();
 
     if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $target_dir = "../uploads/"; // Carpeta donde se guardarán los archivos
@@ -31,6 +32,10 @@ if (isset($_POST["submit"])) {
 
         // Si todo está bien, intenta mover el archivo al servidor
         if ($upload_ok == 1) {
+            echo $target_file;
+            echo $_FILES["file"]["tmp_name"];
+            echo $_SESSION['user_name'];
+            echo $_SESSION['user_id'];
             if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
                 echo "El archivo " . htmlspecialchars(basename($_FILES["file"]["name"])) . " ha sido subido.";
                 // 2. Guardar la ruta del archivo en la base de datos usando PDO
@@ -44,7 +49,7 @@ if (isset($_POST["submit"])) {
 
 
                 // Preparar la consulta SQL
-                $sql = "INSERT INTO boletines (ruta_archivo, titulo, descripcion, fecha_publicacion, estado, subido_por, veces_visitado) 
+                $sql = "INSERT INTO boletin (ruta_archivo, titulo, descripcion, fecha_publicacion, estado, subido_por, veces_visitado) 
                 VALUES (:ruta_archivo, :titulo, :descripcion, :fecha_publicacion, :estado, :subido_por, :veces_visitado)";
                 echo "Ruta del archivo: " . htmlspecialchars($ruta_archivo) . "<br>";
                 var_dump($conn);

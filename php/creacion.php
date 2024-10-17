@@ -11,6 +11,8 @@
     <?php       
     session_start();
     include "includes/dbinc.php";
+    include "includes/mostrar_boletines_admin.php";
+    include "includes/eliminar_boletin.php";
    
     if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
         // Si no es administrador, redirigir o mostrar mensaje de acceso denegado
@@ -108,7 +110,7 @@
                 </div>
 
                 <p class="modal-description">Adjunta un archivo debajo</p>
-                <button id="uploadArea" class="upload-area" type="submit">
+                <button id="uploadArea" class="upload-area">
                     <input type="file" id="fileInput" name="file" style="display: none;" required>
                     <span class="upload-area-icon">
                         <svg
@@ -139,7 +141,7 @@
                 <div id="uploadDone" style="display: none;">Subido!</div>
             </div>
             <div class="modal-footer">
-                <button class="btn-primary" type="submit" name="submit">Upload File</button>
+                <input class="btn-primary" type="submit" name="submit" value="Subir archivo">
             </div>
         </form>
     </div>

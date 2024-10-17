@@ -18,7 +18,6 @@ if ($query->rowCount() == 0) {
 
 // Obtener el usuario
 $user = $query->fetch(PDO::FETCH_ASSOC);
-echo $password;
 
 // Verificar la contraseña
 if (password_verify($password, $user['password'])) {
