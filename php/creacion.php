@@ -12,11 +12,13 @@
     session_start();
     include "includes/dbinc.php";
    
-    if (isset($_SESSION['user_name'])) {
-        $nombreUsuario = $_SESSION['user_name'];
-    } else {
-        $nombreUsuario = 'Invitado';
-    } 
+    if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
+        // Si no es administrador, redirigir o mostrar mensaje de acceso denegado
+        header('Location: acceso_denegado.php'); // O redirigir a otra página
+        exit();
+    }
+
+    $nombreUsuario = $_SESSION['user_name'];
     ?>
 
     <button id="openModalBtn" class="upload-button">
@@ -106,7 +108,7 @@
                 </div>
 
                 <p class="modal-description">Adjunta un archivo debajo</p>
-                <button id="uploadArea" class="upload-area">
+                <button id="uploadArea" class="upload-area" type="submit">
                     <input type="file" id="fileInput" name="file" style="display: none;" required>
                     <span class="upload-area-icon">
                         <svg
@@ -137,7 +139,7 @@
                 <div id="uploadDone" style="display: none;">Subido!</div>
             </div>
             <div class="modal-footer">
-                <button class="btn-primary">Upload File</button>
+                <button class="btn-primary" type="submit" name="submit">Upload File</button>
             </div>
         </form>
     </div>

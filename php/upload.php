@@ -2,6 +2,8 @@
 include "includes/dbinc.php";
 if (isset($_POST["submit"])) {
     // Verifica si se seleccionó un archivo
+    echo insano;
+
     if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $target_dir = "../uploads/"; // Carpeta donde se guardarán los archivos
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
@@ -32,29 +34,44 @@ if (isset($_POST["submit"])) {
             if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
                 echo "El archivo " . htmlspecialchars(basename($_FILES["file"]["name"])) . " ha sido subido.";
                 // 2. Guardar la ruta del archivo en la base de datos usando PDO
-                $file_path = $target_file; // Ruta completa del archivo
-                
+                $ruta_archivo = $target_file; // Ruta completa del archivo
+                $titulo = $_POST['nombre'];
+                $descripcion = $_POST['descripcion'];
+                $fecha_publicacion = date('Y-m-d');
+                $estado = 'activo';
+                $subido_por = $_SESSION['user_id'];
+                $veces_visitado = 0;
+
+
                 // Preparar la consulta SQL
-                $sql = "INSERT INTO boletines (src) VALUES (:src)";
-                echo "Ruta del archivo: " . htmlspecialchars($file_path) . "<br>";
-                var_dump($pdo);
+                $sql = "INSERT INTO boletines (ruta_archivo, titulo, descripcion, fecha_publicacion, estado, subido_por, veces_visitado) 
+                VALUES (:ruta_archivo, :titulo, :descripcion, :fecha_publicacion, :estado, :subido_por, :veces_visitado)";
+                echo "Ruta del archivo: " . htmlspecialchars($ruta_archivo) . "<br>";
+                var_dump($conn);
                 $stmt = $conn->prepare($sql);
-                var_dump($pdo);
-                echo "Ruta del archivo: " . htmlspecialchars($file_path) . "<br>";
+                var_dump($conn);
+
+                $stmt->bindParam(':ruta_archivo', $ruta_archivo);
+                $stmt->bindParam(':titulo', $titulo);
+                $stmt->bindParam(':descripcion', $descripcion);
+                $stmt->bindParam(':fecha_publicacion', $fecha_publicacion);
+                $stmt->bindParam(':estado', $estado);
+                $stmt->bindParam(':subido_por', $subido_por);
+                $stmt->bindParam(':veces_visitado', $veces_visitado);
+        
                 if ($stmt === false) {
                     echo "Error al preparar la consulta.<br>";
                 }
                 else {
                     echo "Consulta preparada correctamente.<br>";
                 }
-    
-                echo "Ruta del archivo: " . htmlspecialchars($file_path) . "<br>";
                 
                 // Ejecutar la consulta
                 echo "Intentando guardar en la base de datos...<br>";
                 try {
-                    $stmt->execute(['src' => $file_path]);
+                    $stmt->execute();
                     echo "<br>La ruta del archivo se ha guardado correctamente en la base de datos.";
+                    header("Location: creacion.php");
                 } catch (PDOException $e) {
                     echo "<br>Error al guardar en la base de datos: " . $e->getMessage();
                 }
@@ -70,5 +87,5 @@ if (isset($_POST["submit"])) {
     }
 }
 
-$pdo = null;
+$conn = null;
 ?>
