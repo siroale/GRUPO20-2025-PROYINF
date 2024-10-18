@@ -16,7 +16,7 @@ require 'php/includes/dbinc.php';
 echo "<h1>Bienvenido a mi sitio web</h1>";
 echo "<p>Este es el archivo de inicio de mi aplicación web.</p>";
 
-header("Location: landing.php");
+header("Location: php/landing.php");
 // Enlaces de navegación u otros contenidos
 ?>
 

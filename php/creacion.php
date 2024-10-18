@@ -16,7 +16,7 @@
    
     if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
         // Si no es administrador, redirigir o mostrar mensaje de acceso denegado
-        header('Location: visualizacion.php'); // O redirigir a otra página
+        header('Location: acceso_denegado.php'); // O redirigir a otra página
         exit();
     }
 
