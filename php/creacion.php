@@ -14,11 +14,13 @@
     include "includes/mostrar_boletines_admin.php";
     include "includes/eliminar_boletin.php";
    
+/*
     if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
         // Si no es administrador, redirigir o mostrar mensaje de acceso denegado
         header('Location: acceso_denegado.php'); // O redirigir a otra página
         exit();
     }
+*/
 
     $nombreUsuario = $_SESSION['user_name'];
     ?>
