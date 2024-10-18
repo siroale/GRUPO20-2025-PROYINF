@@ -2,18 +2,17 @@
 
 <head>
 
-<link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
 </head>
 
-<body class = "fondo-landing">
+<body class="fondo-landing">
     <?php
     // Verificar si se ha hecho click en el botón de registro o login
     $page = isset($_GET['page']) ? $_GET['page'] : 'login';
     ?>
 
-
-    <?php if ($page === 'login'): ?>
+        <?php if ($page === 'login'): ?>
         <form class="form_container" method="POST" action="login.php">
             <div class="logo_container">
                 <a href="visualizacion.php"> <img src="../images/logo.svg"></a>
@@ -49,12 +48,12 @@
                 <hr class="line">
             </div>
             <a href="landing.php?page=register" class="sign-in_btn">
-                    <span>Registrate</span>
+                <span>Registrate</span>
             </a>
             <p class="note">Terminos de uso &amp; Condiciones</p>
         </form>
 
-    <?php elseif ($page === 'register'): ?>
+        <?php elseif ($page === 'register'): ?>
         <form class="form_container" method="POST" action="register.php">
             <div class="logo_container">
                 <a href="visualizacion.php"> <img src="../images/logo.svg"></a>
@@ -102,7 +101,6 @@
                     <input id="password_field" class="input_field" type="password" name="confirm_password" title="Inpit title" placeholder="Contraseña" required>
                 </div>
 
-
                 <button class="sign-in_btn" type="submit" title="Sign In">
                     <span>Registrarse</span>
                 </button>
@@ -117,10 +115,6 @@
             </div>
             <p class="note">Terminos de uso &amp; Condiciones</p>
         </form>
-    <?php endif; ?>
-
-
-    
-
+        <?php endif; ?>
 
 </body>
