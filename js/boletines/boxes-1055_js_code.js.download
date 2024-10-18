@@ -1,0 +1,58 @@
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83296236-1', 'auto');
+ga('require', 'linkid');
+ga('send', 'pageview');
+
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-GR7762Z4BJ');
+
+//Tasa de rebote:
+setTimeout(function() {
+	ga('send', 'event', {
+		eventCategory: 'Ajuste de Tasa de Rebote',
+		eventAction: 'Ajuste de Tasa de Rebote',
+		eventLabel: 'Sobre 20 Segundos'
+	});
+},20*1000);
+
+$(function(){
+	$(
+		"#ar_recursos_caption    .format-pdf a" +
+		",#mirada_info_apoyo     .format-pdf a" +
+		",#ar_tendencias_recurso .format-pdf a"
+	).each(function(){
+		$(this).click(function(){
+			var href = $(this).attr("href");
+			var aid = (href.indexOf("articles-") != -1  ? href.match(/articles-([0-9]*)/).pop():0);
+			var ruta = ($(".breadcrumb span:visible").length > 0 ? 
+				$(".breadcrumb span:visible").text().trim(): 
+				"Sin ruta");
+			var titulo_pagina = ($("h1.page-header").length > 0 
+				? $("h1.page-header").text().trim() 
+				: $("title").text()).trim(); 
+			var titulo_recurso = $(this).attr("title").replace(/^Ir a/,"").trim();
+			var titulo = (titulo_pagina == titulo_recurso || titulo_recurso.length == 0
+				? titulo_pagina 
+				: titulo_pagina + " - " + titulo_recurso);
+			ga('send', 'event', {
+				eventCategory: ruta,
+				eventAction: 'Descargar documento',
+				eventLabel: aid + ":" + titulo
+			});
+			// GA4
+			gtag('event', 'Descargar documento',{
+				'event_category': ruta,
+				'event_label': aid + ":" + titulo
+			});
+
+		});
+	});
+});

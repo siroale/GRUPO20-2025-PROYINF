@@ -1,0 +1,144 @@
+/* 
+ * inicializa  los filtros en noticias, tendencias , entrevistas
+ */
+$(function(){
+	var options = {
+		"grupoSelector": "div.grupo",
+		"keyThreshold": 0,
+		"grupoChange": function( grupos ) {
+			var obj = this;
+			var activeVisible = false;
+			$(grupos).each(function(i,grupo){
+				var id_grupo = $(grupo).attr("id");
+				var frames = $(obj.opts.itemSelector,grupo).filter(function(){
+					return this.style.display.indexOf("none") == -1
+				});
+				if( $(frames).length > 0 ){
+					if("function" == typeof(obj.opts.toggleFunc)){
+						obj.opts.toggleFunc.call($(".nav.nav-pills li a[href='#" + id_grupo +"']"),true);
+					}else{
+						$(".nav.nav-pills li a[href='#" + id_grupo +"']").toggle(true);
+					}
+					if($(grupo).hasClass("active")){
+						activeVisible = true;
+					}
+				}else{
+					if("function" == typeof(obj.opts.toggleFunc)){
+						obj.opts.toggleFunc.call($(".nav.nav-pills li a[href='#" + id_grupo +"']"),false);
+					}else{
+						$(".nav.nav-pills li a[href='#" + id_grupo +"']").toggle(false);
+					}
+				}
+			});
+			if( !activeVisible){
+				$("ul.nav > li:visible > a",$(grupos).parent().parent()).first().tab("show")
+			}
+		},
+		"textoPlaceholder":"Ingrese una palabra para filtrar",
+		"countNoneText":" disponibles",
+		"countSomeText":" filtrados",
+		"inputInsertBeforeSelector": ">ul",
+		"waiterSelector": '.ntg-waiter',
+		"inputTemplate":
+		'<div class="row">'+
+		'	<div class="form-group col-md-12 filtros-directorios" data-spy="affix" data-offset="350">'+
+		'		<div class="input-group input-group-sm:">' +
+		'			<span class="input-group-addon addon-search">' +
+		'               <span class="fa fa-filter fa-lg"></span>' +
+		'               <span class="ntg-waiter fa fa-spinner fa-spin" ></span>' +
+		'			</span>' +
+		'			<input class="form-control" type="text" aria-label="$textoPlaceholder" placeholder="$textoPlaceholder">' +
+		'			<span class="input-group-addon addon-status">' +
+		'				<span class="count">' +
+		'				</span> ' +
+		'				<span class="count-text">' +
+		'				</span>' +
+		'			</span>' +
+		'		</div>' +
+		'	</div>'+
+		'</div>',
+		"btnBackSpace":
+		'<div class="input-group-btn">' +
+		'       <button style="width:3em;height:2em;" id="backspaceBtn" class="btn btn-link border-0" >' +
+		'   <svg version="1.1" ' +
+		'       id="Layer_1" ' +
+		'       xmlns="http://www.w3.org/2000/svg" ' +
+		'       xmlns:xlink="http://www.w3.org/1999/xlink" ' +
+		'       x="0px" ' +
+		'       y="0px" ' +
+		'       viewBox="0 0 512 512" ' +
+		'       style="enable-background:new 0 0 512 512;" ' +
+		'       xml:space="preserve">'+
+		'       <g>'+
+		'           <path style="fill:#7f7f7f;fill-opacity:.5" ' +
+		'               d="M490.667,' +
+		'               64H133.077c-7.196,' +
+		'               0-13.906,' +
+		'               3.627-17.848,' +
+		'               9.647L3.485,' +
+		'               244.314c-4.647,' +
+		'               7.098-4.647,' +
+		'               16.274,' +
+		'               0,' +
+		'               23.372 l111.744,' +
+		'               170.667c3.942,' +
+		'               6.02,' +
+		'               10.652,' +
+		'               9.647,' +
+		'               17.848,' +
+		'               9.647h357.589c11.782,' +
+		'               0,' +
+		'               21.333-9.551,' +
+		'               21.333-21.333V85.333 C512,' +
+		'               73.551,' +
+		'               502.449,' +
+		'               64,' +
+		'               490.667,' +
+		'               64z M469.333,' +
+		'               405.333H144.609L46.833,' +
+		'               256l97.776-149.333h324.725V405.333z"/>'+
+		'           <path  style="fill:#7f7f7f;fill-opacity:.5" ' +
+		'               d="M198.246,' +
+		'               356.418c8.331,' +
+		'               8.331,' +
+		'               21.839,' +
+		'               8.331,' +
+		'               30.17,' +
+		'               0l70.248-70.248l70.248,' +
+		'               70.248c8.331,' +
+		'               8.331,' +
+		'               21.839,' +
+		'               8.331,' +
+		'               30.17,' +
+		'               0 s8.331-21.839,' +
+		'               0-30.17L328.834,' +
+		'               256l70.248-70.248c8.331-8.331,' +
+		'               8.331-21.839,' +
+		'               0-30.17s-21.839-8.331-30.17,' +
+		'               0l-70.248,' +
+		'               70.248 l-70.248-70.248c-8.331-8.331-21.839-8.331-30.17,' +
+		'               0c-8.331,' +
+		'               8.331-8.331,' +
+		'               21.839,' +
+		'               0,' +
+		'               30.17L268.495,' +
+		'               256l-70.248,' +
+		'               70.248 C189.915,' +
+		'               334.58,' +
+		'               189.915,' +
+		'               348.087,' +
+		'               198.246,' +
+		'               356.418z"/>'+
+		'       </g>'+
+		'   </svg>'+
+
+		'       </button>' +
+		'</div>'
+	};
+	$( "#listado_tendencias"+
+		", #listado_noticias"+
+		", #listado_columnas"+
+		", #listado_entrevistas").each(function(i,dir){
+			$(dir).ntg_frames_simple_filter(options);
+		});
+});

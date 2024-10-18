@@ -1,0 +1,77 @@
+$(function(){
+ // lista colapsable doble con boton
+		$("div.lista-colapsable").each(function(j){
+			var root = this;
+				var root_id = $(root).attr("id");
+			if(typeof(root_id) =="undefined"){
+				root_id = $(this).parents("div[id]").attr("id");
+			}
+			$( "li",this).each(function(i){
+				$(this).addClass("list-group-item")
+				.addClass("item-"+($(this).index()+1))
+				.parent()
+				.addClass("nivel-"+($(this).parent().parentsUntil(root).filter("ul").length + 1))
+				.addClass("list-group");
+				if($(this).children("ul").length > 0) {
+					var a = $(">a",this).filter(":first");
+					var ul = $(">ul",this);
+					var id_ul = (typeof($(ul).attr("id")) != "undefined" ? $(ul).attr("id") : root_id) + "_" + i; 
+					var current = ($(this).attr("class").indexOf("current") != -1);
+					var button = $('<button type="button"></button>')
+					.addClass("pull-right btn btn-link " + (current ? '':' collapsed') )
+					.attr("data-toggle","collapse")
+					.attr("data-target","#"+id_ul)
+					.attr("aria-controls", id_ul)
+					.insertBefore(a)
+					.append('<span class="fa fa-minus-circle" aria-hidden="true"></span>')
+					.append('<span class="fa fa-plus-circle" aria-hidden="true"></span>');
+					$(ul).attr("id",id_ul)
+					.addClass('collapse');
+					if(current) {
+						$(ul).addClass("in");
+						$(button).attr("aria-expanded", "true");
+					} else {
+						$(ul).addClass("collapsed");	
+						$(button).addClass("collapsed");
+						$(button).attr("aria-expanded", "false");
+					}
+				}
+			});
+		});
+	  // lista colapsable simple con anchor
+		$("div.lista-colapsable-simple").each(function(j){
+			var root = this;
+				var root_id = $(root).attr("id");
+			if(typeof(root_id) =="undefined"){
+				root_id = $(this).parents("div[id]").attr("id");
+			}
+			$( "li",this).each(function(i){
+				$(this).addClass("list-group-item")
+				.addClass("item-"+($(this).index()+1))
+				.parent()
+				.addClass("nivel-"+($(this).parent().parentsUntil(root).filter("ul").length + 1))
+				.addClass("list-group");
+				if($(this).children("ul").length > 0) {
+					var a = $(">a",this).filter(":first");
+					var ul = $(">ul",this);
+					var id_ul = (typeof($(ul).attr("id")) != "undefined" ? $(ul).attr("id") : root_id) + "_" + i; 
+					var current = ($(this).attr("class").indexOf("current") != -1);
+					$(a)
+					.addClass("btn btn-link " + (current ? '':' collapsed') )
+					.attr("aria-expanded",  (current ? "true": "false"))
+					.attr("href","#"+id_ul)
+					.attr("data-toggle","collapse")
+					.attr("aria-controls", id_ul)
+					.prepend('<span class="fa fa-plus-circle" aria-hidden="true"></span>')
+					.prepend('<span class="fa fa-minus-circle" aria-hidden="true"></span>');
+					$(ul).attr("id",id_ul)
+					.addClass('collapse');
+					if(current) {
+						$(ul).addClass("in");
+					} else {
+						$(ul).addClass("collapsed");	
+					}
+				}
+			});
+		});
+});

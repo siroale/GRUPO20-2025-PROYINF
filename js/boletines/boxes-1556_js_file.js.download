@@ -1,0 +1,507 @@
+// ntg_add_class
+// doSearch 
+// Modificado el 09-05-2022
+// hrodrigu
+/**
+ * jQuery static function extensions.
+ */
+ 
+jQuery.extend(jQuery, {
+  /**
+   * Escape all special jQuery CSS selector characters in *selector*.
+   * Useful when you have a class or id which contains special characters
+   * which you need to include in a selector.
+   */
+  escapeSelector: (function() {
+    var specials = [
+      '#', '&', '~', '=', '>', 
+      "'", ':', '"', '!', ';', ','
+    ];
+    var regexSpecials = [
+      '.', '*', '+', '|', '[', ']', '(', ')', '/', '^', '$'
+    ];
+    var sRE = new RegExp(
+      '(' + specials.join('|') + '|\\' + regexSpecials.join('|\\') + ')', 'g'
+    );
+
+    return function(selector) {
+      return selector.replace(sRE, '\\$1');
+    }
+  })()
+});
+
+function doSearch() {
+
+	// Delete search's cookies
+	if( "exists".match ) {
+		var results = document.cookie.match(/\w+=/g);
+		if( results ) {
+			for( var i=0; i < results.length; i++ ) {
+				if( results[i].substring(0,7) == 'search_' ) {
+					deleteCookie( results[i].substring(0,results[i].length-1) );
+				}
+			}
+		}
+	}
+	var busqueda = document.searchForm.keywords.value;
+	if(busqueda.trim().length > 0){
+		setCookie('search_keywords',busqueda.trim());
+		setCookie('search_start', 0 );
+		setCookie('search_group', 1 );
+		setCookie('search_pvid_not', "515:13926" );
+		setCookie('search_expanded', 0 );
+		setCookie('search_searchmode', "and");
+		document.location.href="w3-search.html";
+	}
+	return false;
+}
+function ntg_add_class(context) {
+	if(typeof(context) == "undefined"){
+		context = document;
+	}
+	// addClass generales
+	$( ".current" , context).addClass( "active" );
+	$( ".vermas a" , context).addClass( "btn btn-link" );
+	$( ".vermas-btn-verde a" , context).addClass( "btn btn-success btn-sm btn-block" );
+	//$( "span.counting" , context).addClass( "badge" );
+	$("#lista-menu span.counting").each(function(){
+		var padre_li = $(this).parent();
+		$(padre_li).children("a").append(this);
+	});
+	$( "div.lista-menu > ul" , context).addClass( "list-group" );
+	$( "div.lista-menu > ul > li" , context).addClass( "list-group-item" );
+	$( "div.recuadros > h2" , context).addClass( "titulo-caja" );
+	$( "div.lista > h2" , context).addClass( "titulo-caja" );
+	$( ".calendarizacion-oportunidad div > h2" , context).addClass( "titulo-caja" );
+	$( ".clasificaciones-btn > h2" , context).addClass( "titulo-caja" );
+	$( ".clasificaciones-btn .pv-branch > a" , context).addClass( "btn btn-default" );  
+	$( ".documentos-proyecto-convocatoria div > h2" , context).addClass( "titulo-caja" );
+	$( "div.lista-menu > h2" , context).addClass( "titulo-caja" );
+	$( "div.recuadros-menu > h2" , context).addClass( "titulo-caja" );
+	$( "div.titulo-pagina > .titulo" , context).addClass( "page-header" );
+	$( "div.presentacion  > .titulo" , context).addClass( "page-header" );
+	$( "div.articulo .titulo" , context).addClass( "page-header" );
+	$( ".articulo table" , context).addClass( "table table-bordered" );
+	$( ".tabular" , context).addClass( "table" );
+	$( "div.recuadros > div.recuadro" , context).addClass( "media" );
+	$( "div.recuadros > div.recuadro > .titulo" , context).addClass( "media-heading" );
+	$( "div.formulario div.form_text input" , context).addClass( "form-control" );
+	$( "div.formulario div select" , context).addClass( "form-control" );
+	$( "div.formulario div textarea" , context).addClass( "form-control" );
+	$( "div.formulario div.form_select input [type='checkbox']" , context).addClass( "checkbox" );
+	$( "div.formulario div.form_select input [type='radio']" , context).addClass( "radio" );
+	$( "div.formulario div.form_button input" , context).addClass( "btn btn-success" );
+	$( ".ar-compartir a" , context).addClass( "btn btn-link btn-xs" );
+	$( ".ar-compartir a img" , context).addClass( "sr-only" );
+	$( "#opciones_div_500" , context).addClass( "checkbox" );
+	$( ".mis-rubros .pv-branch a" , context).addClass( "btn btn-default btn-xs margen-xs" );	
+	$( "div.breadcrumb > p" , context).removeClass( "breadcrumb" );
+	$( ".media-left > img" , context).addClass( "media-object" );
+	$( ".media-right > img" , context).addClass( "media-object" );
+	$( "#accordion #collapse00 .seccion > h2" , context).addClass( "titulo-caja" );		
+	// wrap all
+	$(".recuadros-recursos > .recuadro", context).each(function(){   
+			$( ".titulo,.abstract,.description,p,span.pv-branch,h2,h3,h1,.btn",this )
+			.wrapAll ( "<div class='media-body'></div>" );  
+	});
+	$(".recuadros-cerrados .recuadro", context).each(function(){
+		$(this).children().wrapAll("<div class='thumbnail'></div>");
+	});
+	 $(".recuadros-agenda > .recuadro", context).each(function(){   
+			$( ".titulo,.epigrafe, .abstract",this )
+			.wrapAll ( "<div class='media-body'></div>" );  
+	});
+	$(".clasificaciones-articulo.con-media-body .recuadro p", context).each(function(){   
+			$( ".pv-branch",this )
+			.wrapAll ( "<div class='media-body'></div>" );  
+	});
+	// prepend y append
+	//$( "div.relacionados > h2" , context).prepend ( "<span class='fa fa-ellipsis-h'></span> " );
+	//$( "div.clasificaciones-btn > h2" , context).prepend ( "<span class='fa fa-tags'></span> " );
+	$( "div.clasificaciones-btn" , context).prepend ( "<hr> " );
+	$( ".ar-compartir a.facebook" , context).prepend ( "<span class='fa fa-facebook fa-2x'></span>" );
+	$( ".ar-compartir a.linkedin" , context).prepend ( "<span class='fa fa-linkedin fa-2x'></span>" );
+	$( ".ar-compartir a.twitter" , context).prepend ( "<span class='fa fa-twitter fa-2x'></span>" );
+	$( ".ar-compartir a.googleplus" , context).prepend ( "<span class='fa fa-google-plus fa-2x'></span>" );
+	$( ".marquesina-portada span.pnid-515 > .titulo" , context).append( "<a class='btn btn-default' href='w3-propertyvalue-13906.html'>Más Actualidad y tendencias</a>" );
+
+	$("#header .navbar-nav.navbar-left >li", context).has( "ul" ).each(function(){
+		$(this).addClass("dropdown");
+		$(">a",this)
+		.addClass("dropdown-toggle")
+		.attr("data-toggle","dropdown")		
+		.attr("role","button")		
+		.attr("aria-expanded","false")
+		.append("<span class='caret'></span>");
+		$(">ul",this).addClass("dropdown-menu");	
+	});
+
+	// Este fragmento agrega atributos que necesita bootstrap para operar, la forma de ocuparlo es para el
+	// tag que requiere atributos, definir primero un class ntgBootstrap, seguido de uno o varios classnames
+	// de la forma <nombre del atributo>_<valor del atributo>  ( sin los < > ni espacios en blanco
+	// asi por ejemplo:
+	//  class="ntgBootstrap data-toggle_collapse"  
+	//  se convierte en:
+	//  data-toggle="collapse" class=""
+	//   
+	$(".ntgBootstrap", context).each(function(){
+		var myself = $(this);
+		$.map(
+				$.grep(myself.attr("class").split(/\s+/),
+					function(e,i){ 
+					return(e.indexOf("data-") != -1 || e.indexOf("role_") != -1 || e.indexOf("aria-") != -1);
+					}) ,
+				function(classname,index){
+					var cl = classname.replace("\\","").match(/([^_]+)_(.*)/);
+					if(cl != null){
+						myself.attr( cl[1], cl[2]);
+						myself.removeClass("ntgBootstrap");
+						myself.removeClass(classname);
+					}
+				}
+		 	);
+		});
+	//Para convertir recuadros agrupados en tabuladores Bootstrap
+	$('div.tabs-recuadros-agrupados').not('.recuadro').not('.grupo').each(function(idx_b){
+		$('> ul',$(this)).addClass('nav nav-tabs').attr('role','tablist');
+		$('> ul > li',$(this)).attr('role','presentation');
+		$('> ul > li > a',$(this)).each(function(ida){
+			$(this).attr('aria-controls',$(this).attr('href').substr(1,$(this).attr('href').length)).attr('role','tab').attr('data-toggle','tab');
+		});
+		$('> h3.grupo',$(this)).addClass('sr-only');
+		$('> div.grupo',$(this)).attr('role','tabpanel').addClass('tab-pane').wrapAll('<div class="tab-content"></div>');
+		// activar
+		var act_match =  $(this)
+			.attr("class")
+			.match(/tabs-active-([0-9])*/);
+		var activo = 0;
+		if(act_match != null){
+			activo = act_match[1] -1;
+		}
+		$("> ul > li:eq("+ activo +")",this)
+			.addClass('active');
+		$("#" +$("> ul > li:eq("+ activo +") a",this).attr("href").split("#").pop() ).addClass("active");
+	//	$("> div.tab-content > div.tab-pane:eq("+ activo +")",this).addClass("active");
+	});
+	//Para convertir recuadros agrupados en abecedario
+	$('div.tabs-recuadros-abecedario').not('.recuadro').not('.grupo').each(function(idx_b){
+		$('> ul',this).addClass('nav nav-pills').attr('role','tablist');
+		$('> ul > li',this).attr('role','presentation');
+		$('> ul > li > a',this).each(function(ida){
+				$(this).attr('aria-controls',$(this).attr('href').substr(1,$(this).attr('href').length)).attr('role','tab').attr('data-toggle','tab');
+				});
+		$('> h3.grupo',this).addClass('sr-only');
+		$('> div.grupo',this).attr('role','tabpanel').addClass('tab-pane').wrapAll('<div class="tab-content"></div>');
+		// activar
+		$('> ul > li',this).first().addClass('active');
+		$("#" +$('> ul > li > a',this).first().attr("href").split("#").pop()).addClass('active');
+		//$('> div.tab-content > div.tab-pane',$(this)).first().addClass('active');
+	});
+	$( ".tabs-recuadros-abecedari div.recuadro" , context).addClass( "media" );
+	// 
+	// Para recuadros en columnas
+	// Se buscan recuadros-2-columnas
+	//           recuadros-3-columnas
+	//           recuadros-4-columnas
+	// se agrupan los .recuadro en n y se envuelven en un <div class="row"></div>
+	//
+
+	$([2,3,4,6]).each(function(index,i){
+		$(".recuadros-"+i+"-columnas", context).each(function(){
+			var contenedores =$(this).children(".recuadro").parent();
+			$(contenedores).each(function(){
+				var contenedorRecuadros = this;
+				var d = $("<div class ='row'></div>");
+				$(".recuadro", this)
+					.addClass("col-sm-"+(12/i))
+					.each(function(n){
+						if( n %  i ==  0 && n > 0 ){
+							$(d).appendTo(contenedorRecuadros);
+							d = $("<div class ='row'></div>");
+						}
+						$(this).detach().appendTo(d);
+					});
+				$(d).appendTo(contenedorRecuadros);
+			});
+		});
+		$(".fila-flexible.recuadros-"+i+"-columnas .row ", context).each(function(){
+			if($(".col-sm-"+(12/i),this).length == i){
+				$(this).addClass( "row-flex row-flex-wrap" ); 
+			}
+		});
+	});
+
+	 
+	//para cajas contenedora de barra de posicion
+
+	$("div.breadcrumb > p" ).each(function(){
+		$(this).replaceWith( "<span id='"+$(this).attr("id")+"' style='"+$(this).attr("style")+"'>" +$(this).html() + "</span>" );
+	});
+
+	// Elimina los acordiones vacios de accordionInfoapoyo
+	$("#accordionInfoapoyo  .panel-heading").each(function () {
+		var target= $("#" +$("a",this).attr("href").split("#").pop());
+		if($(target).children().length == 0 && $(target).text().trim().length ==0 ) {
+			$(this).parent().remove();
+		}
+	});
+	// Elimina títulos documentos programáticos y relacionados cuando no existen
+	$("#article_i__w3_ar_documentos_programaticos_1, #article_i__w3_ar_documentos_relacionados_1").each(function(){
+		var cont = $(this).children("div:visible");
+		var text = $(cont).text();
+		if($(cont).length == 0 && (text.length == 0 || $(cont).children(":visible").length == 0)){
+			$(this).hide();
+		}
+	});
+
+
+	// se hace un chequeo antes y despues del borrar tabs vacios 
+	$(".ntg-check-empty", context).each(function(){
+		var h2 = $("h2.ntg-titulo-caja",this).add(".ntg-ignore-empty",this);
+		var cont =  $(this).find("*").filter(function(){
+			return $(this).attr("style") != "display:none" && 
+				$(this).prop("tagName") != "IFRAME" && 
+				$(this).prop("tagName") != "H2" && 
+				!$(this).hasClass("ntg-ignore-empty");
+		});
+		if($(this).children(":visible").not(h2).not(".ntg-ignore-empty").text().length == 0 && $("img",this).length == 0){
+			$(h2).remove();  
+			if($(this).hasClass("ntg-full-empty")){
+				$(this).remove();
+			}
+		}
+	});
+
+
+	// borrar tabs vacios
+	$(".nav a[data-toggle='tab']").each(function(){
+		var panel = $("#"+$(this).attr("href").split("#").pop());
+		if ($(panel).text().length == 0 && $(panel).find("*:visible").length ==0){
+			$(panel).remove();
+			$(this).parent().remove();
+		}
+	});
+
+
+	// ACORDEON RECUADROS AGRUPADOS
+
+	$('div.panel-group.acordeon-recuadros-agrupados',context).not('.recuadro').not('.grupo').each(function(idx_b){
+		$('> ul.indice', $(this)).addClass('sr-only');
+		$('> h3.grupo > a', $(this)).attr('data-parent','#'+$(this).attr('id'));
+		$('> h3.grupo', $(this)).addClass('panel-title');
+		$('> div.grupo', $(this)).addClass('panel-body').each(function(idx){
+			var pid= $(this).parent().attr('id');
+			$(this).prev('h3').children('a').attr('href','#'+$(this).parent().attr('id')+'_'+idx).attr('data-toggle','collapse').addClass('accordion-toggle collapsed');
+			var t = $(this).prev('h3').detach();
+			$(this).wrap("<div class='panel panel-default'></div>");
+			$(this).before(t);
+			$(this).prev('h3').wrap("<div class='panel-heading' role='tab'></div>");
+			$(this).wrap("<div class='panel-collapse collapse' role='tabpanel' id='"+pid+'_'+idx+"'></div>");
+		});
+	});
+
+	// ACORDEON RECUADROS AGRUPADOS
+
+	$('#acordeon_agendas',context).not('.recuadro').not('.grupo').each(function(idx_b){
+		$('> ul.indice', $(this)).addClass('sr-only');
+		$('> h3.grupo > a', $(this)).attr('data-parent','#'+$(this).attr('id'));
+		$('> h3.grupo', $(this)).addClass('panel-title');
+		$('> div.grupo', $(this)).addClass('panel-body').each(function(idx){
+			var pid= $(this).parent().attr('id');
+			$(this).prev('h3').children('a').attr('href','#'+$(this).parent().attr('id')+'_'+idx).attr('data-toggle','collapse').addClass('accordion-toggle collapsed');
+			var t = $(this).prev('h3').detach();
+			$(this).wrap("<div class='panel panel-default'></div>");
+			$(this).before(t);
+			$(this).prev('h3').wrap("<div class='panel-heading' role='tab'></div>");
+			$(this).wrap("<div class='panel-collapse collapse' role='tabpanel' id='"+pid+'_'+idx+"'></div>");
+		});
+	});
+
+	$("#acordeon_agendas .recuadro > .media", context).each(function(){   
+			$( "a:nth-child(2),.caption",this )
+			.wrapAll ( "<div class='media-body'></div>" );  
+	});
+
+	// dejar rastro de los tabs en el hash
+
+	/*
+	$(' .mirada-nav-tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		var id= $(e.target).attr("href");
+		//  Se guarda en el hash el id de último tab desplegado
+		if(history.pushState) {
+			// Navegadores modernos que soportan la nueva API de history
+			    history.pushState(null, null, id);
+		}
+		else {
+			// Navegadores viejos
+			    location.hash =  '#'+id;
+		}
+	});
+	if( location.hash.length > 0){
+		$(".mirada-nav-tabs li").removeClass("active");
+		$(".mirada-nav-tabs li a[href='"+$.escapeSelector(location.hash)+"']").parent()
+		.addClass("active");
+		
+		if($($.escapeSelector(location.hash)).length == 1){
+			$("#tabs_miradas_content .tab-pane").removeClass("active");
+			$($.escapeSelector(location.hash))
+			.addClass("active")
+			.addClass("in");
+			$(function(){$('.nav li a[href="' + $.escapeSelector(location.hash) + '"]').trigger("shown.bs.tab");});
+		}
+		
+	}
+	*/
+	// se verifica si hay un id en el hash de la pagina y se muestra el acordeon o el tab solo si se lo encuentra
+	var hash_id;
+	if(getCookie('ntg_redirect_hash').length > 0){
+		hash_id = getCookie('ntg_redirect_hash');
+		deleteCookie('ntg_redirect_hash');
+	}else{
+		hash_id = location.hash.substr(1);
+	}
+	if(hash_id.length > 0 &&  $("#"+hash_id).length > 0 )  {
+		if( $("#" + hash_id).hasClass("tab-pane")){
+			var a = $("a[href='"+ location.href.split("#").shift()+ "#"+hash_id+"']");
+			if($(a).length == 1){
+				//tab
+				$(a).tab('show');
+				$("html,body")
+					.animate({
+						scrollTop:
+							$(a).offset().top
+					}, 500);
+			}
+		}else if( $("#" + hash_id).hasClass("panel-collapse")){
+			//acordeon
+			$("#" + hash_id).collapse("show");
+			// abrir el contenedor tab si existe
+			var padretab = $("#" + hash_id).parents(".tab-pane");
+			var padreid = $(padretab).attr("id");
+			$("a[href='"+ location.href.split("#").shift() +"#" +$(padretab).attr("id")+"']").tab('show');
+			if(padreid && $("a[href='#"+padreid+"']").length > 0){
+				$("a[href='#"+hash_id+"']").on('shown.bs.tab', function (e) {
+					$("html,body")
+						.animate({
+							scrollTop:
+								$("#" + hash_id).offset().top
+						}, 500);
+				});
+			}
+		}else{
+			var padretab = $("#" + hash_id).parents(".tab-pane");
+			var padreid = $(padretab).attr("id");
+			if( $(padretab).length == 1 ){
+				var a = $("a[href='"+ location.href.split("#").shift() +"#"+$(padretab).attr("id")+"']");
+				if($(a).length == 1){
+					var padre_a = $(a).parents(".nav");
+					$("li.active",padre_a).removeClass("active");
+					//			$("a[href='#"+$(padretab).attr("id")+"']").tab('show');
+					$(a).parent().addClass("active");
+				}
+				$("#"+padreid).addClass("active in");
+				$("html,body")
+					.animate({
+						scrollTop:
+							$("#" + padreid).offset().top
+					}, 250,null,function(){
+						$("html,body")
+							.animate({
+								scrollTop:
+									$("#" + hash_id).offset().top
+							}, 250);
+					});
+			}
+		}
+	}
+	// Animacion de acordeones
+	// Al mostrar
+	$(".panel-group.acordeon", context).on("shown.bs.collapse", function (ev) {
+		var id= $(ev.target).attr("id");
+		//  Se guarda en el hash el id de ultimo acordeon desplegado
+		if(history.pushState) {
+			// Navegadores modernos que soportan la nueva API de history
+			history.pushState(null, null,location.href.split("#").shift()+ '#'+id);
+		}
+		else {
+			// Navegadores viejos
+			location.hash = '#'+ id;
+		}
+		$("html,body")
+			.animate(
+					{ scrollTop:
+						$("#"+id).offset().top
+					},
+					500);
+	});
+	// al esconder
+	$(".panel-group.acordeon", context).on("hide.bs.collapse", function (ev) {
+		if( $(".panel-collapse.in",this).attr("id") == $(ev.target).attr("id")) {
+			$("html,body")
+				.animate(
+						{
+							scrollTop:
+								$(this).offset().top
+						},
+						500);
+			//  Se guarda en el hash el id de ultimo acordeon desplegado
+			if(history.pushState) {
+				// Navegadores modernos que soportan la nueva API de history
+				history.pushState(null, null, location.href.split("#").shift()+"#");
+			}
+			else {
+				// Navegadores viejos
+				location.hash = "#";
+			}
+		}
+	});
+	$('a[data-toggle="tab"]', context).on('shown.bs.tab', function (ev) {
+		// se verifica si hay un id en el hash de la pagina y se muestra el acordeon solo si se lo encuentra
+		var id= "#" +$(ev.target).attr("href").split("#").pop();
+		if(history.pushState) {
+			// Navegadores modernos que soportan la nueva API de history
+			history.pushState(null, null,location.href.split("#").shift() + id);
+		}
+		else {
+			// Navegadores viejos
+			location.hash =  id;
+		}
+	});
+
+
+
+
+	//para iconizar destacados de la marquesina
+	//Programas
+	$( ".marquesina-portada a.pvid-13904" ).before( "<span class='fa fa-compass fa-3x'></span>" );	
+	//Oportunidades
+	$( ".marquesina-portada a.pvid-13905" ).before( "<span class='fa fa-bullhorn fa-3x'></span>" );
+	//Actualidad
+	$( ".marquesina-portada a.pvid-13906" ).before( "<span class='fa fa-newspaper-o fa-3x'></span>" );
+	//Directorio y redes
+	$( ".marquesina-portada a.pvid-13907" ).before( "<span class='fa fa-users fa-3x'></span>" );
+	//Banco de proyectos
+	$( ".marquesina-portada a.pvid-71885" ).before( "<span class='fa fa-lightbulb-o fa-3x'></span>" );
+	//Info apoyo
+	$( ".marquesina-portada a.pvid-13908" ).before( "<span class='fa fa-info-circle fa-3x'></span>" );
+	// para reducir los textos del menu principal
+	//
+	//
+	var titulos_alternativos = {
+		"Programas":"Programas",
+		"Oportunidades":"Oportunidades",
+		"Actualidad y tendencias":"Actualidad<span class='hidden-md hidden-sm'> y tendencias</span>",
+		"Directorio y redes":"Directorio<span class='hidden-md hidden-sm'> y redes</span>",
+		"Banco de Proyectos":"<span class='hidden-md hidden-sm'>Banco de </span>Proyectos",
+		"Información de apoyo":"Información<span class='hidden-md hidden-sm'> de apoyo</span>"
+   	}
+	$("#navbar_navbar_container .nav.navbar-nav.navbar-left >li >a")
+	.each(function(){ 
+//		var arr = $(this).text().split(" "); 
+//		var primero = arr.shift(); 
+//		$(this).html(primero+" <span class='hidden-md hidden-sm'>"+arr.join(" ")+"</span>");
+		if("undefined" != typeof(titulos_alternativos[$(this).text()])){
+			$(this).html(titulos_alternativos[$(this).text()]);
+	}
+	});
+}

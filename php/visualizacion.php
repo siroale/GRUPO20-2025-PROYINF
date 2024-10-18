@@ -90,7 +90,7 @@
                   <div class="container">
                      <h1 class="banner_taital">Encuentra en la fundación<br>el apoyo que necesitas<br>para innovar</h1>
                      <div class="btn_main">
-                        <div class="more_bt"><a href="#">Boletines</a></div>
+                        <div class="more_bt"><a href="./boletines.php">Boletines</a></div>
                         <div class="contact_bt"><a href="#">Último boletin</a></div>
                      </div>
                   </div>

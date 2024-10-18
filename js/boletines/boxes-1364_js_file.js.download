@@ -1,0 +1,222 @@
+$(function(){
+
+	$('body').ntg_responsive({
+		callbacks:[
+		{
+			limite:1023,
+			change:function(obj){
+				window.console && console.log("[ntg_bootstrap] resize > 1023");
+				$("#listado").ntg_igualar_altura("destroy");
+				$("#listado") .ntg_igualar_altura({
+					styleHeight:"height",
+					calculateContHeight: false
+				});
+			}
+		},
+
+		{
+			limite:767,
+			change:function(obj){
+				window.console && console.log("[ntg_bootstrap] 1023 >resize > 767");
+				$("#listado").ntg_igualar_altura("destroy");
+				$("#listado") .ntg_igualar_altura({
+					styleHeight:"height",
+					calculateContHeight: false
+				});
+			}
+		},
+		{
+			limite:120,
+			change:function(obj){
+				window.console && console.log("[ntg_bootstrap] 120 < resize < 767");
+				$("#listado").ntg_igualar_altura("destroy");
+			}
+		}
+		]
+	});
+
+}); 
+
+
+/*
+ * ntg_responsive
+ * written by Hrodrigu
+ * http://www.newtenberg.com
+ * 2012-12-01
+ * GPL (GPL-LICENSE.txt) licenses.
+ * Built for jQuery library
+ * http://jquery.com
+ * $Id: ntg_responsive.js 696 2014-08-20 00:56:25Z hrodrigu $
+ */
+
+/* Descripcion:
+ * plugin que permite definir callback para los cambios de ancho de un nodo DOM arbitrario
+ * el listado de callback se ordena por limite inferior descendentemente y se evalua en ese orden
+ */
+(function($){
+	$.fn.ntg_responsive = function(options){
+		var defaults = {
+			callbacks:[ {
+				limite: 1024,
+				change: function(){}
+			}]
+		};
+		var opts = $.extend(defaults, options);
+		opts.callbacks.sort(function(a,b){return b.limite - a.limite;});
+		this.each(function(){
+			var obj = this,
+			init_state = check(obj, opts.callbacks);
+
+			$(obj).data('ntg-responsive-callback', opts.callbacks);
+			$(obj).data('ntg-responsive-state', init_state);
+			$(obj).data('ntg-responsive-callback')[init_state].change.apply(obj);
+			$(window).resize(function(){
+				var new_state = check(obj,opts.callbacks);
+				if( $(obj).data('ntg-responsive-state') !=  new_state){
+					if(window.console){
+						console.log("ntg-responsive new="+new_state +" ancho="+ $(obj).width());
+					}
+					if( typeof($(obj).data('ntg-responsive-callback')[new_state].change) === 'function'){
+						$(obj).data('ntg-responsive-callback')[new_state].change.apply(obj);
+					}
+					$(obj).data('ntg-responsive-state', new_state);
+				}
+			});
+		});
+		function check(obj,callbacks){
+			var ancho= $(obj).width(),
+			i=0;
+			for(;i<callbacks.length;i++){
+				if( ancho > callbacks[i].limite ){
+					return i;
+				}
+			}
+			return callbacks.length - 1;//default el mas chico
+		}
+	};
+})(jQuery);
+
+/*
+ * $Id: ntg_igualar_altura.js 700 2014-08-27 00:24:28Z hrodrigu $
+ * written by Hrodrigu
+ * http://www.newtenberg.com
+ * GPL (GPL-LICENSE.txt) licenses.
+ * Built for jQuery library
+ * http://jquery.com
+ * depends of waitForImages in case of loading images
+ * https://github.com/alexanderdickson/waitForImages
+ */
+(function($){
+	$.fn.ntg_igualar_altura = function(options){
+		var params = [];
+		for(var i=1; i<arguments.length;i++){
+			params.push(arguments[i]);
+		}
+		var defaults = {
+			mode:"normal",
+			normalExcludeSelector:"",
+			equalsClass:"thumbnail",
+			styleHeight:"min-height",
+			calculateContHeight: false,
+			debug:true 
+		};
+		if (typeof(options) ==='object' || typeof(options) ==='undefined' ){
+			return this.each(function(){
+				var obj = {};
+				obj.dom = this;
+				obj.opts = $.extend(defaults, options);
+				obj.var_interna = 0;
+				obj.init = function(force){
+					if (typeof($(obj.dom).data("NTG_IGUALAR_ALTURA_INSTANCE")) != "undefined"  && typeof(force) == "undefined"){
+						return;
+					}
+					//init plugin
+					//
+					//se guarda la instancia el propio nodo DOM
+					$(obj.dom).data("NTG_IGUALAR_ALTURA_INSTANCE",obj);
+					if(obj.opts.mode == "normal"){
+						obj.set = $(obj.dom).children(":visible");
+						if(obj.opts.normalExcludeSelector.length > 0 ){
+							obj.set = $(obj.set).not(obj.opts.normalExcludeSelector);
+						}
+						if($("img",obj.dom).length > 0 ) {
+							$(obj.dom).waitForImages(function() {
+								var instancia = $(this).data("NTG_IGUALAR_ALTURA_INSTANCE");
+								if("undefined" != typeof(instancia)){
+									igualar_alturas(instancia.set);
+								}
+							});
+						} else {
+							igualar_alturas(obj.set);
+						}
+					} else {
+						$(".row", obj.dom).each(function() {
+							var set = $("."+obj.opts.equalsClass+":visible", this);
+							if($("img",this).length > 0 ){
+								$(this).waitForImages(function() {
+									igualar_alturas(set);
+								});
+							}else{
+								igualar_alturas(set);
+							}
+							obj.set = $(set).add(obj.set);
+						});
+					}
+					debug("init");
+				};
+				obj.destroy = function(){
+					$(obj.set).each(function() {
+						$(this).css(obj.opts.styleHeight,'');
+					});
+					$(obj.dom).removeData("NTG_IGUALAR_ALTURA_INSTANCE");
+				};
+				// metodos externos
+				//  obj.metodo = function(){};
+				// metodos internos
+				// function interno(){}
+				function igualar_alturas(set){
+					$(set).css(obj.opts.styleHeight,"auto");
+					var heights = $(set) 
+						.map(function() {
+							var h = $(this).height();
+							$(this).data("NTG_ORIG_HEIGHT",h);
+							return h;
+						}).get();
+					var maxHeight = Math.max.apply(null, heights); 
+					$(set).css(obj.opts.styleHeight,maxHeight);
+					if(obj.opts.calculateContHeight){
+						var offsets = $(set).map(function(){ 
+							return($(this).offset().top);
+						}).get();
+						var mayor_offset = Math.max.apply(null,offsets);
+						$(obj.dom).height(mayor_offset - $(obj.dom).offset().top + maxHeight);
+						$(obj.dom).data("NTG_ORIG_HEIGHT",mayor_offset - $(obj.dom).offset().top + maxHeight);
+					}
+				}
+				function debug(msg){
+					if(obj.opts.debug && window.console){
+						window.console.log("ntg_igualar_altura:" +msg);
+					}
+				};
+				obj.init();
+			});
+		} else if(typeof(options)==='string'){
+			ret = this;
+			this.each(function(){
+				var instancia = $(this).data("NTG_IGUALAR_ALTURA_INSTANCE");
+				if('undefined' != typeof(instancia) && 'function' === typeof(instancia[options])){
+					ret = instancia[options].apply(instancia,params);
+					return false;
+				}
+			});
+			return ret;
+		} else {
+			return this;
+		}
+	};
+})(jQuery);
+
+
+
+/*! waitForImages jQuery Plugin 2016-01-04 */
+!function(a){"function"==typeof define&&define.amd?define(["jquery"],a):"object"==typeof exports?module.exports=a(require("jquery")):a(jQuery)}(function(a){var b="waitForImages";a.waitForImages={hasImageProperties:["backgroundImage","listStyleImage","borderImage","borderCornerImage","cursor"],hasImageAttributes:["srcset"]},a.expr[":"]["has-src"]=function(b){return a(b).is('img[src][src!=""]')},a.expr[":"].uncached=function(b){return a(b).is(":has-src")?!b.complete:!1},a.fn.waitForImages=function(){var c,d,e,f=0,g=0,h=a.Deferred();if(a.isPlainObject(arguments[0])?(e=arguments[0].waitForAll,d=arguments[0].each,c=arguments[0].finished):1===arguments.length&&"boolean"===a.type(arguments[0])?e=arguments[0]:(c=arguments[0],d=arguments[1],e=arguments[2]),c=c||a.noop,d=d||a.noop,e=!!e,!a.isFunction(c)||!a.isFunction(d))throw new TypeError("An invalid callback was supplied.");return this.each(function(){var i=a(this),j=[],k=a.waitForImages.hasImageProperties||[],l=a.waitForImages.hasImageAttributes||[],m=/url\(\s*(['"]?)(.*?)\1\s*\)/g;e?i.find("*").addBack().each(function(){var b=a(this);b.is("img:has-src")&&!b.is("[srcset]")&&j.push({src:b.attr("src"),element:b[0]}),a.each(k,function(a,c){var d,e=b.css(c);if(!e)return!0;for(;d=m.exec(e);)j.push({src:d[2],element:b[0]})}),a.each(l,function(a,c){var d=b.attr(c);return d?void j.push({src:b.attr("src"),srcset:b.attr("srcset"),element:b[0]}):!0})}):i.find("img:has-src").each(function(){j.push({src:this.src,element:this})}),f=j.length,g=0,0===f&&(c.call(i[0]),h.resolveWith(i[0])),a.each(j,function(e,j){var k=new Image,l="load."+b+" error."+b;a(k).one(l,function m(b){var e=[g,f,"load"==b.type];return g++,d.apply(j.element,e),h.notifyWith(j.element,e),a(this).off(l,m),g==f?(c.call(i[0]),h.resolveWith(i[0]),!1):void 0}),j.srcset&&(k.srcset=j.srcset),k.src=j.src})}),h.promise()}});
