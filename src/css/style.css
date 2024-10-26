@@ -1557,3 +1557,30 @@ textarea.massage_box::placeholder {
     flex-direction: column;
     gap: 5px;
    }
+
+   .preview-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    height: 150px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.preview-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.preview-icon {
+    font-size: 50px;
+    color: #666;
+}
+
+.nombre-submit{
+    font-size: 7px;
+}
