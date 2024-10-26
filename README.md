@@ -21,34 +21,27 @@ Se ocupara el stack [LAMP](https://www.php.net/manual/en/features.commandline.we
 
 ### Levantar Página
 
-Para levantar la página en forma de testeo no es necesario ocupar Apache, podemos simplificar el proceso y solo ocupar el server de desarrollo incluido en PHP, una vez que se quiera llevar a producción podemos pasar a ocupar Apache server.
+Para levantar la página tenemos el proyecto en un ambiente virtual con [Docker](https://www.docker.com/).
 
-Las siguientes instrucciones son para levantar la página en Ubuntu, ya sea como SO o como WSL en Windows.
-
-Primero asegurarse de tener instalados MySQL y PHP:
-
-``` sh
-sudo apt update
-sudo apt install mysql-server
-sudo apt install php libapache2-mod-php php-mysql
-```
-
-Procedemos a configurar la base de datos con MySQL:
-
-``` sh
-sudo usermod -d /var/lib/mysql/ mysql
-sudo mysql_secure_installation
-sudo service mysql start
-mysql -u root -p -e 'CREATE DATABASE boletinesDB'
-mysql -u root -p boletinesDB < ./boletinesDB.sql
-```
-
-Ahora podemos clonar el repositorio y levantar la página usando el servidor de desarrollo de PHP:
+Primero que todo se debe clonar el repositorio:
 
 ``` sh
 git clone https://github.com/siroale/GRUPO1-2024-PROYINF.git
-php -S 127.0.0.1:8000 -t .
 ``````
 
-Así puede acceder a la página ingresando a `http://127.0.0.1:8000`.
+Las siguientes instrucciones son para levantar la página en WSL2 con Windows y Docker, para ello se necesita tener [Docker Desktop](https://www.docker.com/get-started/), y configurarlo para que ocupe WSL2 como maquina virtual, esto se puede lograr siguiendo [esta guia](https://docs.docker.com/desktop/wsl/#turn-on-docker-desktop-wsl-2).
+
+Una vez configurado el Docker Desktop y clonado el repositorio, ingrese dentro del WSL2 al directorio del proyecto donde se encuentra el archivo `docker-compose.yml` y ejecute el siguiente comando:
+
+``` sh
+sudo docker-compose up -d
+```
+
+Una vez terminado con el testeo puede bajar la página con:
+
+``` sh
+sudo docker-compose down
+```
+
+Así puede acceder a la página ingresando a `http://127.0.0.1:80` y a la página de administación de base de datos en `http://127.0.0.1:8081`, el usuario root no tiene contraseña.
 
