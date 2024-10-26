@@ -1,0 +1,37 @@
+services:
+    php-httpd:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: php
+        ports:
+            - 80:80
+        volumes:
+            - "./src:/var/www/html"
+        environment:
+          - PHP_EXTENSIONS=pdo,pdo_mysql
+
+    mariadb:
+        image: mariadb:10.5.2
+        container_name: mariadb
+        volumes:
+            - mariadb-volume:/var/lib/mysql
+            - ./boletinesDB.sql:/docker-entrypoint-initdb.d/backup.sql
+        environment:
+            TZ: "-4:00"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "123"
+            MYSQL_USER: 'testuser'
+            MYSQL_PASSWORD: '123'
+            MYSQL_DATABASE: 'boletinesDB'
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        links:
+            - 'mariadb:db'
+        ports:
+            - 8081:80
+
+volumes:
+    mariadb-volume:

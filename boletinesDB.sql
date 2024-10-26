@@ -34,7 +34,7 @@ CREATE TABLE `boletin` (
   PRIMARY KEY (`id_boletin`),
   KEY `fk_boletines_usuarios_idx` (`subido_por`),
   CONSTRAINT `fk_boletines_usuarios` FOREIGN KEY (`subido_por`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `boletin_fuente` (
   KEY `fk_boletin_fuente_fuente1_idx` (`id_fuente`),
   CONSTRAINT `fk_boletin_fuente_boletin1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`) ON DELETE CASCADE,
   CONSTRAINT `fk_boletin_fuente_fuente1` FOREIGN KEY (`id_fuente`) REFERENCES `fuente` (`id_fuente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `descarga` (
   KEY `fk_descargas_usuarios1_idx` (`id_usuario`),
   CONSTRAINT `fk_descargas_boletines1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`),
   CONSTRAINT `fk_descargas_usuarios1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `fuente` (
   `url_fuente` varchar(600) NOT NULL,
   `fecha` date DEFAULT NULL,
   PRIMARY KEY (`id_fuente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `usuario` (
   `tipo_usuario` varchar(45) NOT NULL,
   `fecha_registro` date NOT NULL,
   PRIMARY KEY (`id_usuario`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
