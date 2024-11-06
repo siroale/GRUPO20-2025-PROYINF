@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Conectar a la base de datos
 include "includes/dbinc.php";
 
@@ -10,11 +11,10 @@ $tipo_usuario = 'normal';
 $fecha_registro = date('Y-m-d H:i:s');
 $confirm_password = $_POST['confirm_password'];
 
-echo $nombre;
 
 // Verificar si las contraseñas coinciden
 if ($password !== $confirm_password) {
-    echo "Las contraseñas no coinciden.";
+    $_SESSION['error_message'] = "Las contraseñas no coinciden.";
     exit;
 }
 
@@ -24,7 +24,7 @@ $query->bindParam(':email', $email);
 $query->execute();
 
 if ($query->rowCount() > 0) {
-    echo "Este correo ya está registrado. Intenta con otro.";
+    $_SESSION['error_message'] = "Este correo ya está registrado. Intenta con otro.";
     exit;
 }
 
@@ -44,13 +44,13 @@ try{
     $insertQuery->bindParam(':fecha_registro', $fecha_registro);
 
     if ($insertQuery->execute()) {
-        echo "Registro exitoso. Ahora puedes iniciar sesión.";
+        //echo "Registro exitoso. Ahora puedes iniciar sesión.";
         header("Location: landing.php");
     } else {
-        echo "Hubo un error al registrar el usuario.";
+        $_SESSION['error_message'] = "Hubo un error al registrar el usuario.";
     }
     exit;
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    $_SESSION['error_message'] = $e->getMessage();
 }
 ?>

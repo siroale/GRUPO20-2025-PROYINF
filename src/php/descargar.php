@@ -1,6 +1,6 @@
 <?php
 // Ruta al archivo PDF mockup
-$ruta_pdf = '../mockups/boletin_mockup.pdf';
+$ruta_pdf = '../uploads/boletin_mockup.pdf';
 
 // Verificar si el archivo existe
 if (file_exists($ruta_pdf)) {

@@ -1,17 +1,11 @@
 <?php
+session_start();
 include "includes/dbinc.php";
-<<<<<<< Updated upstream:src/php/upload.php
-echo "insano";
-if (isset($_POST["submit"])) {
-    // Verifica si se seleccionó un archivo
-    session_start();
-=======
 var_dump($_FILES);
 
 if (isset($_POST["submit"])) {
     // Verifica si se seleccionó un archivo
     echo "insano";
->>>>>>> Stashed changes:php/upload.php
 
     if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $target_dir = "../uploads/"; // Carpeta donde se guardarán los archivos
@@ -85,6 +79,7 @@ if (isset($_POST["submit"])) {
                     $stmt->execute();
                     echo "<br>La ruta del archivo se ha guardado correctamente en la base de datos.";
                     header("Location: creacion.php");
+                    exit;
                 } catch (PDOException $e) {
                     echo "<br>Error al guardar en la base de datos: " . $e->getMessage();
                 }

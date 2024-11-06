@@ -1,3 +1,22 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['user_name'])) {
+        echo "Usuario no ha iniciado sesión";
+        exit(); // Puedes redirigir a la página de login aquí si lo deseas
+    }
+    include "includes/dbinc.php";
+    include "includes/mostrar_boletines_admin.php";
+    include "includes/eliminar_boletin.php";
+/*   
+    if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
+        // Si no es administrador, redirigir o mostrar mensaje de acceso denegado
+        header('Location: landing.php'); // O redirigir a otra página
+        exit();
+    }
+*/
+    $nombreUsuario = $_SESSION['user_name'];
+    ?>
+
 <!DOCTYPE html>
 
 <head>
@@ -7,24 +26,7 @@
 </head>
 
 <body>
-
-    <?php       
-    session_start();
-    include "includes/dbinc.php";
-    include "includes/mostrar_boletines_admin.php";
-    include "includes/eliminar_boletin.php";
-   
-/*
-    if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
-        // Si no es administrador, redirigir o mostrar mensaje de acceso denegado
-        header('Location: acceso_denegado.php'); // O redirigir a otra página
-        exit();
-    }
-*/
-
-    $nombreUsuario = $_SESSION['user_name'];
-    ?>
-
+    
     <button id="openModalBtn" class="upload-button">
             <span class="btn__icon">
                 <svg stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -113,11 +115,7 @@
 
                 <p class="modal-description">Adjunta un archivo debajo</p>
                 <button id="uploadArea" class="upload-area">
-<<<<<<< Updated upstream:src/php/creacion.php
-                    <input type="file" id="fileInput" name="file" style="display: none;" required>
-=======
                     <input type="file" id="fileInput" name="file" accept="application/pdf" style="display: none;" required>
->>>>>>> Stashed changes:php/creacion.php
                     <span class="upload-area-icon">
                         <svg
                         xmlns="http://www.w3.org/2000/svg"

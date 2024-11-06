@@ -1,3 +1,14 @@
+<?php 
+    session_start();
+    include "includes/dbinc.php";
+   
+    if (isset($_SESSION['user_name'])) {
+        $nombreUsuario = $_SESSION['user_name'];
+    } else {
+        $nombreUsuario = 'Invitado';
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -35,17 +46,6 @@
 
 <body>
     <!-- header section start -->
-
-    <?php 
-      session_start();
-      include "includes/dbinc.php";
-   
-      if (isset($_SESSION['user_name'])) {
-         $nombreUsuario = $_SESSION['user_name'];
-      } else {
-         $nombreUsuario = 'Invitado';
-      }
-      ?>
     <div class="header_section">
         <div class="">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
