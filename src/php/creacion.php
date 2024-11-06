@@ -1,13 +1,11 @@
 <?php
     session_start();
-    if (!isset($_SESSION['user_name'])) {
-        echo "Usuario no ha iniciado sesión";
-        exit(); // Puedes redirigir a la página de login aquí si lo deseas
-    }
+
     include "includes/dbinc.php";
     include "includes/mostrar_boletines_admin.php";
     include "includes/eliminar_boletin.php";
 /*   
+    Este pedazo sirve para verificar si el usuario es admin, descomentarlo luego, supongo.
     if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
         // Si no es administrador, redirigir o mostrar mensaje de acceso denegado
         header('Location: landing.php'); // O redirigir a otra página
