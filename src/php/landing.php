@@ -3,7 +3,7 @@
 <head>
 
     <link rel="stylesheet" href="../css/style.css">
-
+    <meta name="google-signin-client_id" content="407971795267-kt0cto0j9g6mun81gukaui176aff1gnu.apps.googleusercontent.com">
 </head>
 
 <body class="fondo-landing">
@@ -52,7 +52,8 @@
             </a>
             <p class="note">Terminos de uso &amp; Condiciones</p>
         </form>
-
+        <a href="login_google.php">Iniciar sesión con Google</a>
+        
         <?php elseif ($page === 'register'): ?>
         <form class="form_container" method="POST" action="register.php">
             <div class="logo_container">
@@ -116,5 +117,5 @@
             <p class="note">Terminos de uso &amp; Condiciones</p>
         </form>
         <?php endif; ?>
-
+    
 </body>

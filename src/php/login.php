@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_regenerate_id();
 // Conectar a la base de datos
 include "includes/dbinc.php";
 

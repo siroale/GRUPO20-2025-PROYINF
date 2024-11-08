@@ -44,7 +44,7 @@ try{
     $insertQuery->bindParam(':fecha_registro', $fecha_registro);
 
     if ($insertQuery->execute()) {
-        //echo "Registro exitoso. Ahora puedes iniciar sesión.";
+        //Registro exitoso.
         header("Location: landing.php");
     } else {
         $_SESSION['error_message'] = "Hubo un error al registrar el usuario.";
