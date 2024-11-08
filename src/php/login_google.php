@@ -6,7 +6,7 @@ include "includes/dbinc.php"; // Conexión a la base de datos
 // Configuración de Google OAuth
 $clientID = '407971795267-kt0cto0j9g6mun81gukaui176aff1gnu.apps.googleusercontent.com';
 $clientSecret = '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';
-$redirectUri = 'http://localhost/php/login_google.php'; // Reemplaza con la URL de tu sitio
+$redirectUri = 'http://127.0.0.1/php/login_google.php'; // Reemplaza con la URL de tu sitio
 
 $client = new Google\Client();
 $client->setClientId($clientID);

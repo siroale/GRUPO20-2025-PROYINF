@@ -103,7 +103,7 @@ INSERT INTO `usuario` (`id_usuario`, `email`, `nombre`, `password`, `tipo_usuari
 (3, 'goms@gmail.com', 'goms', '$2y$10$c/nmJgduVCjBYCcY3s7YsuD5z/EefxNVJZx87n23TWSxRnvvqtyBW', 'normal', '2024-10-17', 0),
 (4, 'admin@gmail.com', 'acmon', '$2y$10$sIo6yYEHY9sLbXbRZatSIuiNFJ0mhoQa8sZT4bzJ0NFr4bBlvx8OO', 'admin', '2024-10-17', 0),
 (6, 'segs@gmail.com', 'segsins', '$2y$10$hWUHlDsg/GgaMQbgD8D01.V/C3MHU5xToQ2YqF2x6O0BnYsFtn3ty', 'normal', '2024-11-06', 0),
-(9, 'insano2@gmail.com', 'insano2', '$2y$10$ItmsvL6fTz0Crbs7eEipjOEI0B/dHKunqur2ZGAShRe.OW9yv/pPy', 'normal', '2024-11-06', 0),
+(9, 'insano2@gmail.com', 'insano2', '$2y$10$ItmsvL6fTz0Crbs7eEipjOEI0B/dHKunqur2ZGAShRe.OW9yv/pPy', 'normal', '2024-11-06', 0);
 
 --
 -- Índices para tablas volcadas
