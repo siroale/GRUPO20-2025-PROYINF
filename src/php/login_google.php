@@ -60,7 +60,11 @@ if (!isset($_GET['code'])) {
 
         if ($insertQuery->execute()) {
             // Registro exitoso, iniciar sesión
+            $user = $query->fetch(PDO::FETCH_ASSOC);
             $_SESSION['user_email'] = $email;
+            $_SESSION['user_id'] = $user['id_usuario'];
+            $_SESSION['user_name'] = $user['nombre'];
+            $_SESSION['user_type'] = $user['tipo_usuario'];
             header("Location: visualizacion.php");
             exit;
         } else {

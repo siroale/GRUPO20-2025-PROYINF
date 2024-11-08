@@ -1,170 +1,208 @@
--- MySQL dump 10.13  Distrib 8.0.39, for Linux (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: boletinesDB
--- ------------------------------------------------------
--- Server version	8.0.39-0ubuntu0.22.04.1
+-- Servidor: db
+-- Tiempo de generación: 08-11-2024 a las 22:34:41
+-- Versión del servidor: 10.5.2-MariaDB-1:10.5.2+maria~bionic
+-- Versión de PHP: 8.2.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `boletin`
+-- Base de datos: `boletinesDB`
 --
 
-DROP TABLE IF EXISTS `boletin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `boletin`
+--
+
 CREATE TABLE `boletin` (
-  `id_boletin` int NOT NULL AUTO_INCREMENT,
+  `id_boletin` int(11) NOT NULL,
   `ruta_archivo` varchar(600) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `fecha_publicacion` date NOT NULL,
   `estado` varchar(45) NOT NULL,
-  `subido_por` int NOT NULL,
-  `veces_visitado` int DEFAULT NULL,
-  PRIMARY KEY (`id_boletin`),
-  KEY `fk_boletines_usuarios_idx` (`subido_por`),
-  CONSTRAINT `fk_boletines_usuarios` FOREIGN KEY (`subido_por`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `subido_por` int(11) NOT NULL,
+  `veces_visitado` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `boletin`
+-- Estructura de tabla para la tabla `boletin_fuente`
 --
 
-LOCK TABLES `boletin` WRITE;
-/*!40000 ALTER TABLE `boletin` DISABLE KEYS */;
-/*!40000 ALTER TABLE `boletin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `boletin_fuente`
---
-
-DROP TABLE IF EXISTS `boletin_fuente`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `boletin_fuente` (
-  `id_boletin_fuente` int NOT NULL AUTO_INCREMENT,
-  `id_boletin` int NOT NULL,
-  `id_fuente` int NOT NULL,
-  `proporcion_contenido` int DEFAULT NULL,
-  PRIMARY KEY (`id_boletin_fuente`),
-  KEY `fk_boletin_fuente_boletin1_idx` (`id_boletin`),
-  KEY `fk_boletin_fuente_fuente1_idx` (`id_fuente`),
-  CONSTRAINT `fk_boletin_fuente_boletin1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`) ON DELETE CASCADE,
-  CONSTRAINT `fk_boletin_fuente_fuente1` FOREIGN KEY (`id_fuente`) REFERENCES `fuente` (`id_fuente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `id_boletin_fuente` int(11) NOT NULL,
+  `id_boletin` int(11) NOT NULL,
+  `id_fuente` int(11) NOT NULL,
+  `proporcion_contenido` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `boletin_fuente`
+-- Estructura de tabla para la tabla `descarga`
 --
 
-LOCK TABLES `boletin_fuente` WRITE;
-/*!40000 ALTER TABLE `boletin_fuente` DISABLE KEYS */;
-/*!40000 ALTER TABLE `boletin_fuente` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `descarga`
---
-
-DROP TABLE IF EXISTS `descarga`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `descarga` (
-  `id_descarga` int NOT NULL AUTO_INCREMENT,
-  `id_boletin` int NOT NULL,
-  `id_usuario` int NOT NULL,
-  `fecha_descarga` date NOT NULL,
-  PRIMARY KEY (`id_descarga`),
-  KEY `fk_descargas_boletines1_idx` (`id_boletin`),
-  KEY `fk_descargas_usuarios1_idx` (`id_usuario`),
-  CONSTRAINT `fk_descargas_boletines1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`),
-  CONSTRAINT `fk_descargas_usuarios1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `id_descarga` int(11) NOT NULL,
+  `id_boletin` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `fecha_descarga` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `descarga`
+-- Estructura de tabla para la tabla `fuente`
 --
 
-LOCK TABLES `descarga` WRITE;
-/*!40000 ALTER TABLE `descarga` DISABLE KEYS */;
-/*!40000 ALTER TABLE `descarga` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `fuente`
---
-
-DROP TABLE IF EXISTS `fuente`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `fuente` (
-  `id_fuente` int NOT NULL AUTO_INCREMENT,
+  `id_fuente` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `categoria` varchar(45) NOT NULL,
   `url_fuente` varchar(600) NOT NULL,
-  `fecha` date DEFAULT NULL,
-  PRIMARY KEY (`id_fuente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `fecha` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `fuente`
+-- Estructura de tabla para la tabla `usuario`
 --
 
-LOCK TABLES `fuente` WRITE;
-/*!40000 ALTER TABLE `fuente` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fuente` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `usuario`
---
-
-DROP TABLE IF EXISTS `usuario`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuario` (
-  `id_usuario` int NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `password` varchar(200) DEFAULT NULL,
   `tipo_usuario` varchar(45) NOT NULL,
   `fecha_registro` date NOT NULL,
-  PRIMARY KEY (`id_usuario`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `usuario_google` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `usuario`
+-- Volcado de datos para la tabla `usuario`
 --
 
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'insano@gmail.com','elInsanoo','$2y$10$aStacyOHC6KWT43TtT1lYeCx07pBcpN5vQY8kCAiyz9c9P56.G56a','normal','2024-10-17'),(3,'goms@gmail.com','goms','$2y$10$c/nmJgduVCjBYCcY3s7YsuD5z/EefxNVJZx87n23TWSxRnvvqtyBW','normal','2024-10-17'),(4,'admin@gmail.com','acmon','$2y$10$sIo6yYEHY9sLbXbRZatSIuiNFJ0mhoQa8sZT4bzJ0NFr4bBlvx8OO','admin','2024-10-17');
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `usuario` (`id_usuario`, `email`, `nombre`, `password`, `tipo_usuario`, `fecha_registro`, `usuario_google`) VALUES
+(1, 'insano@gmail.com', 'elInsanoo', '$2y$10$aStacyOHC6KWT43TtT1lYeCx07pBcpN5vQY8kCAiyz9c9P56.G56a', 'normal', '2024-10-17', 0),
+(3, 'goms@gmail.com', 'goms', '$2y$10$c/nmJgduVCjBYCcY3s7YsuD5z/EefxNVJZx87n23TWSxRnvvqtyBW', 'normal', '2024-10-17', 0),
+(4, 'admin@gmail.com', 'acmon', '$2y$10$sIo6yYEHY9sLbXbRZatSIuiNFJ0mhoQa8sZT4bzJ0NFr4bBlvx8OO', 'admin', '2024-10-17', 0),
+(6, 'segs@gmail.com', 'segsins', '$2y$10$hWUHlDsg/GgaMQbgD8D01.V/C3MHU5xToQ2YqF2x6O0BnYsFtn3ty', 'normal', '2024-11-06', 0),
+(9, 'insano2@gmail.com', 'insano2', '$2y$10$ItmsvL6fTz0Crbs7eEipjOEI0B/dHKunqur2ZGAShRe.OW9yv/pPy', 'normal', '2024-11-06', 0),
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `boletin`
+--
+ALTER TABLE `boletin`
+  ADD PRIMARY KEY (`id_boletin`),
+  ADD KEY `fk_boletines_usuarios_idx` (`subido_por`);
+
+--
+-- Indices de la tabla `boletin_fuente`
+--
+ALTER TABLE `boletin_fuente`
+  ADD PRIMARY KEY (`id_boletin_fuente`),
+  ADD KEY `fk_boletin_fuente_boletin1_idx` (`id_boletin`),
+  ADD KEY `fk_boletin_fuente_fuente1_idx` (`id_fuente`);
+
+--
+-- Indices de la tabla `descarga`
+--
+ALTER TABLE `descarga`
+  ADD PRIMARY KEY (`id_descarga`),
+  ADD KEY `fk_descargas_boletines1_idx` (`id_boletin`),
+  ADD KEY `fk_descargas_usuarios1_idx` (`id_usuario`);
+
+--
+-- Indices de la tabla `fuente`
+--
+ALTER TABLE `fuente`
+  ADD PRIMARY KEY (`id_fuente`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id_usuario`,`email`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `boletin`
+--
+ALTER TABLE `boletin`
+  MODIFY `id_boletin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `boletin_fuente`
+--
+ALTER TABLE `boletin_fuente`
+  MODIFY `id_boletin_fuente` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `descarga`
+--
+ALTER TABLE `descarga`
+  MODIFY `id_descarga` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `fuente`
+--
+ALTER TABLE `fuente`
+  MODIFY `id_fuente` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `boletin`
+--
+ALTER TABLE `boletin`
+  ADD CONSTRAINT `fk_boletines_usuarios` FOREIGN KEY (`subido_por`) REFERENCES `usuario` (`id_usuario`);
+
+--
+-- Filtros para la tabla `boletin_fuente`
+--
+ALTER TABLE `boletin_fuente`
+  ADD CONSTRAINT `fk_boletin_fuente_boletin1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_boletin_fuente_fuente1` FOREIGN KEY (`id_fuente`) REFERENCES `fuente` (`id_fuente`);
+
+--
+-- Filtros para la tabla `descarga`
+--
+ALTER TABLE `descarga`
+  ADD CONSTRAINT `fk_descargas_boletines1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`),
+  ADD CONSTRAINT `fk_descargas_usuarios1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-10-17  4:03:26
