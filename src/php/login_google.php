@@ -40,7 +40,11 @@ if (!isset($_GET['code'])) {
 
     if ($query->rowCount() > 0) {
         // Usuario ya registrado, iniciar sesión
+        $user = $query->fetch(PDO::FETCH_ASSOC);
         $_SESSION['user_email'] = $email;
+        $_SESSION['user_id'] = $user['id_usuario'];
+        $_SESSION['user_name'] = $user['nombre'];
+        $_SESSION['user_type'] = $user['tipo_usuario'];
         header("Location: visualizacion.php");
         exit;
     } else {
@@ -60,6 +64,11 @@ if (!isset($_GET['code'])) {
 
         if ($insertQuery->execute()) {
             // Registro exitoso, iniciar sesión
+            $userId = $conn->lastInsertId();
+            // Consultar la información del usuario recién creado
+            $query = $conn->prepare("SELECT * FROM usuario WHERE id_usuario = :userId");
+            $query->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $query->execute();
             $user = $query->fetch(PDO::FETCH_ASSOC);
             $_SESSION['user_email'] = $email;
             $_SESSION['user_id'] = $user['id_usuario'];
@@ -71,5 +80,5 @@ if (!isset($_GET['code'])) {
             echo "Hubo un error al registrar el usuario.";
         }
     }
-}
+} //sex
 ?>
