@@ -16,7 +16,7 @@ services:
         container_name: mariadb
         volumes:
             - mariadb-volume:/var/lib/mysql
-            - ./boletinesDB.sql:/docker-entrypoint-initdb.d/boletinesDB.sql
+            - ./boletinesDB.sql:/docker-entrypoint-initdb.d/backup.sql
         environment:
             TZ: "-4:00"
             MYSQL_ALLOW_EMPTY_PASSWORD: "no"

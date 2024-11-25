@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `boletin`
 --
 
-CREATE TABLE `boletin` IF NOT EXISTS(
+CREATE TABLE `boletin`(
   `id_boletin` int(11) NOT NULL,
   `ruta_archivo` varchar(600) NOT NULL,
   `titulo` varchar(100) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `boletin` IF NOT EXISTS(
 -- Estructura de tabla para la tabla `boletin_fuente`
 --
 
-CREATE TABLE `boletin_fuente` IF NOT EXISTS(
+CREATE TABLE `boletin_fuente`(
   `id_boletin_fuente` int(11) NOT NULL,
   `id_boletin` int(11) NOT NULL,
   `id_fuente` int(11) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `boletin_fuente` IF NOT EXISTS(
 -- Estructura de tabla para la tabla `descarga`
 --
 
-CREATE TABLE `descarga` IF NOT EXISTS(
+CREATE TABLE `descarga`(
   `id_descarga` int(11) NOT NULL,
   `id_boletin` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE `descarga` IF NOT EXISTS(
 -- Estructura de tabla para la tabla `fuente`
 --
 
-CREATE TABLE `fuente` IF NOT EXISTS(
+CREATE TABLE `fuente`(
   `id_fuente` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `categoria` varchar(45) NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE `fuente` IF NOT EXISTS(
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `usuario` IF NOT EXISTS(
+CREATE TABLE `usuario`(
   `id_usuario` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
   `nombre` varchar(45) NOT NULL,
