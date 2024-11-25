@@ -1,14 +1,35 @@
 <?php
-
 include "includes/dbinc.php";
 
-// Consulta base de datos para boletines activos
+// Check if a search keyword is provided
+$search_keyword = isset($_GET['keywords']) ? trim($_GET['keywords']) : '';
+
+// Base query with search condition
 $consulta_datos_boletines = "SELECT b.id_boletin, b.ruta_archivo, b.fecha_publicacion, b.titulo, b.descripcion, b.estado, u.nombre AS subido_por 
-        FROM boletin b
-        JOIN usuario u ON b.subido_por = u.id_usuario
-        WHERE b.estado = 'activo'
-        ORDER BY b.fecha_publicacion DESC";
+    FROM boletin b
+    JOIN usuario u ON b.subido_por = u.id_usuario
+    WHERE b.estado = 'activo'";
+
+// Add search conditions if keyword is provided
+if (!empty($search_keyword)) {
+    $consulta_datos_boletines .= " AND (
+        b.titulo LIKE :keyword OR 
+        b.descripcion LIKE :keyword
+    )";
+}
+
+// Add ordering
+$consulta_datos_boletines .= " ORDER BY b.fecha_publicacion DESC";
+
+// Prepare and execute the statement
 $datos_boletines = $conn->prepare($consulta_datos_boletines);
+
+// Bind parameters if keyword is not empty
+if (!empty($search_keyword)) {
+    $search_param = "%{$search_keyword}%";
+    $datos_boletines->bindParam(':keyword', $search_param, PDO::PARAM_STR);
+}
+
 $datos_boletines->execute();
 $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -173,20 +194,20 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="col-md-4 col-xs-12 tr-buscador">
                         <div id="tr_buscador">
-                            <form name="searchForm" action="https://opia.fia.cl/601/w3-propertyvalue-148969.html" onsubmit="doSearch(); return false;" class="buscador_portada">
-                                <fieldset>
-                                    <legend title="buscador" class="hidden sr-only invisible oculto">Buscador general</legend>
-                                    <div class="input-group input-group-md">
-                                        <label for="keywords" class="hidden  sr-only  invisible oculto">Buscar</label>
-                                        <input class="form-control" id="keywords" type="text" name="keywords" value="" size="40" placeholder="BUSCAR">
-                                        <span class="input-group-btn">
-                <label for="boton_busqueda" class="hidden sr-only invisible oculto">Botón de búsqueda</label>
-                <button type="submit" id="boton_busqueda" class="btn btn-link btn-xs" onclick="doSearch(); return false;"><i class="bi bi-search h3"></i></button>
-              </span>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
+							<form name="searchForm" action="" method="GET" class="buscador_portada">
+								<fieldset>
+									<legend title="buscador" class="hidden sr-only invisible oculto">Buscador general</legend>
+									<div class="input-group input-group-md">
+										<label for="keywords" class="hidden sr-only invisible oculto">Buscar</label>
+										<input class="form-control" id="keywords" type="text" name="keywords" value="<?php echo htmlspecialchars($search_keyword); ?>" size="40" placeholder="BUSCAR">
+										<span class="input-group-btn">
+											<label for="boton_busqueda" class="hidden sr-only invisible oculto">Botón de búsqueda</label>
+											<button type="submit" id="boton_busqueda" class="btn btn-link btn-xs"><i class="bi bi-search h3"></i></button>
+										</span>
+									</div>
+								</fieldset>
+							</form>
+						</div>
                     </div>
                 </div>
             </div>
@@ -852,48 +873,6 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
         });
         					-->
     </script>
-    <!--end-box-->
-    <!--begin-box:js_VigiFIA::1519:Scripts para Antena, ahora llamado VigiFIA.-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript">
-        <!--
-        					$(function(){
-          $('#ar_tendencias_recurso p').wrapAll('<div class="col-md-8 col-xs-6"></div>');
-          
-          /* 1. Aquí hay que agrupar todos los hijos de la caja con id recuadros_articulo_1608 
-          con el estilo "col-lg-9" excepto el índice creado con ul.indice  */
-          
-          
-          /* 2. Envolver el índice (wrapAll) en un col-lg-3 */
-          
-          $('#recuadros_articulo_1608 ul.indice').wrapAll('<div class="lista-menu lista-colapsable" id="lista-menu"></div>');
-          
-          $('#recuadros_articulo_1608').children().not("ul").wrapAll("<div></div>"); 
-          
-          
-          /*$('#recuadros_articulo_1608 ul.indice').wrapAll('<div class="lista-menu lista-colapsable" id="lista-menu"></div>');
-          $('#lista-menu').wrapAll('<div class="col-md-12" id="menu-lateral-centros"></div>');
-          $('#menu-lateral-centros').wrapAll('<div class="row margen-abajo-md" id="menu-lateral-row"></div>');
-          $('#menu-lateral-row').wrapAll('<div class="col-lg-3" id="menu-lateral-col-3"></div>');
-          $('#menu-lateral-col-3').wrapAll('<div class="row" id="menu-lateral-parent-row"></div>');*/
-          
-          
-          
-          
-        
-          /*$('#recuadros_articulo_1608 :not(:first-child)').wrap('<div class="asdf"></div>');*/
-          /*$('#recuadros_articulo_1608').children().not("<ul>").wrapAll("<div class="col-12"></div>"); */
-          
-        
-          
-          $('#recuadros_articulo_1608 ul.indice').addClass('list-group nivel-1');
-          $('#recuadros_articulo_1608 ul.indice li').addClass('list-group-item');
-        });
-        
-        
-        					-->
-    </script>
-    <!--end-box-->
 </body>
 
 </html>
