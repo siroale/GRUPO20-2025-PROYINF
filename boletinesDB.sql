@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `boletin`
 --
 
-CREATE TABLE `boletin` (
+CREATE TABLE `boletin` IF NOT EXISTS(
   `id_boletin` int(11) NOT NULL,
   `ruta_archivo` varchar(600) NOT NULL,
   `titulo` varchar(100) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `boletin` (
 -- Estructura de tabla para la tabla `boletin_fuente`
 --
 
-CREATE TABLE `boletin_fuente` (
+CREATE TABLE `boletin_fuente` IF NOT EXISTS(
   `id_boletin_fuente` int(11) NOT NULL,
   `id_boletin` int(11) NOT NULL,
   `id_fuente` int(11) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `boletin_fuente` (
 -- Estructura de tabla para la tabla `descarga`
 --
 
-CREATE TABLE `descarga` (
+CREATE TABLE `descarga` IF NOT EXISTS(
   `id_descarga` int(11) NOT NULL,
   `id_boletin` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
@@ -70,21 +70,20 @@ CREATE TABLE `descarga` (
 -- Estructura de tabla para la tabla `fuente`
 --
 
-CREATE TABLE `fuente` (
+CREATE TABLE `fuente` IF NOT EXISTS(
   `id_fuente` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `categoria` varchar(45) NOT NULL,
   `url_fuente` varchar(600) NOT NULL,
   `fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+docker-compose exec grupo1-2024-proyinf bash -c "mysql -u root -h mysql --password=123 boletinesDB < boletinesDB.sql"
 -- --------------------------------------------------------
-
 --
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `usuario` (
+CREATE TABLE `usuario` IF NOT EXISTS(
   `id_usuario` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
   `nombre` varchar(45) NOT NULL,
@@ -103,7 +102,8 @@ INSERT INTO `usuario` (`id_usuario`, `email`, `nombre`, `password`, `tipo_usuari
 (3, 'goms@gmail.com', 'goms', '$2y$10$c/nmJgduVCjBYCcY3s7YsuD5z/EefxNVJZx87n23TWSxRnvvqtyBW', 'normal', '2024-10-17', 0),
 (4, 'admin@gmail.com', 'acmon', '$2y$10$sIo6yYEHY9sLbXbRZatSIuiNFJ0mhoQa8sZT4bzJ0NFr4bBlvx8OO', 'admin', '2024-10-17', 0),
 (6, 'segs@gmail.com', 'segsins', '$2y$10$hWUHlDsg/GgaMQbgD8D01.V/C3MHU5xToQ2YqF2x6O0BnYsFtn3ty', 'normal', '2024-11-06', 0),
-(9, 'insano2@gmail.com', 'insano2', '$2y$10$ItmsvL6fTz0Crbs7eEipjOEI0B/dHKunqur2ZGAShRe.OW9yv/pPy', 'normal', '2024-11-06', 0);
+(9, 'insano3@gmail.com', 'insano3', '$2y$10$ItmsvL6fTz0Crbs7eEipjOEI0B/dHKunqur2ZGAShRe.OW9yv/pPy', 'normal', '2024-11-06', 0);
+
 
 --
 -- Índices para tablas volcadas

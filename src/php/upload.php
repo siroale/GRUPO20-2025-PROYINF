@@ -40,7 +40,7 @@ if (isset($_POST["submit"])) {
                 $titulo = $_POST['nombre'];
                 $descripcion = $_POST['descripcion'];
                 $fecha_publicacion = date('Y-m-d');
-                $estado = 'activo';
+                $estado = 'noactivo';
                 $subido_por = $_SESSION['user_id'];
                 $veces_visitado = 0;
 
