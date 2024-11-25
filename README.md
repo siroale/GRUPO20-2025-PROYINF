@@ -49,3 +49,7 @@ Credenciales de usuario admin en la pagina:
 - Correo: admin@gmail.com
 - Contraseña: admin
 
+Si surgen errores a la hora de intentar subir un boletin, debe darle permisos a la carpeta upload con el siguiente comando:
+``` sh
+sudo chmod 777 /ruta/a/carpeta
+```
