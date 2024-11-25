@@ -13,8 +13,9 @@ require 'php/includes/dbinc.php';
 <body>
     <h1>Indice</h1>
     <ul>
-        <li><a href="php/landing.php">Sitio Admininistración</a></li>
-        <li><a href="php/visualizacion.php">Sitio Público</a></li>
+        <li><a href="php/landing.php">Creación de Boletines</a></li>
+        <li><a href="php/generar.php">Administración de Boletines</a></li>
+        <li><a href="php/visualizacion.php">Visualización de Boletines (Público)</a></li>
     </ul>
 	
 	<h2>Información Grupo</h2>
