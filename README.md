@@ -43,5 +43,9 @@ Una vez terminado con el testeo puede bajar la página con:
 sudo docker-compose down
 ```
 
-Así puede acceder a la página ingresando a `http://127.0.0.1:80` y a la página de administación de base de datos en `http://127.0.0.1:8081`, el usuario root no tiene contraseña.
+Así puede acceder a la página ingresando a `http://127.0.0.1:80` y a la página de administación de base de datos en `http://127.0.0.1:8081`, el usuario root tiene contraseña 123.
+
+Credenciales de usuario admin en la pagina:
+- Correo: admin@gmail.com
+- Contraseña: admin
 
