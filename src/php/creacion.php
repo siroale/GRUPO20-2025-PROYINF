@@ -133,11 +133,9 @@
                         </g>
                         </svg>
                     </span>
-                    <span class="upload-area-title">Drag file(s) here to upload.</span>
-                    <span class="upload-area-description">
-                        Alternatively, you can select a file by <br /><strong
-                        >clicking here</strong
-                        >
+                    <span class="upload-area-title">Arrastre un archivo para subirlo</span>
+                    <span class="upload-area-description"> 
+                        Tambien puede seleccionar un archivo haciendo <strong> click </strong>
                     </span>
                 </div>
                 <div id="uploadDone" style="display: none;">
