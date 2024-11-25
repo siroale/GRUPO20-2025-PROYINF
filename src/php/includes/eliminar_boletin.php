@@ -1,6 +1,5 @@
 <?php
-// Incluir la conexión a la base de datos
-require 'dbinc.php'; // Ajusta la ruta si es necesario
+require 'dbinc.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener el id_boletin y la ruta del archivo a eliminar
