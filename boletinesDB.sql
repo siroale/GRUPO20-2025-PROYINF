@@ -77,7 +77,7 @@ CREATE TABLE `fuente` IF NOT EXISTS(
   `url_fuente` varchar(600) NOT NULL,
   `fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-docker-compose exec grupo1-2024-proyinf bash -c "mysql -u root -h mysql --password=123 boletinesDB < boletinesDB.sql"
+
 -- --------------------------------------------------------
 --
 -- Estructura de tabla para la tabla `usuario`
