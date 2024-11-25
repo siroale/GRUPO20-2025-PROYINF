@@ -1,3 +1,20 @@
+<?php
+
+include "includes/dbinc.php";
+
+// Consulta base de datos para boletines activos
+$consulta_datos_boletines = "SELECT b.id_boletin, b.ruta_archivo, b.fecha_publicacion, b.titulo, b.descripcion, b.estado, u.nombre AS subido_por 
+        FROM boletin b
+        JOIN usuario u ON b.subido_por = u.id_usuario
+        WHERE b.estado = 'activo'
+        ORDER BY b.fecha_publicacion DESC";
+$datos_boletines = $conn->prepare($consulta_datos_boletines);
+$datos_boletines->execute();
+$boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/html401-rdfa11-1.dtd">
 <!-- saved from url=(0052)https://opia.fia.cl/601/w3-propertyvalue-148969.html -->
 <html lang="es">
@@ -201,10 +218,6 @@
                                 <!--pos=2-->
                                 <!--begin-box:tr_menu_principal_box02_inicio::1102:- - -->
                                 <!--loc('* Código HTML libre dentro de la página.')-->
-                                <li>
-                                    <a href="https://opia.fia.cl/601/w3-channel.html" class="inicio-fia">
-                                        <span class="fa fa-home"></span> <span class="visible-xs">Inicio</span></a>
-                                </li>
                                 <!--end-box-->
                                 <!--pos=3-->
                                 <!--begin-box:tr_menu_principal_box02B::711:- - -->
@@ -223,18 +236,10 @@
                                 <!--pos=4-->
                                 <!--begin-box:tr_menu_principal_box03::610:- - -->
                                 <!--loc('* Código HTML libre dentro de la página.')-->
-                                <li class="nav-item-mi-pagina">
-                                    <a href="https://opia.fia.cl/605/w3-propertyvalue-68264.html" class="mi-pagina">
-                                        <span class="fa fa-user"></span> <span class="hidden-sm">Mi página</span></a>
-                                </li>
                                 <!--end-box-->
                                 <!--pos=5-->
                                 <!--begin-box:tr_menu_principal_box04::1080:- - -->
                                 <!--loc('* Código HTML libre dentro de la página.')-->
-                                <li class="header-contacto">
-                                    <a href="https://opia.fia.cl/601/w3-propertyvalue-46011.html" title="Contáctenos">
-                                        <span class="sr-only">Contacto</span> <span class="fa fa-envelope-o fa-lg"></span></a>
-                                </li>
                                 <!--end-box-->
                             </ul>
                         </div>
@@ -264,20 +269,10 @@
                         <div class="dropdown btn-group pull-left tr-compartir hidden-print" id="dropdown_compartir_hitos">
                             <!--pos=1-->
                         </div>
-                        <div class="dropdown btn-group pull-right tr-compartir hidden-print" id="dropdown_compartir_rrss">
-                            <!--pos=2--><button class="btn btn-link dropdown-toggle" type="button" id="menuCompartir" title="Compartir" data-toggle="dropdown"><span class="hidden-sm">Compartir</span><span class="fa fa-share-alt fa-lg"><span class="sr-only">icono compartir</span></span></button>
-                            <div class="dropdown-menu" role="menu" aria-labelledby="menuCompartir">
-                                <!--pos=3-->
-                                <!--begin-box:tr_compartir:ar-compartir text-center:986:- - -->
-                                <!--loc('* Incluye links para compartir en redes sociales')-->
-                                <p class="ar-compartir text-center"><a title="Facebook" rel="bookmark" class="facebook redes-blank btn btn-link btn-xs" href="http://www.facebook.com/share.php?u=https%3A%2F%2Fopia.fia.cl%2F601%2Fw3-propertyvalue-148969.html&amp;t=Boletines%20de%20Vigilancia%20e%20Inteligencia%20en%20Innovaci%C3%B3n%20-%20Opia.CL%3A%20Observatorio%20para%20la%20Innovaci%C3%B3n%20Agraria%2C%20Agroalimentaria%20y%20Forestal"><span class="fa fa-facebook fa-2x"></span><img width="16" height="16" style="background: transparent url(channels-501_sociable_sprite.png) no-repeat scroll -343px -1px;" src="../images/boletines/channels-501_sociable_sprite_mask.gif" alt="Compartir en Facebook" class="sr-only"></a><a title="Twitter" rel="bookmark" class="twitter redes-blank btn btn-link btn-xs" href="https://twitter.com/intent/tweet?status=Boletines%20de%20Vigilancia%20e%20Inteligencia%20en%20Innovaci%C3%B3n%20-%20Opia.CL%3A%20Observatorio%20para%20la%20Innovaci%C3%B3n%20Agraria%2C%20Agroalimentaria%20y%20Forestal%20-%20https%3A%2F%2Fopia.fia.cl%2F601%2Fw3-propertyvalue-148969.html"><span class="fa fa-twitter fa-2x"></span><img width="16" height="16" style="background: transparent url(channels-501_sociable_sprite.png) no-repeat scroll -343px -55px;" src="../images/boletines/channels-501_sociable_sprite_mask.gif" alt="Compartir en Twitter" class="sr-only"></a><a title="LinkedIn" rel="bookmark" class="linkedin redes-blank btn btn-link btn-xs" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fopia.fia.cl%2F601%2Fw3-propertyvalue-148969.html&amp;title=Boletines%20de%20Vigilancia%20e%20Inteligencia%20en%20Innovaci%C3%B3n%20-%20Opia.CL%3A%20Observatorio%20para%20la%20Innovaci%C3%B3n%20Agraria%2C%20Agroalimentaria%20y%20Forestal&amp;source=Opia.CL%3A%20Observatorio%20para%20la%20Innovaci%C3%B3n%20Agraria%2C%20Agroalimentaria%20y%20Forestal&amp;summary="><span class="fa fa-linkedin fa-2x"></span><img width="16" height="16" style="background: transparent url(channels-501_sociable_sprite.png) no-repeat scroll -1px -37px;" src="../images/boletines/channels-501_sociable_sprite_mask.gif" alt="Compartir en LinkedIn" class="sr-only"></a></p>
-                                <!--end-box-->
-                            </div>
-                        </div>
                         <!--end-box-->
                         <!--begin-box:pa_titulo::627:Titulo de este valor de clasificando-->
                         <!--loc('* Valor de Clasificando Completo')-->
-                        <h1 class="page-header pnid-526 pv-pid-147024 pvid-148969 cid-501">Boletines de Vigilancia e Inteligencia en Innovación</h1>
+                        <h1 class="page-header pnid-526 pv-pid-147024 pvid-148969 cid-501">Boletines VigiFIA</h1>
                         <!--end-box-->
                     </div>
                 </div>
@@ -301,97 +296,51 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row margen-abajo-sm">
-                        <div class="col-md-12">
-                            <h2 class="titulo-caja titulo-caja-gris">Destacados de VigiFIA</h2>
-                        </div>
                     </div>
                     <div class="row margen-abajo-md">
                         <div class="col-md-12">
-                            <a class="btn btn-link btn-sm pull-right" href="https://opia.fia.cl/601/w3-propertyvalue-149014.html">Ver más
-						<span class="sr-only">Adaptación y Mitigación al Cambio Climático</span>
-						<span class="fa fa-chevron-circle-right fa-lg margen-izquierdo-xs"><span class="sr-only">.</span></span>
-					</a>
                             <!--pos=1-->
                             <!--begin-box:w3_pa_Destacados_Adaptacion_Mitigacion_Cambio_Climatico_pvid:recuadros recuadros-recursos sin-mime titulo-caja-grupo margen-abajo-md:1595:Caja que muestra destacados de Adaptación y Mitigación al Cambio Climático-->
                             <!--loc('* Recuadros de artículos')-->
                             <div id="recuadros_articulo_1595" class="recuadros recuadros-recursos sin-mime titulo-caja-grupo margen-abajo-md">
-                                <h2 class="ntg-titulo-caja titulo-caja">Adaptación y Mitigación al Cambio Climático</h2>
+                                <h2 class="ntg-titulo-caja titulo-caja">Ultimos boletines de VigiFIA</h2>
+                                <div id="recuadros_articulo_1595" class="recuadros recuadros-recursos sin-mime titulo-caja-grupo margen-abajo-md">
+                                <?php
+                                // Recorremos todos los boletines activos
+                                foreach ($boletines as $boletin) {
+                                    // Obtener los datos de cada boletín
+                                    $id_boletin = $boletin['id_boletin'];
+                                    $ruta_archivo = $boletin['ruta_archivo'];
+                                    $fecha_publicacion = date('d-M-Y', strtotime($boletin['fecha_publicacion']));
+                                    $titulo = $boletin['titulo'];
+                                    $subido_por = $boletin['subido_por'];
+                                    $descripcion = $boletin['descripcion'];
+                                ?>
+                                
                                 <div class="recuadro media">
-                                    <div class="figure pull-left recurso-con-borde cid-501 aid-126720 binary-archivo_01 format-pdf">
-                                        <a href="https://opia.fia.cl/601/w3-article-126720.html" title="Ir a Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024">
-                                            <img src="../images/boletines/articles-126720_archivo_01.thumb_miniThumb.jpg" alt="Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024" title="Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°11 septiembre 2024"></a>
-                                    </div><span class="small cid-501 aid-126720 pnid-530 iso8601-20240926T0000000300">26-sep-2024</span>
-                                    <div class="media-body">
-                                        <h2 class="titulo aid-126720 cid-501 media-heading"><a href="https://opia.fia.cl/601/w3-article-126720.html">Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024</a></h2>
-                                        <p class="small">Fuente: </p><span class="pv-branch pnid-721 cid-501"><span class=" pnid-721 pv-pid-0 pvid-149116 cid-501">FIA</span></span>
+                                    <div class="figure pull-left recurso-con-borde cid-<?php echo $id_boletin; ?> aid-<?php echo $id_boletin; ?> binary-archivo_01 format-pdf">
+                                    <a href="<?php echo $ruta_archivo; ?>" title="<?php echo $titulo; ?>">
+                                        <img src="../images/boletines/articles-126033_archivo_01.thumb_miniThumb.jpg"
+                                            alt="<?php echo $titulo; ?>" 
+                                            title="<?php echo $titulo; ?>">
+                                    </a>
                                     </div>
+                                    <span class="small cid-<?php echo $id_boletin; ?> aid-<?php echo $id_boletin; ?> pnid-530 iso8601-<?php echo str_replace('-', '', $fecha_publicacion); ?>T0000000300"><?php echo $fecha_publicacion; ?></span>
+                                    <div class="media-body">
+                                    <h2 class="titulo aid-<?php echo $id_boletin; ?> cid-<?php echo $id_boletin; ?> media-heading">
+                                        <a href="<?php echo $ruta_archivo; ?>"><?php echo $titulo; ?></a>
+                                    </h2>
+                                    <h5 class = "abstract aid-126720 cid-501"> <?php echo $descripcion; ?></h5>
+                                    <!-- <p class="small">Autor: </p> -->
+                                    <span class="pv-branch pnid-721 cid-501">
+                                        <span class="pnid-721 pv-pid-0 pvid-149116 cid-501">Escrito por <?php echo $subido_por; ?>, perteneciente a FIA</span>
+                                    </span>
+                                    </div>
+            
                                 </div>
-                                <div class="recuadro media">
-                                    <div class="figure pull-left recurso-con-borde cid-501 aid-126033 binary-archivo_01 format-pdf">
-                                        <a href="https://opia.fia.cl/601/w3-article-126033.html" title="Ir a Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024"><img src="../images/boletines/articles-126033_archivo_01.thumb_miniThumb.jpg" alt="Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024" title="Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024"></a>
-                                    </div><span class="small cid-501 aid-126033 pnid-530 iso8601-20240628T0000000400">28-jun-2024</span>
-                                    <div class="media-body">
-                                        <h2 class="titulo aid-126033 cid-501 media-heading"><a href="https://opia.fia.cl/601/w3-article-126033.html">Adaptación y Mitigación al Cambio Climático. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024</a></h2>
-                                        <p class="small">Fuente: </p><span class="pv-branch pnid-721 cid-501"><span class=" pnid-721 pv-pid-0 pvid-149116 cid-501">FIA</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end-box-->
-                        </div>
-                        <div class="col-md-12"><a class="btn btn-link btn-sm pull-right" href="https://opia.fia.cl/601/w3-propertyvalue-149015.html">Ver más 
-					<span class="sr-only">Gestión Sostenible de Recursos Hídricos</span>
-					<span class="fa fa-chevron-circle-right fa-lg margen-izquierdo-xs"><span class="sr-only">.</span></span></a>
-                            <!--pos=2-->
-                            <!--begin-box:w3_pa_Destacados_Gestion_Sostenible_Recursos_Hidricos_pvid:recuadros recuadros-recursos sin-mime titulo-caja-grupo margen-abajo-md:1596:Caja que muestra destacados de Gestión Sostenible de Recursos Hídricos-->
-                            <!--loc('* Recuadros de artículos')-->
-                            <div id="recuadros_articulo_1596" class="recuadros recuadros-recursos sin-mime titulo-caja-grupo margen-abajo-md">
-                                <h2 class="ntg-titulo-caja titulo-caja">Gestión Sostenible de Recursos Hídricos</h2>
-                                <div class="recuadro media">
-                                    <div class="figure pull-left recurso-con-borde cid-501 aid-126721 binary-archivo_01 format-pdf">
-                                        <a href="https://opia.fia.cl/601/w3-article-126721.html" title="Ir a Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024"><img src="../images/boletines/articles-126721_archivo_01.thumb_miniThumb.jpg" alt="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024" title="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024"></a>
-                                    </div><span class="small cid-501 aid-126721 pnid-530 iso8601-20240926T0000000300">26-sep-2024</span>
-                                    <div class="media-body">
-                                        <h2 class="titulo aid-126721 cid-501 media-heading"><a href="https://opia.fia.cl/601/w3-article-126721.html">Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024</a></h2>
-                                        <p class="small">Fuente: </p><span class="pv-branch pnid-721 cid-501"><span class=" pnid-721 pv-pid-0 pvid-149116 cid-501">FIA</span></span>
-                                    </div>
-                                </div>
-                                <div class="recuadro media">
-                                    <div class="figure pull-left recurso-con-borde cid-501 aid-126034 binary-archivo_01 format-pdf">
-                                        <a href="https://opia.fia.cl/601/w3-article-126034.html" title="Ir a Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024"><img src="../images/boletines/articles-126034_archivo_01.thumb_miniThumb.jpg" alt="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024" title="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024"></a>
-                                    </div><span class="small cid-501 aid-126034 pnid-530 iso8601-20240628T0000000400">28-jun-2024</span>
-                                    <div class="media-body">
-                                        <h2 class="titulo aid-126034 cid-501 media-heading"><a href="https://opia.fia.cl/601/w3-article-126034.html">Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024</a></h2>
-                                        <p class="small">Fuente: </p><span class="pv-branch pnid-721 cid-501"><span class=" pnid-721 pv-pid-0 pvid-149116 cid-501">FIA</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end-box-->
-                        </div>
-                        <div class="col-md-12"><a class="btn btn-link btn-sm pull-right" href="https://opia.fia.cl/601/w3-propertyvalue-149016.html">Ver más 
-					<span class="sr-only">Sistemas Alimentarios Sostenibles</span>
-					<span class="fa fa-chevron-circle-right fa-lg margen-izquierdo-xs"><span class="sr-only">.</span></span></a>
-                            <!--pos=3-->
-                            <!--begin-box:w3_pa_Destacados_Sistemas_Alimentarios_Sostenibles_pvid:recuadros recuadros-recursos sin-mime titulo-caja-grupo margen-abajo-md:1597:Caja que muestra destacados de Sistemas Alimentarios Sostenibles-->
-                            <!--loc('* Recuadros de artículos')-->
-                            <div id="recuadros_articulo_1597" class="recuadros recuadros-recursos sin-mime titulo-caja-grupo margen-abajo-md">
-                                <h2 class="ntg-titulo-caja titulo-caja">Sistemas Alimentarios Sostenibles</h2>
-                                <div class="recuadro media">
-                                    <div class="figure pull-left recurso-con-borde cid-501 aid-126722 binary-archivo_01 format-pdf">
-                                        <a href="https://opia.fia.cl/601/w3-article-126722.html" title="Ir a Sistemas Alimentarios Sostenibles. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024"><img src="../images/boletines/articles-126722_archivo_01.thumb_miniThumb.jpg" alt="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024" title="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024"></a>
-                                    </div><span class="small cid-501 aid-126722 pnid-530 iso8601-20240926T0000000300">26-sep-2024</span>
-                                    <div class="media-body">
-                                        <h2 class="titulo aid-126722 cid-501 media-heading"><a href="https://opia.fia.cl/601/w3-article-126722.html">Sistemas Alimentarios Sostenibles. Boletín de Vigilancia e Inteligencia en Innovación, N°10 septiembre 2024</a></h2>
-                                        <p class="small">Fuente: </p><span class="pv-branch pnid-721 cid-501"><span class=" pnid-721 pv-pid-0 pvid-149116 cid-501">FIA</span></span>
-                                    </div>
-                                </div>
-                                <div class="recuadro media">
-                                    <div class="figure pull-left recurso-con-borde cid-501 aid-126035 binary-archivo_01 format-pdf">
-                                        <a href="https://opia.fia.cl/601/w3-article-126035.html" title="Ir a Sistemas Alimentarios Sostenibles. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024"><img src="../images/boletines/articles-126035_archivo_01.thumb_miniThumb.jpg" alt="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024" title="Gestión Sostenible de Recursos Hídricos. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024"></a>
-                                    </div><span class="small cid-501 aid-126035 pnid-530 iso8601-20240628T0000000400">28-jun-2024</span>
-                                    <div class="media-body">
-                                        <h2 class="titulo aid-126035 cid-501 media-heading"><a href="https://opia.fia.cl/601/w3-article-126035.html">Sistemas Alimentarios Sostenibles. Boletín de Vigilancia e Inteligencia en Innovación, N°9 junio 2024</a></h2>
-                                        <p class="small">Fuente: </p><span class="pv-branch pnid-721 cid-501"><span class=" pnid-721 pv-pid-0 pvid-149116 cid-501">FIA</span></span>
-                                    </div>
+                                
+                                <?php } ?>
+
                                 </div>
                             </div>
                             <!--end-box-->
@@ -492,25 +441,6 @@
                 <div class="col-lg-3 col-md-4 col-12">
                     <p class="titulo">CONTACTO</p>
                     <p>Loreley 1582, La Reina, Santiago<br> Teléfono: +562 2431 3000</p>
-                </div>
-                <!-- RRSSS -->
-                <div class="col-lg-3 col-md-4 col-12">
-                    <p class="titulo">REDES SOCIALES</p>
-                    <a href="https://www.facebook.com/OpiaChile/" title="Síganos en Facebook" class="rrss-icono">
-                        <span class="fa fa-facebook fa-lg"><span class="sr-only">Facebook</span></span>
-                    </a>
-                    <a href="https://twitter.com/FIA_Chile" title="Síganos en Twitter" class="rrss-icono">
-                        <span class="fa fa-twitter fa-lg"><span class="sr-only">Twitter</span></span>
-                    </a>
-                    <a href="https://www.instagram.com/fia_chile/" title="Síganos en Instagram" class="rrss-icono">
-                        <span class="fa fa-instagram fa-lg"><span class="sr-only">Instagram</span></span>
-                    </a>
-                    <a href="https://www.linkedin.com/company/fiachile" title="Síganos en Linkedin" class="rrss-icono">
-                        <span class="fa fa-linkedin fa-lg"><span class="sr-only">Linkedin</span></span>
-                    </a>
-                    <a href="https://www.youtube.com/c/Fundaci%C3%B3nparalaInnovaci%C3%B3nAgraria" title="Síganos en Youtube" class="rrss-icono">
-                        <span class="fa fa-youtube-play fa-lg"><span class="sr-only">Youtube</span></span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -637,11 +567,6 @@
     </script>
     <!--end-box-->
     <!--end-box-->
-    <!--begin-box:tr_btn_subir::811:Muestra el botón que permite subir al tope de la página. Aparece cuando el alto de la página excede el de la pantalla.-->
-    <!--loc('* Código HTML libre dentro de la página.')-->
-    <div id="top" class="hidden-xs" style="display: none;">
-        <a href="https://opia.fia.cl/601/w3-propertyvalue-148969.html#navbar_navbar_default" title="ir al tope de la página" class="btn btn-link btn-subir affix"><span class="fa fa-chevron-circle-up fa-3x"></span><span class="sr-only">Subir</span></a>
-    </div>
 
     <script type="text/javascript">
         //<![CDATA[
