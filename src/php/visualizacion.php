@@ -154,65 +154,6 @@
     </div>
     <!-- service section end -->
 
-    <!-- client section start -->
-    <div class="client_section layout_padding">
-        <div class="container">
-            <h1 class="client_taital">Lo que dicen nuestros colaboradores</h1>
-            <p class="client_text">Opiniones serias y sinceras sobre nuestro trabajo</p>
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="client_section_2 layout_padding">
-                            <div class="client_main">
-                                <div class="client_left">
-                                    <div class="client_img"><img src="../images/tremendo_nucleo.png" width="200" height="200"></div>
-                                    <h4 class="henrry_name">Viktor Tapia</h4>
-                                    <h6 class="henrry_text">( Plata Infinita )</h6>
-                                </div>
-                                <div class="client_right">
-                                    <p class="lorem_text">Que iphone me compro? uno de un palo y medio o uno de un palo setecientos, NO IMPORTA, yo tengo mucha plata </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="client_section_2 layout_padding">
-                            <div class="client_main">
-                                <div class="client_left">
-                                    <div class="client_img"><img src="../images/colaborador-2.gif" width="200" height="200"></div>
-                                    <h4 class="henrry_name">Profe de OSI</h4>
-                                    <h6 class="henrry_text">( UML LOVER )</h6>
-                                </div>
-                                <div class="client_right">
-                                    <p class="lorem_text">Amamons OSI</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="client_section_2 layout_padding">
-                            <div class="client_main">
-                                <div class="client_left">
-                                    <div class="client_img"><img src="../images/colaborador-3.png" width="200" height="200"></div>
-                                    <h4 class="henrry_name">Ruggiero</h4>
-                                    <h6 class="henrry_text">( Gritón )</h6>
-                                </div>
-                                <div class="client_right">
-                                    <p class="lorem_text">Si tienen dudas vuelvan al kinder o vayan a preguntarme afuera que estoy fumando. </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- client section end -->
     <!-- footer section start -->
     <div class="footer_section layout_padding">
         <div class="container">

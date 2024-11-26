@@ -11,6 +11,9 @@
 <link rel="stylesheet" type="text/css" href="../css/generar.css" />
 <link rel="icon" href="favicon.png">
 
+<link rel="stylesheet" href="../css/style.css">
+
+
 </head>
 
 <body>
