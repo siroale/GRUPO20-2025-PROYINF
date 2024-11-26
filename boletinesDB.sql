@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 08-11-2024 a las 22:34:41
+-- Tiempo de generación: 26-11-2024 a las 02:39:07
 -- Versión del servidor: 10.5.2-MariaDB-1:10.5.2+maria~bionic
 -- Versión de PHP: 8.2.8
 
@@ -27,16 +27,28 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `boletin`
 --
 
-CREATE TABLE `boletin`(
+CREATE TABLE `boletin` (
   `id_boletin` int(11) NOT NULL,
   `ruta_archivo` varchar(600) NOT NULL,
   `titulo` varchar(100) NOT NULL,
-  `descripcion` text DEFAULT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
   `fecha_publicacion` date NOT NULL,
   `estado` varchar(45) NOT NULL,
   `subido_por` int(11) NOT NULL,
   `veces_visitado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `boletin`
+--
+
+INSERT INTO `boletin` (`id_boletin`, `ruta_archivo`, `titulo`, `descripcion`, `fecha_publicacion`, `estado`, `subido_por`, `veces_visitado`) VALUES
+(18, '../uploads/s-m1-s1-02-csp.pdf', 'Matematiccas para llos matematticos', 'nerd para los nerds', '2024-11-26', 'activo', 4, 0),
+(19, '../uploads/67452c197409f-s-m1-s2-02-mezcla.pdf', 'MEZCLAS MATEMATICAS', 'MUCHAS', '2024-11-26', 'activo', 4, 0),
+(20, '../uploads/s-m1-s2-01-transporte.pdf', 'PRUEBAS DE ARCHIVOS', '!!!!', '2024-11-26', 'activo', 4, 0),
+(21, '../uploads/s-m1-s2-02-mezcla.pdf', 'MAS MATEMATICAS', 'SIEMPRE MAS!', '2024-11-26', 'activo', 4, 0),
+(22, '../uploads/s-m1-s2-04-multiples-periodos.pdf', 'NUNCA RENDIRSE ', 'JAMAS', '2024-11-26', 'activo', 4, 1),
+(23, '../uploads/VeranoInvencible.pdf', 'VERANO INVENCIBLE', 'ESTE ARCHIVO ES DISTINTO A LOS DEMAS!', '2024-11-26', 'activo', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -44,7 +56,7 @@ CREATE TABLE `boletin`(
 -- Estructura de tabla para la tabla `boletin_fuente`
 --
 
-CREATE TABLE `boletin_fuente`(
+CREATE TABLE `boletin_fuente` (
   `id_boletin_fuente` int(11) NOT NULL,
   `id_boletin` int(11) NOT NULL,
   `id_fuente` int(11) NOT NULL,
@@ -57,12 +69,19 @@ CREATE TABLE `boletin_fuente`(
 -- Estructura de tabla para la tabla `descarga`
 --
 
-CREATE TABLE `descarga`(
+CREATE TABLE `descarga` (
   `id_descarga` int(11) NOT NULL,
   `id_boletin` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha_descarga` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `descarga`
+--
+
+INSERT INTO `descarga` (`id_descarga`, `id_boletin`, `id_usuario`, `fecha_descarga`) VALUES
+(1, 19, 4, '2024-11-26');
 
 -- --------------------------------------------------------
 
@@ -70,7 +89,7 @@ CREATE TABLE `descarga`(
 -- Estructura de tabla para la tabla `fuente`
 --
 
-CREATE TABLE `fuente`(
+CREATE TABLE `fuente` (
   `id_fuente` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `categoria` varchar(45) NOT NULL,
@@ -79,11 +98,12 @@ CREATE TABLE `fuente`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `usuario`(
+CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
   `nombre` varchar(45) NOT NULL,
@@ -114,8 +134,7 @@ INSERT INTO `usuario` (`id_usuario`, `email`, `nombre`, `password`, `tipo_usuari
 (3, 'goms@gmail.com', 'goms', '$2y$10$c/nmJgduVCjBYCcY3s7YsuD5z/EefxNVJZx87n23TWSxRnvvqtyBW', 'normal', '2024-10-17', 0),
 (4, 'admin@gmail.com', 'acmon', '$2y$10$sIo6yYEHY9sLbXbRZatSIuiNFJ0mhoQa8sZT4bzJ0NFr4bBlvx8OO', 'admin', '2024-10-17', 0),
 (6, 'segs@gmail.com', 'segsins', '$2y$10$hWUHlDsg/GgaMQbgD8D01.V/C3MHU5xToQ2YqF2x6O0BnYsFtn3ty', 'normal', '2024-11-06', 0),
-(9, 'insano3@gmail.com', 'insano3', '$2y$10$ItmsvL6fTz0Crbs7eEipjOEI0B/dHKunqur2ZGAShRe.OW9yv/pPy', 'normal', '2024-11-06', 0);
-
+(9, 'insano2@gmail.com', 'insano2', '$2y$10$ItmsvL6fTz0Crbs7eEipjOEI0B/dHKunqur2ZGAShRe.OW9yv/pPy', 'normal', '2024-11-06', 0);
 
 --
 -- Índices para tablas volcadas
@@ -164,7 +183,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `boletin`
 --
 ALTER TABLE `boletin`
-  MODIFY `id_boletin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_boletin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `boletin_fuente`
@@ -176,7 +195,7 @@ ALTER TABLE `boletin_fuente`
 -- AUTO_INCREMENT de la tabla `descarga`
 --
 ALTER TABLE `descarga`
-  MODIFY `id_descarga` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_descarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `fuente`
@@ -188,7 +207,7 @@ ALTER TABLE `fuente`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas
@@ -211,7 +230,7 @@ ALTER TABLE `boletin_fuente`
 -- Filtros para la tabla `descarga`
 --
 ALTER TABLE `descarga`
-  ADD CONSTRAINT `fk_descargas_boletines1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_descargas_boletines1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`),
   ADD CONSTRAINT `fk_descargas_usuarios1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 COMMIT;
 

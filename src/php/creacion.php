@@ -46,13 +46,6 @@
         </form>
     </div>
 
-    <!-- Boton que descarga mockup de pdf -->
-    <div id="generacion">
-    <form action="descargar.php" method="post">
-        <input type="submit" name="submit" value="Generar pdf">
-    </form>
-    </div>
-
     <div id="uploadModal" class="modal">
         <div class="modal-header">
             <div class="modal-logo">
