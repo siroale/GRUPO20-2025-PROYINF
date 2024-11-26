@@ -1,35 +1,76 @@
+<?php
+require 'includes/dbinc.php';
+
+try {
+    // Preparar la consulta para solicitudes
+    $sql = "SELECT * FROM solicitudes ORDER BY fecha_solicitud";
+    $stmt = $conn->prepare($sql);
+    
+    // Ejecutar la consulta
+    $stmt->execute();
+    
+    // Obtener los resultados
+    $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    // Manejar errores de consulta
+    $solicitudes = [];
+    error_log("Error al recuperar solicitudes: " . $e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-
-<meta charset="UTF-8" />
-<title>Generar Nuevo Boletin</title>
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="description" content="" />
-<link href="https://cdn.jsdelivr.net/npm/modern-normalize@v3.0.1/modern-normalize.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="../css/generar.css" />
-<link rel="icon" href="favicon.png">
-
+    <meta charset="UTF-8">
+    <title>Generación de Boletín</title>
+    <style>
+        /* Estilos anteriores */
+    </style>
 </head>
-
 <body>
+    <h1>Generación de Boletín</h1>
 
-<a href="./boletines.php">Lista de Boletines</a>
-<h1>Generar nuevo boletín</h1>
-	<form action="procesar.php" method="POST">
-        <input type="text" name="titulo" placeholder="Título">
-        <textarea name="contexto" placeholder="Contexto del informe"></textarea>
-        <button type="submit">Enviar</button>
+    <!-- Formulario de Creación de Boletín -->
+    <form action="procesar.php" method="POST">
+        <h2>Crear Nueva Solicitud de Boletín</h2>
+        <div>
+            <label for="titulo">Título del Boletín:</label>
+            <input type="text" id="titulo" name="titulo" required placeholder="Ingrese el título del boletín">
+        </div>
+        <div>
+            <label for="contexto">Contexto/Descripción:</label>
+            <textarea id="contexto" name="contexto" rows="4" placeholder="Descripción adicional de la solicitud"></textarea>
+        </div>
+        <button type="submit">Crear Solicitud</button>
     </form>
-<h2>Boletines en procesamiento</h2>
-<ul>
-	<li>Agricultura Sustentable <span><button>Revisar</button><button>Editar</button><button>Subir</button></span></li>
-	<li>Recursos Hidricos <i>98%</i></li>
-	<li>Hidroponía <i>45%</i></li>
-</ul>
-<script src="../js/generar.js"></script>
 
+    <!-- Tabla de Solicitudes Existentes -->
+    <h2>Solicitudes Ingresadas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Solicitado Por</th>
+                <th>Fecha de Solicitud</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($solicitudes)): ?>
+                <tr>
+                    <td colspan="4" style="text-align: center;">No hay solicitudes registradas</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($solicitudes as $solicitud): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($solicitud['id_solicitud']); ?></td>
+                        <td><?php echo htmlspecialchars($solicitud['titulo']); ?></td>
+                        <td><?php echo htmlspecialchars($solicitud['solicitado_por']); ?></td>
+                        <td><?php echo htmlspecialchars($solicitud['fecha_solicitud']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
 </body>
-
 </html>

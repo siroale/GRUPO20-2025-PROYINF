@@ -93,6 +93,18 @@ CREATE TABLE `usuario`(
   `usuario_google` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `solicitudes`
+--
+
+CREATE TABLE `solicitudes`(
+ `id_solicitud` int(11) NOT NULL AUTO_INCREMENT,
+ `titulo` varchar(100) NOT NULL,
+ `solicitado_por` varchar(100) NOT NULL,
+ `fecha_solicitud` date NOT NULL,
+ PRIMARY KEY (`id_solicitud`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Volcado de datos para la tabla `usuario`
 --
