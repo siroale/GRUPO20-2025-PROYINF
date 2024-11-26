@@ -4,12 +4,15 @@ services:
             context: .
             dockerfile: Dockerfile
         container_name: php
+        #network_mode: "host"  # Cambio importante
         ports:
             - 80:80
         volumes:
             - "./src:/var/www/html"
+            - "./ai_logic:/var/www/ai_logic"
         environment:
           - PHP_EXTENSIONS=pdo,pdo_mysql
+
 
     mariadb:
         image: mariadb:10.5.2

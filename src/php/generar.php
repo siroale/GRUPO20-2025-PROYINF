@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8" />
-<title>Hello, world!</title>
+<title>Generar Nuevo Boletin</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="description" content="" />
 <link href="https://cdn.jsdelivr.net/npm/modern-normalize@v3.0.1/modern-normalize.min.css" rel="stylesheet">
@@ -17,13 +17,11 @@
 
 <a href="./boletines.php">Lista de Boletines</a>
 <h1>Generar nuevo boletín</h1>
-<form>
-	<label>Nombre:</label>
-	<input type="text">
-	<label>Contexto:</label>
-	<textarea></textarea>
-	<input type="submit" value="Generar Nuevo Boletín">
-</form>
+	<form action="procesar.php" method="POST">
+        <input type="text" name="titulo" placeholder="Título">
+        <textarea name="contexto" placeholder="Contexto del informe"></textarea>
+        <button type="submit">Enviar</button>
+    </form>
 <h2>Boletines en procesamiento</h2>
 <ul>
 	<li>Agricultura Sustentable <span><button>Revisar</button><button>Editar</button><button>Subir</button></span></li>
