@@ -2,7 +2,6 @@
     session_start();
 
     include "includes/dbinc.php";
-    include "includes/mostrar_boletines_admin.php";
     include "includes/eliminar_boletin.php";
 /*   
     Este pedazo sirve para verificar si el usuario es admin, descomentarlo luego, supongo.
@@ -111,7 +110,7 @@
                     <input class="input_field" type="text" name="descripcion" required>
                 </div>
 
-                <p class="modal-description">Adjunta un archivo debajo</p>
+                <p class="modal-description">Adjunte un archivo debajo</p>
                 <div id="uploadArea" class="upload-area">
                     <input type="file" id="fileInput" name="file" accept="application/pdf" style="display: none;" required>
                     <span class="upload-area-icon">
@@ -149,7 +148,9 @@
         </form>
     </div>
     
-
+    <?php
+        include "includes/mostrar_boletines_admin.php";
+    ?>
 
     <script>
     // Obtener elementos del DOM
