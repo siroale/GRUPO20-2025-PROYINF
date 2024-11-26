@@ -57,7 +57,7 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
 				$_SESSION['user_id'] = $user['id_usuario'];
 				$_SESSION['user_name'] = $user['nombre'];
 				$_SESSION['user_type'] = $user['tipo_usuario'];
-				header("Location: generar.php");
+				header("Location: boletines.php");
 				exit;
 			} else {
 				// Usuario no registrado, inserta en la base de datos y luego inicia sesión
@@ -86,7 +86,7 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
 					$_SESSION['user_id'] = $user['id_usuario'];
 					$_SESSION['user_name'] = $user['nombre'];
 					$_SESSION['user_type'] = $user['tipo_usuario'];
-					header("Location: generar.php");
+					header("Location: boletines.php");
 					exit;
 				} else {
 					echo "Hubo un error al registrar el usuario.";

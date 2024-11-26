@@ -40,7 +40,7 @@ if (password_verify($password, $user['password'])) {
     //echo "Inicio de sesión exitoso. Bienvenido, " . $user['nombre'] . "!";
     
     if ($user['tipo_usuario'] == 'normal'){
-        header("Location: generar.php");    
+        header("Location: boletines.php");    
     }
     if ($user['tipo_usuario'] == 'admin'){
         header("Location: creacion.php");    
