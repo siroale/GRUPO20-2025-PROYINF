@@ -149,7 +149,7 @@
     </div>
     
     <?php
-        include "includes/mostrar_boletines_admin.php";
+        include "mostrar_boletines_admin.php";
     ?>
 
     <script>

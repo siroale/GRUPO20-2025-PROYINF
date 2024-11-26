@@ -199,7 +199,7 @@ ALTER TABLE `boletin_fuente`
 -- Filtros para la tabla `descarga`
 --
 ALTER TABLE `descarga`
-  ADD CONSTRAINT `fk_descargas_boletines1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`),
+  ADD CONSTRAINT `fk_descargas_boletines1` FOREIGN KEY (`id_boletin`) REFERENCES `boletin` (`id_boletin`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_descargas_usuarios1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 COMMIT;
 

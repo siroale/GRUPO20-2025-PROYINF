@@ -10,6 +10,7 @@ $nombre = $_POST['name'];
 $tipo_usuario = 'normal';
 $fecha_registro = date('Y-m-d H:i:s');
 $confirm_password = $_POST['confirm_password'];
+$usuario_google = 0;
 
 
 // Verificar si las contraseñas coinciden
@@ -32,8 +33,8 @@ if ($query->rowCount() > 0) {
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 try{
-    $sql = "INSERT INTO usuario (email, nombre, password, tipo_usuario, fecha_registro) 
-                VALUES (:email, :nombre, :password, :tipo_usuario, :fecha_registro)";
+    $sql = "INSERT INTO usuario (email, nombre, password, tipo_usuario, fecha_registro, usuario_google) 
+                VALUES (:email, :nombre, :password, :tipo_usuario, :fecha_registro, :usuario_google)";
 
     // Insertar nuevo usuario en la base de datos
     $insertQuery = $conn->prepare($sql);
@@ -42,6 +43,7 @@ try{
     $insertQuery->bindParam(':password', $hashedPassword);
     $insertQuery->bindParam(':tipo_usuario', $tipo_usuario);
     $insertQuery->bindParam(':fecha_registro', $fecha_registro);
+    $insertQuery->bindParam(':usuario_google', $usuario_google);
 
     if ($insertQuery->execute()) {
         //Registro exitoso.

@@ -1,5 +1,5 @@
 <?php
-require 'dbinc.php';
+require 'includes/dbinc.php';
 
 try {
     // Preparar la consulta
@@ -88,7 +88,7 @@ try {
                                 </div>
 
                                 <!-- Formulario de actualización -->
-                                <form id='form-actualizar-<?= $id_boletin ?>' class='update-form' method='POST' action='includes/actualizar_archivo.php' enctype='multipart/form-data'>
+                                <form id='form-actualizar-<?= $id_boletin ?>' class='update-form' method='POST' action='actualizar_archivo.php' enctype='multipart/form-data'>
                                     <input type='hidden' name='id_boletin' value='<?= $id_boletin ?>'>
                                     
                                     <label for='nuevo_titulo-<?= $id_boletin ?>'>Nuevo Título:</label>

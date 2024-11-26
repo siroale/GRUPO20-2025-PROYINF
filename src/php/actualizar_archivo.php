@@ -1,5 +1,5 @@
 <?php
-require 'dbinc.php';
+require 'includes/dbinc.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_boletin = $_POST['id_boletin'];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ruta_actual = $boletin['ruta_archivo'];
 
         // Mover el nuevo archivo al directorio deseado
-        $upload_dir = '../../uploads/';
+        $upload_dir = '../uploads/';
         $nombre_ruta = uniqid() . '-' . basename($nuevo_archivo['name']);
         $nueva_ruta = $upload_dir . $nombre_ruta;
 

@@ -1,35 +1,14 @@
 <?php
+session_start();
 include "includes/dbinc.php";
 
-// Check if a search keyword is provided
-$search_keyword = isset($_GET['keywords']) ? trim($_GET['keywords']) : '';
-
-// Base query with search condition
+// Consulta base de datos para boletines activos
 $consulta_datos_boletines = "SELECT b.id_boletin, b.ruta_archivo, b.fecha_publicacion, b.titulo, b.descripcion, b.estado, u.nombre AS subido_por 
-    FROM boletin b
-    JOIN usuario u ON b.subido_por = u.id_usuario
-    WHERE b.estado = 'activo'";
-
-// Add search conditions if keyword is provided
-if (!empty($search_keyword)) {
-    $consulta_datos_boletines .= " AND (
-        b.titulo LIKE :keyword OR 
-        b.descripcion LIKE :keyword
-    )";
-}
-
-// Add ordering
-$consulta_datos_boletines .= " ORDER BY b.fecha_publicacion DESC";
-
-// Prepare and execute the statement
+        FROM boletin b
+        JOIN usuario u ON b.subido_por = u.id_usuario
+        WHERE b.estado = 'activo'
+        ORDER BY b.fecha_publicacion DESC";
 $datos_boletines = $conn->prepare($consulta_datos_boletines);
-
-// Bind parameters if keyword is not empty
-if (!empty($search_keyword)) {
-    $search_param = "%{$search_keyword}%";
-    $datos_boletines->bindParam(':keyword', $search_param, PDO::PARAM_STR);
-}
-
 $datos_boletines->execute();
 $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -194,20 +173,20 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="col-md-4 col-xs-12 tr-buscador">
                         <div id="tr_buscador">
-							<form name="searchForm" action="" method="GET" class="buscador_portada">
-								<fieldset>
-									<legend title="buscador" class="hidden sr-only invisible oculto">Buscador general</legend>
-									<div class="input-group input-group-md">
-										<label for="keywords" class="hidden sr-only invisible oculto">Buscar</label>
-										<input class="form-control" id="keywords" type="text" name="keywords" value="<?php echo htmlspecialchars($search_keyword); ?>" size="40" placeholder="BUSCAR">
-										<span class="input-group-btn">
-											<label for="boton_busqueda" class="hidden sr-only invisible oculto">Botón de búsqueda</label>
-											<button type="submit" id="boton_busqueda" class="btn btn-link btn-xs"><i class="bi bi-search h3"></i></button>
-										</span>
-									</div>
-								</fieldset>
-							</form>
-						</div>
+                            <form name="searchForm" action="https://opia.fia.cl/601/w3-propertyvalue-148969.html" onsubmit="doSearch(); return false;" class="buscador_portada">
+                                <fieldset>
+                                    <legend title="buscador" class="hidden sr-only invisible oculto">Buscador general</legend>
+                                    <div class="input-group input-group-md">
+                                        <label for="keywords" class="hidden  sr-only  invisible oculto">Buscar</label>
+                                        <input class="form-control" id="keywords" type="text" name="keywords" value="" size="40" placeholder="BUSCAR">
+                                        <span class="input-group-btn">
+                <label for="boton_busqueda" class="hidden sr-only invisible oculto">Botón de búsqueda</label>
+                <button type="submit" id="boton_busqueda" class="btn btn-link btn-xs" onclick="doSearch(); return false;"><i class="bi bi-search h3"></i></button>
+              </span>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -340,22 +319,37 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
                                 
                                 <div class="recuadro media">
                                     <div class="figure pull-left recurso-con-borde cid-<?php echo $id_boletin; ?> aid-<?php echo $id_boletin; ?> binary-archivo_01 format-pdf">
-                                    <a href="<?php echo $ruta_archivo; ?>" title="<?php echo $titulo; ?>">
-                                        <img src="../images/boletines/articles-126033_archivo_01.thumb_miniThumb.jpg"
-                                            alt="<?php echo $titulo; ?>" 
-                                            title="<?php echo $titulo; ?>">
-                                    </a>
+                                    <form action="procesar_visitas.php" method="POST">
+                                        <input type="hidden" name="id_boletin" value="<?php echo $id_boletin; ?>">
+                                        <input type="hidden" name="ruta_archivo" value="<?php echo $ruta_archivo; ?>">
+                                        <button type="submit" title="<?php echo $titulo; ?>">
+                                            <img src="../images/boletines/articles-126033_archivo_01.thumb_miniThumb.jpg"
+                                                alt="<?php echo $titulo; ?>"
+                                                title="<?php echo $titulo; ?>">
+                                        </button>
+                                    </form>
+
                                     </div>
                                     <span class="small cid-<?php echo $id_boletin; ?> aid-<?php echo $id_boletin; ?> pnid-530 iso8601-<?php echo str_replace('-', '', $fecha_publicacion); ?>T0000000300"><?php echo $fecha_publicacion; ?></span>
                                     <div class="media-body">
                                     <h2 class="titulo aid-<?php echo $id_boletin; ?> cid-<?php echo $id_boletin; ?> media-heading">
-                                        <a href="<?php echo $ruta_archivo; ?>"><?php echo $titulo; ?></a>
+                                    <form action="procesar_visitas.php" method="POST" style="display: inline;">
+                                        <input type="hidden" name="id_boletin" value="<?php echo $id_boletin; ?>">
+                                        <input type="hidden" name="ruta_archivo" value="<?php echo $ruta_archivo; ?>">
+                                        <button type="submit" style="background: none; border: none; padding: 0; color: inherit; font-size: inherit; text-align: left; cursor: pointer;">
+                                                <?php echo $titulo; ?>
+                                        </button>
+                                    </form>
                                     </h2>
                                     <h5 class = "abstract aid-126720 cid-501"> <?php echo $descripcion; ?></h5>
                                     <!-- <p class="small">Autor: </p> -->
                                     <span class="pv-branch pnid-721 cid-501">
                                         <span class="pnid-721 pv-pid-0 pvid-149116 cid-501">Escrito por <?php echo $subido_por; ?>, perteneciente a FIA</span>
                                     </span>
+                                    <form action="registrar_descarga.php" method="GET" style="display: inline;">
+                                        <input type="hidden" name="id_boletin" value="<?php echo $id_boletin; ?>">
+                                        <button type="submit" style="margin-left: 5px;">Descargar</button>
+                                    </form>
                                     </div>
             
                                 </div>
@@ -873,6 +867,48 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
         });
         					-->
     </script>
+    <!--end-box-->
+    <!--begin-box:js_VigiFIA::1519:Scripts para Antena, ahora llamado VigiFIA.-->
+    <!--loc('* Código JavaScript para la página.')-->
+    <script type="text/javascript">
+        <!--
+        					$(function(){
+          $('#ar_tendencias_recurso p').wrapAll('<div class="col-md-8 col-xs-6"></div>');
+          
+          /* 1. Aquí hay que agrupar todos los hijos de la caja con id recuadros_articulo_1608 
+          con el estilo "col-lg-9" excepto el índice creado con ul.indice  */
+          
+          
+          /* 2. Envolver el índice (wrapAll) en un col-lg-3 */
+          
+          $('#recuadros_articulo_1608 ul.indice').wrapAll('<div class="lista-menu lista-colapsable" id="lista-menu"></div>');
+          
+          $('#recuadros_articulo_1608').children().not("ul").wrapAll("<div></div>"); 
+          
+          
+          /*$('#recuadros_articulo_1608 ul.indice').wrapAll('<div class="lista-menu lista-colapsable" id="lista-menu"></div>');
+          $('#lista-menu').wrapAll('<div class="col-md-12" id="menu-lateral-centros"></div>');
+          $('#menu-lateral-centros').wrapAll('<div class="row margen-abajo-md" id="menu-lateral-row"></div>');
+          $('#menu-lateral-row').wrapAll('<div class="col-lg-3" id="menu-lateral-col-3"></div>');
+          $('#menu-lateral-col-3').wrapAll('<div class="row" id="menu-lateral-parent-row"></div>');*/
+          
+          
+          
+          
+        
+          /*$('#recuadros_articulo_1608 :not(:first-child)').wrap('<div class="asdf"></div>');*/
+          /*$('#recuadros_articulo_1608').children().not("<ul>").wrapAll("<div class="col-12"></div>"); */
+          
+        
+          
+          $('#recuadros_articulo_1608 ul.indice').addClass('list-group nivel-1');
+          $('#recuadros_articulo_1608 ul.indice li').addClass('list-group-item');
+        });
+        
+        
+        					-->
+    </script>
+    <!--end-box-->
 </body>
 
 </html>
