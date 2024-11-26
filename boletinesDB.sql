@@ -31,7 +31,7 @@ CREATE TABLE `boletin`(
   `id_boletin` int(11) NOT NULL,
   `ruta_archivo` varchar(600) NOT NULL,
   `titulo` varchar(100) NOT NULL,
-  `descripcion` varchar(45) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
   `fecha_publicacion` date NOT NULL,
   `estado` varchar(45) NOT NULL,
   `subido_por` int(11) NOT NULL,
