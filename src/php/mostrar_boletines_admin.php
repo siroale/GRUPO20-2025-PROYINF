@@ -3,9 +3,20 @@ require 'includes/dbinc.php';
 
 try {
     // Preparar la consulta
-    $sql = "SELECT b.id_boletin, b.ruta_archivo, b.fecha_publicacion, b.titulo, b.descripcion, b.estado, b.veces_visitado, u.nombre AS subido_por 
-    FROM boletin b
-    JOIN usuario u ON b.subido_por = u.id_usuario";
+    $sql = "SELECT 
+            b.id_boletin, 
+            b.ruta_archivo, 
+            b.fecha_publicacion, 
+            b.titulo, 
+            b.descripcion, 
+            b.estado, 
+            b.veces_visitado, 
+            u.nombre AS subido_por, 
+            COUNT(d.id_descarga) AS veces_descargado
+        FROM boletin b
+        JOIN usuario u ON b.subido_por = u.id_usuario
+        LEFT JOIN descarga d ON b.id_boletin = d.id_boletin
+        GROUP BY b.id_boletin";
     $stmt = $conn->prepare($sql);
 
     // Ejecutar la consulta
@@ -42,6 +53,7 @@ try {
                         <th>Descripción</th>
                         <th>Estado</th>
                         <th>Veces Visitado</th>
+                        <th>Veces Descargado</th>
                         <th>Subido por</th>
                         <th>Acciones</th>
                     </tr>
@@ -57,6 +69,7 @@ try {
                             <td><?= htmlspecialchars($boletin['descripcion']) ?></td>
                             <td><?= htmlspecialchars($boletin['estado']) ?></td>
                             <td><?= htmlspecialchars($boletin['veces_visitado']) ?></td>
+                            <td><?= htmlspecialchars($boletin['veces_descargado']) ?></td>
                             <td><?= htmlspecialchars($boletin['subido_por']) ?></td>
                             <td>
                                 <div class="action-buttons">
