@@ -2,7 +2,6 @@
     session_start();
 
     include "includes/dbinc.php";
-    include "includes/mostrar_boletines_admin.php";
     include "includes/eliminar_boletin.php";
 /*   
     Este pedazo sirve para verificar si el usuario es admin, descomentarlo luego, supongo.
@@ -111,8 +110,8 @@
                     <input class="input_field" type="text" name="descripcion" required>
                 </div>
 
-                <p class="modal-description">Adjunta un archivo debajo</p>
-                <button id="uploadArea" class="upload-area">
+                <p class="modal-description">Adjunte un archivo debajo</p>
+                <div id="uploadArea" class="upload-area">
                     <input type="file" id="fileInput" name="file" accept="application/pdf" style="display: none;" required>
                     <span class="upload-area-icon">
                         <svg
@@ -133,13 +132,11 @@
                         </g>
                         </svg>
                     </span>
-                    <span class="upload-area-title">Drag file(s) here to upload.</span>
-                    <span class="upload-area-description">
-                        Alternatively, you can select a file by <br /><strong
-                        >clicking here</strong
-                        >
+                    <span class="upload-area-title">Arrastre un archivo para subirlo</span>
+                    <span class="upload-area-description"> 
+                        Tambien puede seleccionar un archivo haciendo <strong> click </strong>
                     </span>
-                </button>
+                </div>
                 <div id="uploadDone" style="display: none;">
                     <div id="previewArea" class="preview-area">
                     </div>
@@ -151,82 +148,49 @@
         </form>
     </div>
     
+    <?php
+        include "includes/mostrar_boletines_admin.php";
+    ?>
 
-
-    <!-- Scripts para controlar el modal -->
     <script>
-        // Obtener elementos del DOM
-        var modal = document.getElementById("uploadModal");
-        var openModalBtn = document.getElementById("openModalBtn");
-        var closeModalBtn = document.getElementById("closeModalBtn");       
-        var uploadArea = document.getElementById("uploadArea");
-        var fileInput = document.getElementById("fileInput");
-        var uploadDone = document.getElementById("uploadDone");
+    // Obtener elementos del DOM
+    var modal = document.getElementById("uploadModal");
+    var openModalBtn = document.getElementById("openModalBtn");
+    var closeModalBtn = document.getElementById("closeModalBtn");       
+    var uploadArea = document.getElementById("uploadArea");
+    var fileInput = document.getElementById("fileInput");
+    var uploadDone = document.getElementById("uploadDone");
+    var previewArea = document.getElementById('previewArea');
 
-        // Abrir el modal al hacer clic en el botón "Upload"
-        openModalBtn.onclick = function() {
-            modal.style.display = "block";
-        }
 
-        // Cerrar el modal al hacer clic en el botón de cerrar
-        closeModalBtn.onclick = function() {
-            modal.style.display = "none";
-        }
+    // Función para resetear el área de subida de archivos
+    function resetFileUpload() {
+        // Limpiar el input de archivos
+        fileInput.value = '';
 
-        uploadArea.onclick = function() {
-            fileInput.click();
-        }
+        // Limpiar la vista previa
+        previewArea.innerHTML = '';
 
-        // Funcionalidad Drag & Drop
-        uploadArea.addEventListener('dragover', (event) => {
-            event.preventDefault();
-            uploadArea.classList.add('drag-over');  // Resaltar el área
-        });
+        // Ocultar la vista de archivo subido
+        uploadDone.style.display = 'none';
 
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('drag-over');  // Quitar el resaltado
-        });
+        // Mostrar de nuevo el área de subida
+        uploadArea.style.display = 'flex';
+    }
 
-        uploadArea.addEventListener('drop', (event) => {
-            event.preventDefault();
-            uploadArea.classList.remove('drag-over');  // Quitar el resaltado
 
-            // Obtener los archivos arrastrados
-            const files = event.dataTransfer.files;
+    // Función para mostrar la previsualización del archivo
+    function showFilePreview(file) {
+        previewArea.innerHTML = '';  // Limpiar cualquier vista previa anterior
 
-            // Asignar el archivo arrastrado al input de archivo
-            fileInput.files = files;
+        if (file) {
+            const fileType = file.type;
+            const fileName = file.name;
+            const icon = document.createElement('div');
+            icon.classList.add('preview-icon');
 
-            // Forzar el disparo del evento 'change' para manejar la vista previa del archivo
-            fileInput.dispatchEvent(new Event('change'));
-
-            // Ocultar área de subida y mostrar la vista previa
-            uploadArea.style.display = 'none';
-            uploadDone.style.display = 'block';
-        });
-
-        fileInput.onchange = function(event) {
-            const file = event.target.files[0];
-            const previewArea = document.getElementById('previewArea');
-            previewArea.innerHTML = '';  // Limpiar cualquier vista previa anterior
-
-            if (file) {
-                const fileType = file.type;
-
-                // Si es una imagen, mostramos una miniatura
-                if (fileType.startsWith('image/')) {
-                    const img = document.createElement('img');
-                    img.src = URL.createObjectURL(file);
-                    previewArea.appendChild(img);
-                }
-                // Si no es una imagen, mostramos un icono genérico
-                else {
-                    const icon = document.createElement('div');
-                    icon.classList.add('preview-icon');
-
-                    // Dependiendo del tipo de archivo, puedes cambiar el ícono
-                    if (fileType === 'application/pdf') {
-                        icon.innerHTML = `<svg height="50px" width="50px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+            if (fileType === 'application/pdf') {
+                icon.innerHTML = `<svg height="50px" width="50px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                                         viewBox="0 0 303.188 303.188" xml:space="preserve">
                                         <g>
                                         <polygon style="fill:#E8E8E8;" points="219.821,0 32.842,0 32.842,303.188 270.346,303.188 270.346,50.525 	"/>
@@ -269,20 +233,74 @@
                                         <polygon style="fill:#D1D3D3;" points="219.821,50.525 270.346,50.525 219.821,0 	"/>
                                         </g>
                                     </svg>
-                                    <div id="file-name-display" class = "nombre-submit"></div>`;
-                    } else {
-                        icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M14 4V3H9.5a1.5 1.5 0 0 1-1.415-.997L7.09 0H2v8h4v1H2v1h4v1H2v2h12V7h-2v1h-1V6h-1V5h1v1h1v1h2V4z"/>
-                                        </svg>`;
-                    }
-                    previewArea.appendChild(icon);
-                }
+                                <div id="file-name-display" class="nombre-submit">${fileName}</div>`;
+            } else {
+                icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M14 4V3H9.5a1.5 1.5 0 0 1-1.415-.997L7.09 0H2v8h4v1H2v1h4v1H2v2h12V7h-2v1h-1V6h-1V5h1v1h1v1h2V4z"/>
+                </svg>
+                <div id="file-name-display" class="nombre-submit">${fileName}</div>`;
             }
+            previewArea.appendChild(icon);
+
+            // Ocultar área de subida y mostrar la vista previa
+            uploadArea.style.display = 'none';
+            uploadDone.style.display = 'block';
         }
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            var fileName = event.target.files[0].name; // Obtiene el nombre del archivo
-            document.getElementById('file-name-display').textContent = fileName; // Actualiza el contenido del div
-        });
-    </script>
+    }
+
+    // Abrir el modal al hacer clic en el botón "Upload"
+    openModalBtn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // Modificar el botón de cerrar para incluir el reset
+    closeModalBtn.onclick = function() {
+        // Resetear el área de subida de archivos
+        resetFileUpload();
+
+        // Ocultar el modal
+        modal.style.display = "none";
+    }
+
+    // Al hacer clic en el área de subida, abrir selector de archivos
+    uploadArea.onclick = function() {
+        fileInput.click();
+    }
+
+    // Funcionalidad Drag & Drop
+    uploadArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        uploadArea.classList.add('drag-over');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('drag-over');
+    });
+
+    uploadArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        uploadArea.classList.remove('drag-over');
+
+        const files = event.dataTransfer.files;
+        fileInput.files = files;
+
+        // Mostrar la previsualización del archivo arrastrado
+        showFilePreview(files[0]);
+    });
+
+    // resetear si se cancela la subida de archivos
+    if (document.getElementById('cancelUploadBtn')) {
+        document.getElementById('cancelUploadBtn').onclick = function() {
+            resetFileUpload();
+            modal.style.display = "none";
+        }
+    }
+
+    // Cuando se selecciona un archivo mediante clic
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        showFilePreview(file);
+    });
+</script>
 
 </body>
