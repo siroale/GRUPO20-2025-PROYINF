@@ -1,18 +1,32 @@
 <?php
-session_start();
 include "includes/dbinc.php";
 
-// Consulta base de datos para boletines activos
+// Check if a search keyword is provided
+$search_keyword = isset($_GET['keywords']) ? trim($_GET['keywords']) : '';
+// Base query with search condition
 $consulta_datos_boletines = "SELECT b.id_boletin, b.ruta_archivo, b.fecha_publicacion, b.titulo, b.descripcion, b.estado, u.nombre AS subido_por 
-        FROM boletin b
-        JOIN usuario u ON b.subido_por = u.id_usuario
-        WHERE b.estado = 'activo'
-        ORDER BY b.fecha_publicacion DESC";
+    FROM boletin b
+    JOIN usuario u ON b.subido_por = u.id_usuario
+    WHERE b.estado = 'activo'";
+// Add search conditions if keyword is provided
+if (!empty($search_keyword)) {
+    $consulta_datos_boletines .= " AND (
+        b.titulo LIKE :keyword OR 
+        b.descripcion LIKE :keyword
+    )";
+}
+// Add ordering
+$consulta_datos_boletines .= " ORDER BY b.fecha_publicacion DESC";
+// Prepare and execute the statement
 $datos_boletines = $conn->prepare($consulta_datos_boletines);
+// Bind parameters if keyword is not empty
+if (!empty($search_keyword)) {
+    $search_param = "%{$search_keyword}%";
+    $datos_boletines->bindParam(':keyword', $search_param, PDO::PARAM_STR);
+}
 $datos_boletines->execute();
 $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/html401-rdfa11-1.dtd">
@@ -173,20 +187,20 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="col-md-4 col-xs-12 tr-buscador">
                         <div id="tr_buscador">
-                            <form name="searchForm" action="https://opia.fia.cl/601/w3-propertyvalue-148969.html" onsubmit="doSearch(); return false;" class="buscador_portada">
-                                <fieldset>
-                                    <legend title="buscador" class="hidden sr-only invisible oculto">Buscador general</legend>
-                                    <div class="input-group input-group-md">
-                                        <label for="keywords" class="hidden  sr-only  invisible oculto">Buscar</label>
-                                        <input class="form-control" id="keywords" type="text" name="keywords" value="" size="40" placeholder="BUSCAR">
-                                        <span class="input-group-btn">
-                <label for="boton_busqueda" class="hidden sr-only invisible oculto">Botón de búsqueda</label>
-                <button type="submit" id="boton_busqueda" class="btn btn-link btn-xs" onclick="doSearch(); return false;"><i class="bi bi-search h3"></i></button>
-              </span>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
+							<form name="searchForm" action="" method="GET" class="buscador_portada">
+								<fieldset>
+									<legend title="buscador" class="hidden sr-only invisible oculto">Buscador general</legend>
+									<div class="input-group input-group-md">
+										<label for="keywords" class="hidden sr-only invisible oculto">Buscar</label>
+										<input class="form-control" id="keywords" type="text" name="keywords" value="<?php echo htmlspecialchars($search_keyword); ?>" size="40" placeholder="BUSCAR">
+										<span class="input-group-btn">
+											<label for="boton_busqueda" class="hidden sr-only invisible oculto">Botón de búsqueda</label>
+											<button type="submit" id="boton_busqueda" class="btn btn-link btn-xs"><i class="bi bi-search h3"></i></button>
+										</span>
+									</div>
+								</fieldset>
+							</form>
+						</div>
                     </div>
                 </div>
             </div>
@@ -460,128 +474,6 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-    <!--end-box-->
-    <!--begin-box:JS_igualar_altura_columnas_info_apoyo::1364:calcula e iguala las alturas de los seleccionados-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript" src="../js/boletines/boxes-1364_js_file.js.download"></script>
-    <!--end-box-->
-    <!--begin-box:JS_bootstrap::605:Carga los javascript necesarios para que funcionen los plugines Bootstrap-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript" src="../js/boletines/boxes-605_js_file.js.download"></script>
-    <!--end-box-->
-    <!--begin-box-container:opia22_JS_boot_engine_cc::1555:- - -->
-    <!--loc('Caja contenedora')-->
-    <!--pos=1-->
-    <!--begin-box:opia22_js_boot_engine::1556:ntg_add_class
- doSearch-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript" src="../js/boxes-1556_js_file.js.download"></script>
-    <script type="text/javascript">
-        <!--
-        					//Modificado el 30-05-2022
-        $(function() {
-          ntg_add_class();
-          $('#tr_buscador').on('shown.bs.collapse', function() {
-            $("#keywords").focus();
-          });
-          $('.recuadros-recursos .format-aif').addClass('format-mp3');
-          //Para remover el width de las imágenes
-          $(".caption").removeAttr("style");
-          $(".figure p, .figure span").removeAttr("style");
-          //Valores antena
-          //$( '#pa_valores_antenas > a').wrapAll('<li class="breadcrumb-item"></li>');
-          $('#pa_valores_antenas > a').each(function() {
-            $(this).wrapAll("<li class='text-center'></li>");
-          });
-          //Adición de iconos para los títulos de caja
-          $('.pandora-bi-icon-calendar, .bi-icon-calendar .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-calendar3'></i></span>");
-          });
-          $('.pandora-bi-icon-files, .bi-icon-files .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-files'></i></span>");
-          });
-          $('.pandora-bi-icon-map, .bi-icon-map .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-map'></i></span>");
-          });
-          $('.pandora-bi-icon-fb, .bi-icon-fb .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-facebook'></i></span>");
-          });
-          $('.pandora-bi-icon-tags, .bi-icon-tags .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-tags'></i></span>");
-          });
-          $('.pandora-bi-icon-ellipsis, .bi-icon-ellipsis .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-three-dots'></i></span>");
-          });
-          $('.pandora-bi-icon-news, .bi-icon-news .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-newspaper'></i></span>");
-          });
-          $('.pandora-bi-icon-compass, .bi-icon-compass .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-compass'></i></span>");
-          });
-          $('.pandora-bi-icon-chat, .bi-icon-chat .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-chat-dots'></i></span>");
-          });
-          $('.pandora-bi-icon-quote, .bi-icon-quote .ntg-titulo-caja').each(function() {
-            $(this).prepend("<span class='icon-bg-circle'><i class='bi bi-quote'></i></span>");
-          });
-          //Agrega icono a bototnes de excel en BP
-          $('.bp-resultado-busqueda .buttons-excel').each(function() {
-            $(this).prepend("<i class='bi bi-file-earmark-excel'></i>");
-          });
-          //Para agrupar las descrpciones de portadilla cuando es más de una
-          $('#opia22_encabezado .descripcion').removeClass("margen-abajo-md col-sm-10 col-sm-offset-1");
-          $('#opia22_encabezado .descripcion').wrapAll("<div class='descripcion-container col-sm-10 col-sm-offset-1'></div>");
-          //Para cambiar el estilo de los botones verdes que están en los tabs #tabs_oportunidades_content  pull-right btn btn-verde-claro
-          $('#tabs_oportunidades_content .tab-pane  p.ntg-remove-class,' +
-            '#btn_acceso_archivo_noticias,'+
-            '#ar_tendencias_recurso .ntg-remove-class').removeClass("btn btn-verde-claro btn-sm format-pdf");
-          $('#tabs_oportunidades_content > .tab-pane >  p.ntg-remove-class > a,' +
-            '#btn_acceso_archivo_noticias > a,' +
-            '#ar_tendencias_recurso .ntg-remove-class a').addClass("btn btn-default");
-          //Archivos de los eidox #ar_recursos_caption
-          $('#ar_recursos_caption .media').each(function() {
-            $("a", this).wrapAll("<div class='media-left'></div>");
-            $(".titulo-recurso", this).wrapAll("<div class='media-body'></div>");
-          });
-          //Para garegar un título de caja a: #
-          $('#calendarizacion_oportunidad').each(function() {
-            $(this).prepend("<h2 class='ntg-titulo-caja titulo-caja'><span class='icon-bg-circle'><i class='bi bi-calendar'></i></span> Calendarización</h2>");
-          });
-          // Marca active "Comunidad" del menú principalpal en la portada de la comunidad
-          $('.portada-comunidad #header #navbar-collapse-1  .navbar-left li:nth-child(5n)').addClass('active');
-          // Marca el active "Mi página" cuando estoy en la portadilla privada
-          $('.portadilla-mi-pagina #header #navbar-collapse-1 .nav-item-mi-pagina').addClass('active');
-          // Borra el active y current al botón Volver a Mi página
-          $('#link_clasificandoi__paMiPagina_Acciones_MiPagina_1 > a').removeClass('current active');
-        });
-        					-->
-    </script>
-    <!--end-box-->
-    <!--pos=2-->
-    <!--begin-box:js_add_class_caller::865:Caja para activar la función ntg_add_class-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <!--end-box-->
-    <!--pos=3-->
-    <!--begin-box:js_colapsable_list::948:inicializa colapsable list-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript" src="../js/boletines/boxes-948_js_file.js.download"></script>
-    <!--end-box-->
-    <!--pos=4-->
-    <!--begin-box:js_post_comunidad::1176:- - -->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript">
-        <!--
-        					$(document).ready(function(){
-          // wrap all
-        	$(".recuadros-post-comunidad .recuadro").each(function(){   
-        			$( ".titulo,.abstract,.epigrafe,h6,h2,h3,h1,.btn,p",this )
-        			.wrapAll ( "<div class='media-body'></div>" );  
-        	});  
-        });
-        					-->
-    </script>
-    <!--end-box-->
-    <!--end-box-->
 
     <script type="text/javascript">
         //<![CDATA[
@@ -607,308 +499,6 @@ $boletines = $datos_boletines->fetchAll(PDO::FETCH_ASSOC);
         
         //]]>
     </script>
-    <!--end-box-->
-    <!--begin-box:ar_opia_redesblank:redes-blank:1252:Abre compartir RRSS en nueva ventana-->
-    <!--loc('* Incluye script para personalizar comportamiento de links')-->
-    <script type="text/javascript">
-        <!--
-        $(document).ready(function(){$('a.redes-blank').click(function(){window.open(this.href,'_blank','resizable=0,menubar=0,location=0,status=0,scrollbars=0,toolbar=0,width=800,height=600');return false});});
-        -->
-    </script>
-    <!--end-box-->
-    <!--begin-box:js_ntg_frames_simple_filter_lib::1342:Caja en blanco-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript" src="../js/boletines/boxes-1342_js_file.js.download"></script>
-    <!--end-box-->
-    <!--begin-box:js_ntg_frames_simple_filter_listado_centros_investigacion_init::1625:Inicializacion para directorios-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript">
-        <!--
-        					$(function(){
-        	$("#listado_centros_investigacion").each(function(i,dir){
-        		$(dir).ntg_frames_simple_filter({
-                  	"itemSelector": ".recuadro",
-        			"grupoSelector": ".grupo",
-        			"keyThreshold": 0,
-        			"grupoChange": function( grupos) {
-        				$(grupos).each(function(i,grupo){
-        					var frames = $(".recuadro",grupo).filter(function(){
-        						return this.style.display.indexOf("none") == -1
-        					});
-        					$(grupo).toggle($(frames).length > 0);
-        					$(grupo).prev("h3").toggle($(frames).length > 0);
-        				});
-        			},
-        			"textoPlaceholder":"Ingrese una palabra o un año para filtrar en esta página",
-        			"countNoneText":" disponibles",
-        			"countSomeText":" filtrados",
-        			"inputInsertBeforeSelector": ">h3:first",
-        			"waiterSelector": '.ntg-waiter',
-        			"inputTemplate":
-        				'	<div class="form-group col-md-12 filtros-directorios" >'+
-        				'		<div class="input-group input-group-sm:">' +
-        				'			<span class="input-group-addon addon-search">' +
-        				'               <span class="fa fa-filter fa-lg"></span>' +
-        				'               <span class="ntg-waiter fa fa-spinner fa-spin" ></span>' +
-        				'			</span>' +
-        				'			<input class="form-control" type="text" aria-label="$textoPlaceholder" placeholder="$textoPlaceholder">' +
-        				'			<span class="input-group-addon addon-status">' +
-        				'				<span class="count">' +
-        				'				</span> ' +
-        				'				<span class="count-text">' +
-        				'				</span>' +
-        				'			</span>' +
-        				'		</div>' +
-        				'	</div>',
-        			"btnBackSpace":
-        				'<div class="input-group-btn">' +
-        				'       <button style="width:3em;height:2em;" id="backspaceBtn" class="btn btn-link border-0" >' +
-        				'   <svg version="1.1" ' +
-        				'       id="Layer_1" ' +
-        				'       xmlns="http://www.w3.org/2000/svg" ' +
-        				'       xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-        				'       x="0px" ' +
-        				'       y="0px" ' +
-        				'       viewBox="0 0 512 512" ' +
-        				'       style="enable-background:new 0 0 512 512;" ' +
-        				'       xml:space="preserve">'+
-        				'       <g>'+
-        				'           <path style="fill:#7f7f7f;fill-opacity:.5" ' +
-        				'               d="M490.667,' +
-        				'               64H133.077c-7.196,' +
-        				'               0-13.906,' +
-        				'               3.627-17.848,' +
-        				'               9.647L3.485,' +
-        				'               244.314c-4.647,' +
-        				'               7.098-4.647,' +
-        				'               16.274,' +
-        				'               0,' +
-        				'               23.372 l111.744,' +
-        				'               170.667c3.942,' +
-        				'               6.02,' +
-        				'               10.652,' +
-        				'               9.647,' +
-        				'               17.848,' +
-        				'               9.647h357.589c11.782,' +
-        				'               0,' +
-        				'               21.333-9.551,' +
-        				'               21.333-21.333V85.333 C512,' +
-        				'               73.551,' +
-        				'               502.449,' +
-        				'               64,' +
-        				'               490.667,' +
-        				'               64z M469.333,' +
-        				'               405.333H144.609L46.833,' +
-        				'               256l97.776-149.333h324.725V405.333z"/>'+
-        				'           <path  style="fill:#7f7f7f;fill-opacity:.5" ' +
-        				'               d="M198.246,' +
-        				'               356.418c8.331,' +
-        				'               8.331,' +
-        				'               21.839,' +
-        				'               8.331,' +
-        				'               30.17,' +
-        				'               0l70.248-70.248l70.248,' +
-        				'               70.248c8.331,' +
-        				'               8.331,' +
-        				'               21.839,' +
-        				'               8.331,' +
-        				'               30.17,' +
-        				'               0 s8.331-21.839,' +
-        				'               0-30.17L328.834,' +
-        				'               256l70.248-70.248c8.331-8.331,' +
-        				'               8.331-21.839,' +
-        				'               0-30.17s-21.839-8.331-30.17,' +
-        				'               0l-70.248,' +
-        				'               70.248 l-70.248-70.248c-8.331-8.331-21.839-8.331-30.17,' +
-        				'               0c-8.331,' +
-        				'               8.331-8.331,' +
-        				'               21.839,' +
-        				'               0,' +
-        				'               30.17L268.495,' +
-        				'               256l-70.248,' +
-        				'               70.248 C189.915,' +
-        				'               334.58,' +
-        				'               189.915,' +
-        				'               348.087,' +
-        				'               198.246,' +
-        				'               356.418z"/>'+
-        				'       </g>'+
-        				'   </svg>'+
-        				'       </button>' +
-        				'</div>'
-        		});
-        	});
-        });
-        					-->
-    </script>
-    <!--end-box-->
-    <!--begin-box:js_ntg_frames_simple_filter_actualidad_y_tendencias_init::1352:Inicializacion para directorios-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript" src="../js/boletines/boxes-1352_js_file.js.download"></script>
-    <!--end-box-->
-    <!--begin-box:js_ntg_frames_simple_filter_audio_init::1363:Inicializacion para directorios-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript">
-        <!--
-        					$(function(){
-        	$("#listado").each(function(i,dir){
-        		$(dir).ntg_frames_simple_filter({
-        			"keyThreshold": 0,
-        			"grupoChange": function( grupos) {
-        				$(grupos).each(function(i,grupo){
-        					var frames = $(".recuadro",grupo).filter(function(){
-        						return this.style.display.indexOf("none") == -1
-        					});
-        					$(grupo).toggle($(frames).length > 0);
-        					$('[data-spy="scroll"]').each(function () {
-        						var $spy = $(this).scrollspy('refresh');
-        					})
-        				});
-        			},
-        			"textoPlaceholder":"Ingrese una palabra o un año para filtrar en esta página",
-        			"countNoneText":" disponibles",
-        			"countSomeText":" filtrados",
-        			"inputInsertBeforeSelector": "div:first",
-        			"waiterSelector": '.ntg-waiter',
-        			"inputTemplate":
-        				'	<div class="form-group col-md-12 filtros-directorios" >'+
-        				'		<div class="input-group input-group-sm:">' +
-        				'			<span class="input-group-addon addon-search">' +
-        				'               <span class="fa fa-filter fa-lg"></span>' +
-        				'               <span class="ntg-waiter fa fa-spinner fa-spin" ></span>' +
-        				'			</span>' +
-        				'			<input class="form-control" type="text" aria-label="$textoPlaceholder" placeholder="$textoPlaceholder">' +
-        				'			<span class="input-group-addon addon-status">' +
-        				'				<span class="count">' +
-        				'				</span> ' +
-        				'				<span class="count-text">' +
-        				'				</span>' +
-        				'			</span>' +
-        				'		</div>' +
-        				'	</div>',
-        			"btnBackSpace":
-        				'<div class="input-group-btn">' +
-        				'       <button style="width:3em;height:2em;" id="backspaceBtn" class="btn btn-link border-0" >' +
-        				'   <svg version="1.1" ' +
-        				'       id="Layer_1" ' +
-        				'       xmlns="http://www.w3.org/2000/svg" ' +
-        				'       xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-        				'       x="0px" ' +
-        				'       y="0px" ' +
-        				'       viewBox="0 0 512 512" ' +
-        				'       style="enable-background:new 0 0 512 512;" ' +
-        				'       xml:space="preserve">'+
-        				'       <g>'+
-        				'           <path style="fill:#7f7f7f;fill-opacity:.5" ' +
-        				'               d="M490.667,' +
-        				'               64H133.077c-7.196,' +
-        				'               0-13.906,' +
-        				'               3.627-17.848,' +
-        				'               9.647L3.485,' +
-        				'               244.314c-4.647,' +
-        				'               7.098-4.647,' +
-        				'               16.274,' +
-        				'               0,' +
-        				'               23.372 l111.744,' +
-        				'               170.667c3.942,' +
-        				'               6.02,' +
-        				'               10.652,' +
-        				'               9.647,' +
-        				'               17.848,' +
-        				'               9.647h357.589c11.782,' +
-        				'               0,' +
-        				'               21.333-9.551,' +
-        				'               21.333-21.333V85.333 C512,' +
-        				'               73.551,' +
-        				'               502.449,' +
-        				'               64,' +
-        				'               490.667,' +
-        				'               64z M469.333,' +
-        				'               405.333H144.609L46.833,' +
-        				'               256l97.776-149.333h324.725V405.333z"/>'+
-        				'           <path  style="fill:#7f7f7f;fill-opacity:.5" ' +
-        				'               d="M198.246,' +
-        				'               356.418c8.331,' +
-        				'               8.331,' +
-        				'               21.839,' +
-        				'               8.331,' +
-        				'               30.17,' +
-        				'               0l70.248-70.248l70.248,' +
-        				'               70.248c8.331,' +
-        				'               8.331,' +
-        				'               21.839,' +
-        				'               8.331,' +
-        				'               30.17,' +
-        				'               0 s8.331-21.839,' +
-        				'               0-30.17L328.834,' +
-        				'               256l70.248-70.248c8.331-8.331,' +
-        				'               8.331-21.839,' +
-        				'               0-30.17s-21.839-8.331-30.17,' +
-        				'               0l-70.248,' +
-        				'               70.248 l-70.248-70.248c-8.331-8.331-21.839-8.331-30.17,' +
-        				'               0c-8.331,' +
-        				'               8.331-8.331,' +
-        				'               21.839,' +
-        				'               0,' +
-        				'               30.17L268.495,' +
-        				'               256l-70.248,' +
-        				'               70.248 C189.915,' +
-        				'               334.58,' +
-        				'               189.915,' +
-        				'               348.087,' +
-        				'               198.246,' +
-        				'               356.418z"/>'+
-        				'       </g>'+
-        				'   </svg>'+
-        				'       </button>' +
-        				'</div>'
-        		});
-        	});
-        });
-        					-->
-    </script>
-    <!--end-box-->
-    <!--begin-box:js_VigiFIA::1519:Scripts para Antena, ahora llamado VigiFIA.-->
-    <!--loc('* Código JavaScript para la página.')-->
-    <script type="text/javascript">
-        <!--
-        					$(function(){
-          $('#ar_tendencias_recurso p').wrapAll('<div class="col-md-8 col-xs-6"></div>');
-          
-          /* 1. Aquí hay que agrupar todos los hijos de la caja con id recuadros_articulo_1608 
-          con el estilo "col-lg-9" excepto el índice creado con ul.indice  */
-          
-          
-          /* 2. Envolver el índice (wrapAll) en un col-lg-3 */
-          
-          $('#recuadros_articulo_1608 ul.indice').wrapAll('<div class="lista-menu lista-colapsable" id="lista-menu"></div>');
-          
-          $('#recuadros_articulo_1608').children().not("ul").wrapAll("<div></div>"); 
-          
-          
-          /*$('#recuadros_articulo_1608 ul.indice').wrapAll('<div class="lista-menu lista-colapsable" id="lista-menu"></div>');
-          $('#lista-menu').wrapAll('<div class="col-md-12" id="menu-lateral-centros"></div>');
-          $('#menu-lateral-centros').wrapAll('<div class="row margen-abajo-md" id="menu-lateral-row"></div>');
-          $('#menu-lateral-row').wrapAll('<div class="col-lg-3" id="menu-lateral-col-3"></div>');
-          $('#menu-lateral-col-3').wrapAll('<div class="row" id="menu-lateral-parent-row"></div>');*/
-          
-          
-          
-          
-        
-          /*$('#recuadros_articulo_1608 :not(:first-child)').wrap('<div class="asdf"></div>');*/
-          /*$('#recuadros_articulo_1608').children().not("<ul>").wrapAll("<div class="col-12"></div>"); */
-          
-        
-          
-          $('#recuadros_articulo_1608 ul.indice').addClass('list-group nivel-1');
-          $('#recuadros_articulo_1608 ul.indice li').addClass('list-group-item');
-        });
-        
-        
-        					-->
-    </script>
-    <!--end-box-->
 </body>
 
 </html>

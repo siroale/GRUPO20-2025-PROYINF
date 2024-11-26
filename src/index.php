@@ -13,8 +13,8 @@ require 'php/includes/dbinc.php';
 <body>
     <h1>Indice</h1>
     <ul>
-        <li><a href="php/landing.php">Creación de Boletines</a></li>
-        <li><a href="php/generar.php">Administración de Boletines</a></li>
+        <li><a href="php/generar.php">Creación de Boletines</a></li>
+        <li><a href="php/landing.php">Administración de Boletines</a></li>
         <li><a href="php/boletines.php">Visualización de Boletines (Público)</a></li>
     </ul>
 	

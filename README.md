@@ -34,6 +34,7 @@ Las siguientes instrucciones son para levantar la página en WSL2 con Windows y 
 Una vez configurado el Docker Desktop y clonado el repositorio, ingrese dentro del WSL2 al directorio del proyecto donde se encuentra el archivo `docker-compose.yml` y ejecute el siguiente comando:
 
 ``` sh
+docker volume rm mariadb-database-grupo1 # Asegurarse de importar la base de datos actualizada
 sudo docker-compose up -d
 ```
 
@@ -43,7 +44,7 @@ Una vez terminado con el testeo puede bajar la página con:
 sudo docker-compose down
 ```
 
-Así puede acceder a la página ingresando a `http://127.0.0.1:80` y a la página de administación de base de datos en `http://127.0.0.1:8081`, el usuario `root` tiene contraseña `123`.
+Así puede acceder a la página ingresando a `http://127.0.0.1:80` y a la página de administación de base de datos en `http://127.0.0.1:8081`, el usuario `root` tiene contraseña `123`, puede tardar un poco en inicializarse completamente, por lo que si no logra acceder vuelva a intentar en un rato.
 
 Credenciales de usuario admin en la pagina:
 - Correo: admin@gmail.com
