@@ -4,7 +4,7 @@
 * Andres Aguila - 202273615-1
 * Lucas Mosquera - 202273504-k
 * Alexis Mellis - 202273557-0
-* **Tutor**: Felipe Fernández
+* **Tutor**: Sebastían Salgado
 
 ## Wiki
 
