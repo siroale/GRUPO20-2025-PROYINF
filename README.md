@@ -1,4 +1,4 @@
-# Grupo-20
+# KESSOFT
 
 * Joaquín Dominguez - 202273545-7
 * Andres Aguila - 202273615-1
