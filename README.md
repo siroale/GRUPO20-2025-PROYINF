@@ -61,7 +61,7 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 
 2. Levanta los servicios
 
-	````bash
+	```bash
 	docker-compose up --build
 	```
 
