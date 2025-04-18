@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'rest_framework',
 	'corsheaders',
+    'api',
     'conn_tester',
 ]
 
@@ -54,7 +55,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    "http://localhost:5173",
 ]
 
 ROOT_URLCONF = 'vigifia_backend.urls'
