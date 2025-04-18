@@ -40,36 +40,45 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 
 ### Estructura del proyecto
 
+```
 .
 ├── backend/ # Django + PostgreSQL
 ├── frontend/ # React + Vite + TailwindCSS + shadcn/ui
 ├── docker-compose.yml # Orquestación de servicios
 └── README.md
+```
 
 ---
 
 ### Levantar el entorno de desarrollo
 
 1. **Clona el repositorio**
+
    ```bash
    git clone <repo-url>
    cd <nombre-del-proyecto>
    ```
+
 2. Levanta los servicios
+
 	````bash
 	docker-compose up --build
 	```
 
 	Esto hará lo siguiente:
+
 	- Levanta el frontend en http://localhost:5173
 	- Levanta el backend en http://localhost:8000/api/
 	- PostgreSQL está disponible internamente como db:5432
+
 3. Primera vez con Django (backend)
 	En otra terminal:
+
 	```bash
 	docker-compose exec backend python manage.py migrate
 	docker-compose exec backend python manage.py createsuperuser
 	```
+
 4. ¡Listo!
 	- Abre tu navegador en: http://localhost:5173
 	- Accede al panel de Django en: http://localhost:8000/admin
@@ -109,6 +118,7 @@ docker-compose exec frontend bash
 ### Variables de entorno
 
 Puedes definir .env en las carpetas backend/ y frontend/ para configuración sensible. Ejemplo (backend/.env):
+
 ```env
 POSTGRES_DB=postgres
 POSTGRES_USER=admin
@@ -119,7 +129,7 @@ POSTGRES_PASSWORD=123
 
 ### Stack técnico
 
-- Frontend: React + Vite + TailwindCSS + shadcn/ui
-- Backend: Django + Django REST Framework
-- Base de datos: PostgreSQL
-- Orquestación: Docker + docker-compose
+- **Frontend:** React + Vite + TailwindCSS + shadcn/ui
+- **Backend:** Django + Django REST Framework
+- **Base de datos:** PostgreSQL
+- **Orquestación:** Docker + docker-compose
