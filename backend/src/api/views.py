@@ -2,11 +2,11 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
 from .models import Usuario, Boletin, Noticia, Fuente
 from .serializers import UsuarioSerializer, BoletinSerializer, NoticiaSerializer, FuenteSerializer
 from django.http import JsonResponse
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 def api_saludo(request):
@@ -51,9 +51,7 @@ def login_usuario(request):
                 'email': usuario.correo,
                 # Otros campos que quieras incluir en el token
             }
-            
             # Generar tokens manualmente
-            from rest_framework_simplejwt.tokens import RefreshToken
             refresh = RefreshToken()
             
             # Añadir payload al token
