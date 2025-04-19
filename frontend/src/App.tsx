@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom"
-// con alias @:
-import Home  from "./components/pages/Home"
-import About from "./components/pages/About"
+
+import Home  from "@/components/pages/Home"
+import About from "@/components/pages/About"
 
 // import del layout:
 import Layout from "./components/layout/Layout"
