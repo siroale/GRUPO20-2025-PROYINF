@@ -98,7 +98,7 @@ class Usuario(models.Model):
     contrasena = models.CharField(max_length=45)
     nombre = models.CharField(max_length=45)
     apellido = models.CharField(max_length=45)
-    foto = models.CharField(max_length=300, blank=True, null=True)
+    foto = models.CharField(max_length=300, blank=True, null=True, default='/media/profile_picture/murin.png')
 
     class Meta:
         managed = False
