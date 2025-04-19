@@ -12,7 +12,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const boletinesPorPagina = 5;
+  const boletinesPorPagina = 3;
 
   useEffect(() => {
     const fetchBoletines = async () => {
@@ -254,7 +254,6 @@ export default function Home() {
       <div className="space-y-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-2xl font-semibold">Ultimas Entradas</h3>
-          
           {!loading && boletinesFiltrados.length > 0 && (
             <div className="text-sm text-gray-500">
               Mostrando {indexOfFirstBoletin + 1}-{Math.min(indexOfLastBoletin, boletinesFiltrados.length)} de {boletinesFiltrados.length} boletines
@@ -262,7 +261,7 @@ export default function Home() {
             </div>
           )}
         </div>
-        
+
         {loading && (
           Array(3).fill().map((_, i) => (
             <div key={i} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden">
@@ -276,7 +275,7 @@ export default function Home() {
             </div>
           ))
         )}
-        
+
         {error && (
           <Alert variant="destructive">
             <AlertDescription>
@@ -284,7 +283,7 @@ export default function Home() {
             </AlertDescription>
           </Alert>
         )}
-        
+
         {!loading && boletinesFiltrados.length === 0 && (
           <div className="text-center py-10 bg-gray-50 rounded-lg">
             <Search className="mx-auto h-12 w-12 text-gray-400 mb-3" />
@@ -305,56 +304,59 @@ export default function Home() {
             )}
           </div>
         )}
-        
-        {boletinesActuales.map((boletin) => (
-          <div key={boletin.id_boletin} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-            <div className="md:w-64 h-48 bg-gray-200 flex items-center justify-center">
-              {boletin.imagen ? (
-                <img 
-                  src={boletin.imagen} 
-                  alt={`Imagen de ${boletin.titulo}`} 
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="text-gray-400 text-center p-4">
-                  <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p className="mt-2">Sin imagen</p>
+
+        {/* Contenedor con altura fija y scroll */}
+        <div className="boletines-container" style={{ height: '71vh', overflowY: 'auto' }}>
+          {boletinesActuales.map((boletin) => (
+            <div key={boletin.id_boletin} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow mb-4" style={{ minHeight: '200px' }}>
+              <div className="md:w-64 h-48 bg-gray-200 flex items-center justify-center">
+                {boletin.imagen ? (
+                  <img 
+                    src={boletin.imagen} 
+                    alt={`Imagen de ${boletin.titulo}`} 
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-center p-4">
+                    <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p className="mt-2">Sin imagen</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="p-6 flex-1">
+                <div className="flex justify-between items-start">
+                  <h4 className="text-xl font-bold mb-2 text-blue-800">{boletin.titulo}</h4>
+                  <div className="flex items-center text-gray-500 text-sm">
+                    <Eye size={16} className="mr-1" />
+                    <span>{boletin.vistas}</span>
+                  </div>
                 </div>
-              )}
+                
+                <div className="flex flex-wrap gap-4 mb-3 text-sm text-gray-600">
+                  <div className="flex items-center">
+                    <Calendar size={16} className="mr-1" />
+                    <span>{formatearFecha(boletin.fecha)}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <User size={16} className="mr-1" />
+                    <span>{getNombreAutor(boletin.autor)}</span>
+                  </div>
+                </div>
+                
+                <p className="text-gray-700 mb-4 line-clamp-3">{boletin.cuerpo}</p>
+                
+                <div className="mt-4">
+                  <Button variant="default" size="default" className="text-white">
+                    Leer más
+                  </Button>
+                </div>
+              </div>
             </div>
-            
-            <div className="p-6 flex-1">
-              <div className="flex justify-between items-start">
-                <h4 className="text-xl font-bold mb-2 text-blue-800">{boletin.titulo}</h4>
-                <div className="flex items-center text-gray-500 text-sm">
-                  <Eye size={16} className="mr-1" />
-                  <span>{boletin.vistas}</span>
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap gap-4 mb-3 text-sm text-gray-600">
-                <div className="flex items-center">
-                  <Calendar size={16} className="mr-1" />
-                  <span>{formatearFecha(boletin.fecha)}</span>
-                </div>
-                <div className="flex items-center">
-                  <User size={16} className="mr-1" />
-                  <span>{getNombreAutor(boletin.autor)}</span>
-                </div>
-              </div>
-              
-              <p className="text-gray-700 mb-4 line-clamp-3">{boletin.cuerpo}</p>
-              
-              <div className="mt-4">
-                <Button variant="default" size="default" className="text-white">
-                  Leer más
-                </Button>
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
         
         {/* Paginación mejorada */}
         {renderPagination()}
