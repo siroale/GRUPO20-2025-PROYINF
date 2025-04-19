@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 	'rest_framework',
 	'corsheaders',
     'api',
-    'conn_tester',
+    #'conn_tester', 
 ]
 
 MIDDLEWARE = [
@@ -54,9 +54,12 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
+
+CORS_ALLOW_ALL_ORIGINS = True # Pa desarrollo
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+# ]
 
 ROOT_URLCONF = 'vigifia_backend.urls'
 
@@ -111,6 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# AUTH_USER_MODEL = 'api.Usuario'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
