@@ -13,7 +13,7 @@ class Boletin(models.Model):
     titulo = models.CharField(max_length=45)
     fecha = models.DateField()
     vistas = models.IntegerField(blank=True, null=True)
-    imagen = models.CharField(max_length=300, blank=True, null=True)
+    imagen = models.CharField(max_length=300, blank=True, null=True, default = '/media/boletin/default_pic.png')
     ruta = models.CharField(max_length=300, blank=True, null=True)
     estado = models.SmallIntegerField()
     cuerpo = models.TextField(blank=True, null=True)
@@ -98,7 +98,7 @@ class Usuario(models.Model):
     contrasena = models.CharField(max_length=500)
     nombre = models.CharField(max_length=45)
     apellido = models.CharField(max_length=45)
-    foto = models.CharField(max_length=300, blank=True, null=True)
+    foto = models.CharField(max_length=300, blank=True, null=True, default='/media/profile_picture/murin.png')
 
     class Meta:
         managed = False

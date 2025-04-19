@@ -1,26 +1,26 @@
 INSERT INTO usuario (rango, correo, contrasena, nombre, apellido, foto) VALUES
-(1, 'admin@example.com', '1234', 'Juan', 'Pérez', NULL),
-(2, 'ana@example.com', 'abcd', 'Ana', 'Martínez', NULL),
-(2, 'luis@example.com', 'qwer', 'Luis', 'Gómez', NULL),
-(2, 'maria@example.com', 'pass', 'María', 'Rodríguez', NULL),
-(2, 'carlos@example.com', '0000', 'Carlos', 'López', NULL),
-(2, 'laura@example.com', 'abcd', 'Laura', 'Fernández', NULL),
-(2, 'david@example.com', 'xyz', 'David', 'Ruiz', NULL),
-(2, 'sofia@example.com', 'pass', 'Sofía', 'Morales', NULL),
-(2, 'diego@example.com', '9999', 'Diego', 'Jiménez', NULL),
-(2, 'carla@example.com', '1111', 'Carla', 'Torres', NULL);
+(1, 'admin@example.com', '1234', 'Juan', 'Pérez', '/media/profile_picture/murin.png'),
+(2, 'ana@example.com', 'abcd', 'Ana', 'Martínez', '/media/profile_picture/murin.png'),
+(2, 'luis@example.com', 'qwer', 'Luis', 'Gómez', '/media/profile_picture/murin.png'),
+(2, 'maria@example.com', 'pass', 'María', 'Rodríguez', '/media/profile_picture/murin.png'),
+(2, 'carlos@example.com', '0000', 'Carlos', 'López', '/media/profile_picture/murin.png'),
+(2, 'laura@example.com', 'abcd', 'Laura', 'Fernández', '/media/profile_picture/murin.png'),
+(2, 'david@example.com', 'xyz', 'David', 'Ruiz', '/media/profile_picture/murin.png'),
+(2, 'sofia@example.com', 'pass', 'Sofía', 'Morales', '/media/profile_picture/murin.png'),
+(2, 'diego@example.com', '9999', 'Diego', 'Jiménez', '/media/profile_picture/murin.png'),
+(2, 'carla@example.com', '1111', 'Carla', 'Torres', '/media/profile_picture/murin.png');
 
-INSERT INTO boletin (titulo, fecha, vistas, imagen, estado, cuerpo, desde, hasta, instruccion, autor) VALUES
-('Boletín 1', CURRENT_DATE, 10, NULL, 1, 'Contenido del boletín 1', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 1),
-('Boletín 2', CURRENT_DATE, 15, NULL, 1, 'Contenido del boletín 2', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 2),
-('Boletín 3', CURRENT_DATE, 5, NULL, 1, 'Contenido del boletín 3', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 3),
-('Boletín 4', CURRENT_DATE, 7, NULL, 1, 'Contenido del boletín 4', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 4),
-('Boletín 5', CURRENT_DATE, 3, NULL, 1, 'Contenido del boletín 5', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 5),
-('Boletín 6', CURRENT_DATE, 8, NULL, 1, 'Contenido del boletín 6', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 6),
-('Boletín 7', CURRENT_DATE, 12, NULL, 1, 'Contenido del boletín 7', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 7),
-('Boletín 8', CURRENT_DATE, 0, NULL, 1, 'Contenido del boletín 8', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 8),
-('Boletín 9', CURRENT_DATE, 6, NULL, 1, 'Contenido del boletín 9', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 9),
-('Boletín 10', CURRENT_DATE, 4, NULL, 1, 'Contenido del boletín 10', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 10);
+INSERT INTO boletin (titulo, fecha, vistas, imagen, estado, cuerpo, desde, hasta, instruccion, autor, ruta) VALUES
+('Boletín 1', CURRENT_DATE, 10, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 1', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 1, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 2', CURRENT_DATE, 15, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 2', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 2, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 3', CURRENT_DATE, 5, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 3', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 3, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 4', CURRENT_DATE, 7, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 4', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 4, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 5', CURRENT_DATE, 3, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 5', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 5, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 6', CURRENT_DATE, 8, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 6', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 6, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 7', CURRENT_DATE, 12, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 7', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 7, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 8', CURRENT_DATE, 0, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 8', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 8, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 9', CURRENT_DATE, 6, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 9', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 9, '/media/boletin/VeranoInvencible.pdf'),
+('Boletín 10', CURRENT_DATE, 4, '/media/boletin/default_pic.png', 1, 'Contenido del boletín 10', CURRENT_DATE, CURRENT_DATE + INTERVAL '7 days', 'Leer completo', 10, '/media/boletin/VeranoInvencible.pdf');
 
 INSERT INTO fuente (link, nombre) VALUES
 ('https://ejemplo.com/fuente1', 'Fuente 1'),
