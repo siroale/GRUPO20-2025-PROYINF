@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS USUARIO (
   id_usuario SERIAL PRIMARY KEY,
   rango INT NOT NULL,
   correo VARCHAR(45) NOT NULL,
-  contrasena VARCHAR(45) NOT NULL,
+  contrasena VARCHAR(500) NOT NULL,
   nombre VARCHAR(45) NOT NULL,
   apellido VARCHAR(45) NOT NULL,
   foto VARCHAR(300)

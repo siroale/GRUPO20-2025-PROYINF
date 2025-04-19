@@ -95,7 +95,7 @@ class Usuario(models.Model):
     id_usuario = models.AutoField(primary_key=True)
     rango = models.IntegerField()
     correo = models.CharField(max_length=45)
-    contrasena = models.CharField(max_length=45)
+    contrasena = models.CharField(max_length=500)
     nombre = models.CharField(max_length=45)
     apellido = models.CharField(max_length=45)
     foto = models.CharField(max_length=300, blank=True, null=True)
