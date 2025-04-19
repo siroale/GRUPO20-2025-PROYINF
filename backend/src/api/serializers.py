@@ -3,9 +3,13 @@ from rest_framework import serializers
 from .models import Usuario, Boletin, Noticia, Fuente
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    id_usuario = serializers.IntegerField(read_only=True)
+    
     class Meta:
         model = Usuario
-        fields = ['nombre', 'apellido', 'correo', 'contraseña', 'rango']
+        #fields = ['nombre', 'apellido', 'correo', 'contraseña', 'rango']
+        fields = '__all__'
+
 
 class BoletinSerializer(serializers.ModelSerializer):
     class Meta:
