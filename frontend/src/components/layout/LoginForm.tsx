@@ -39,7 +39,11 @@ function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
     try {
       const response = await axios.post("http://localhost:8000/api/login/", formData)
-      onLoginSuccess(response.data)
+      localStorage.setItem('user', JSON.stringify(response.data.usuario))
+      localStorage.setItem('token', response.data.access)
+      localStorage.setItem('refreshToken', response.data.refresh)
+      //onLoginSuccess(response.data)
+      window.location.href = "/";
     } catch (err: any) {
       console.error("Error al iniciar sesión:", err)
       if (err.response) {
