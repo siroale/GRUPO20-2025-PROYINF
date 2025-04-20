@@ -21,6 +21,7 @@ class BoletinSerializer(serializers.ModelSerializer):
         model = Boletin
         fields = '__all__' # Te saca todos los campos de la tabla :V
         
+        
 class NoticiaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Noticia

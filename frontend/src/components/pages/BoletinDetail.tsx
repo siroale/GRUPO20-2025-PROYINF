@@ -5,6 +5,7 @@ import { ArrowLeft, Calendar, User, Eye, Download, FileText } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import axios from "axios";
 
 // Interfaces para los tipos de datos
 interface Boletin {
@@ -72,6 +73,27 @@ export default function BoletinDetail() {
     fetchBoletinDetail();
   }, [id]);
 
+  // Incrementar contador de vistas
+  const incrementarVistas = async () => {
+    if (!boletin) return;
+    
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/boletin/${boletin.id_boletin}/incrementar-vistas/`
+      );
+      
+      if (response.status === 200) {
+        // Actualizar el estado local con el nuevo contador de vistas
+        setBoletin({
+          ...boletin,
+          vistas: response.data.vistas
+        });
+      }
+    } catch (error) {
+      console.error("Error al incrementar vistas:", error);
+    }
+  };
+
   // Formatear fecha
   const formatearFecha = (fechaStr: string | undefined): string => {
     if (!fechaStr) return "";
@@ -92,14 +114,14 @@ export default function BoletinDetail() {
   };
 
   // Manejar la descarga del PDF
-  const handleDownload = (): void => {
+  const handleDownload = async (): Promise<void> => {
     if (boletin && boletin.ruta) {
-      // Crear una URL completa a partir de la ruta del archivo
-      const fileUrl = boletin.ruta;
+      // Incrementar contador de vistas
+      await incrementarVistas();
       
       // Crear un enlace temporal y simular el clic
       const link = document.createElement('a');
-      link.href = fileUrl;
+      link.href = boletin.ruta;
       
       // Extraer el nombre del archivo de la ruta
       const fileName = boletin.ruta.split('/').pop() || 'boletin.pdf';
@@ -112,8 +134,11 @@ export default function BoletinDetail() {
   };
 
   // Manejar la vista previa del PDF
-  const handlePreview = (): void => {
+  const handlePreview = async (): Promise<void> => {
     if (boletin && boletin.ruta) {
+      // Incrementar contador de vistas
+      await incrementarVistas();
+      
       // Abrir el PDF en una nueva pestaña
       window.open(boletin.ruta, '_blank');
     }
@@ -162,7 +187,7 @@ export default function BoletinDetail() {
         </Alert>
         <div className="mt-4">
           <Link to="/">
-            <Button variant="secondary"  className="flex items-center text-white">
+            <Button variant="secondary" className="flex items-center text-white">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver a boletines
             </Button>
@@ -176,7 +201,7 @@ export default function BoletinDetail() {
     <div className="max-w-4xl mx-auto px-4 py-8 bg-white">
       <div className="mb-6">
         <Link to="/">
-          <Button variant="secondary"  className="flex items-center text-white">
+          <Button variant="secondary" className="flex items-center text-white">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Volver a boletines
           </Button>
@@ -203,7 +228,7 @@ export default function BoletinDetail() {
           </div>
 
           <div className="mt-6 p-4 bg-blue-50 rounded-lg mb-6">
-            <p className="text-blue-800 font-medium">La informacion contenida en este boletin abarca el periodo: {formatearFecha(boletin.desde)} - {formatearFecha(boletin.hasta)}</p>
+            <p className="text-blue-800 font-medium">La información contenida en este boletín abarca el periodo: {formatearFecha(boletin.desde)} - {formatearFecha(boletin.hasta)}</p>
           </div>
 
           {boletin.imagen && (
@@ -219,8 +244,6 @@ export default function BoletinDetail() {
           <div className="prose max-w-none mb-8">
             <p className="text-gray-700 whitespace-pre-line">{boletin.cuerpo}</p>
           </div>
-
-
 
           <div className="flex space-x-4">
             <Button 
