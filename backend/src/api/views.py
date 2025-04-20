@@ -7,6 +7,7 @@ from .models import Usuario, Boletin, Noticia, Fuente
 from .serializers import UsuarioSerializer, BoletinSerializer, NoticiaSerializer, FuenteSerializer
 from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import F
 
 
 def api_saludo(request):
@@ -73,3 +74,17 @@ def login_usuario(request):
         return Response({"error": "Credenciales inválidas"}, status=status.HTTP_401_UNAUTHORIZED)
     except Usuario.DoesNotExist:
         return Response({"error": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['POST'])
+def incrementar_vistas(request, id_boletin):
+    try:
+        updated = Boletin.objects.filter(id_boletin=id_boletin).update(vistas=F('vistas') + 1)
+        
+        if updated:
+            # Obtenemos el boletín actualizado para devolver el valor actualizado
+            boletin = Boletin.objects.get(id_boletin=id_boletin)
+            return Response({'vistas': boletin.vistas}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Boletín no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
