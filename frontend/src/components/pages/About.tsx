@@ -166,8 +166,8 @@ export default function About() {
       <div className="bg-gray-50 p-6 rounded-lg mb-8">
         <h3 className="text-xl font-semibold mb-4">Nuestra Misión</h3>
         <p className="text-base mb-8">
-          En KESSOFT nos dedicamos a crear aplicaciones web innovadoras y de alta calidad que resuelvan problemas reales.
-          Utilizamos tecnologías modernas como Django, React y Docker para ofrecer soluciones eficientes y escalables.
+          En KESSOFT nos dedicamos a crear aplicaciones web innovadoras (mientras sufrimos y no nos pagan) y de alta calidad que resuelvan problemas reales (mentira).
+          Utilizamos tecnologías modernas como Django, React y Docker para ofrecer soluciones eficientes y escalables (eso si es verdad).
         </p>
       
       
