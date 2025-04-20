@@ -8,12 +8,14 @@ import Profile from "@/components/pages/Profile"
 
 // import del layout:
 import Layout from "./components/layout/Layout"
+import BoletinDetail from "./components/pages/BoletinDetail";
 
 export default function App() {
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/boletin/:id" element={<BoletinDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

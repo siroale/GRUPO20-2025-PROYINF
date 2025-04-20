@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Calendar, User, Eye, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [boletines, setBoletines] = useState([]);
@@ -349,9 +350,12 @@ export default function Home() {
                 <p className="text-gray-700 mb-4 line-clamp-3">{boletin.cuerpo}</p>
                 
                 <div className="mt-4">
-                  <Button variant="default" size="default" className="text-white">
-                    Leer más
-                  </Button>
+                  {/* Modificamos el botón para que sea un enlace a la página de detalles */}
+                  <Link to={`/boletin/${boletin.id_boletin}`}>
+                    <Button variant="default" size="default" className="text-white">
+                      Leer más
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
