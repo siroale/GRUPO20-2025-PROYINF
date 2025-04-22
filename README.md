@@ -10,6 +10,8 @@
 
 Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/siroale/KESSOFT/wiki).
 
+El Planning Poker se hizo con una escala del 1 al 89, ocupando la siguiente página [Planning Poker Online](https://planningpokeronline.com/).
+
 ## Videos
 
 - [Presentacion del cliente](https://youtu.be/abJau21SDIk)
