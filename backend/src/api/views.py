@@ -3,8 +3,8 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import check_password
-from .models import Usuario, Boletin, Noticia, Fuente
-from .serializers import UsuarioSerializer, BoletinSerializer, NoticiaSerializer, FuenteSerializer
+from .models import Usuario, Boletin, Noticia, Fuente, BoletinFuente
+from .serializers import UsuarioSerializer, BoletinSerializer, NoticiaSerializer, FuenteSerializer, BoletinFuenteSerializer
 from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import F
@@ -29,6 +29,10 @@ class NoticiaViewSet(viewsets.ModelViewSet):
 class FuenteViewSet(viewsets.ModelViewSet):
     queryset = Fuente.objects.all()
     serializer_class = FuenteSerializer
+
+class BoletinFuenteViewSet(viewsets.ModelViewSet):
+    queryset = BoletinFuente.objects.all()
+    serializer_class = BoletinFuenteSerializer
 
 @api_view(['POST'])
 def registro_usuario(request):

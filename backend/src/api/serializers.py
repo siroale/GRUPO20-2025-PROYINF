@@ -1,6 +1,6 @@
 # api/serializers.py
 from rest_framework import serializers
-from .models import Usuario, Boletin, Noticia, Fuente
+from .models import Usuario, Boletin, Noticia, Fuente, BoletinFuente
 from django.contrib.auth.hashers import make_password
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -30,6 +30,11 @@ class NoticiaSerializer(serializers.ModelSerializer):
 class FuenteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fuente
+        fields = '__all__'
+
+class BoletinFuenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BoletinFuente
         fields = '__all__'
 
 
