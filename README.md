@@ -16,10 +16,6 @@ Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/siroal
 - [Prototipo del Proyecto](https://youtu.be/Z2_IOhcjPvM)
 - [Video Versión Final Proyecto](https://youtu.be/iCsO8WIfQFA)
 
-## Aspectos técnicos relevantes
-
-Se ocupara el stack [LAMP](https://www.php.net/manual/en/features.commandline.webserver.php) para desarrollar la aplicación web, Linux como SO, [Apache](https://apache.org/) como servidor, [MySql](https://www.mysql.com/) como database y [PHP](https://www.php.net/) como backend.
-
 ## Levantamiento de página
 Este proyecto es una aplicación fullstack separada en dos carpetas principales:
 
