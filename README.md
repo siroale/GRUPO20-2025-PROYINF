@@ -8,7 +8,7 @@
 
 ## Wiki
 
-Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/siroale/KESSOFT/wiki).
+Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/siroale/KESSOFT-2025-PROYINF/wiki).
 
 ## Videos
 
