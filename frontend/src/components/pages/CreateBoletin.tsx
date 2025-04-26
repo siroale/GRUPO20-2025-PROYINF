@@ -246,7 +246,7 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <Label htmlFor="titulo">Título (opcional, la IA puede generarlo)</Label>
+          <Label htmlFor="titulo">Título</Label>
           <Input
             id="titulo"
             value={titulo}

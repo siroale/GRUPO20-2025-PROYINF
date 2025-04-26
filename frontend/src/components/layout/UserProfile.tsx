@@ -25,7 +25,7 @@ function UserProfile({ userData, onLogout }: UserProfileProps) {
         // Forzar una recarga de la página después del cierre de sesión
         window.location.href = "/login";
       }
-  return (
+  return ( // no se pq esto esta mal identado pero prefiero no tocarlo
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-center">Perfil de Usuario</CardTitle>

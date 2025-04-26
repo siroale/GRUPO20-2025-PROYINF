@@ -5,7 +5,8 @@ import About from "@/components/pages/About"
 import Login from "@/components/pages/Login"
 import Register from "@/components/pages/Register"
 import Profile from "@/components/pages/Profile"
-import CreateBoletin from "@/components/pages/CreateBoletin";
+import CreateBoletin from "@/components/pages/CreateBoletin"
+import AdminPage from "@/components/pages/AdminPage"
 
 // import del layout:
 import Layout from "./components/layout/Layout"
@@ -22,6 +23,8 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/crearboletin" element={<CreateBoletin />} />
+        <Route path="/gestionusuarios" element={<AdminPage />} />
+        
       </Routes>
     </Layout>
   )

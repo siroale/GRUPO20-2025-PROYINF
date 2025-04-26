@@ -54,7 +54,7 @@ function RegisterForm() {
       apellido: formData.apellido,
       correo: formData.correo,
       contrasena: formData.contrasena,
-      rango: 2 // Por defecto
+      rango: 1 // Por defecto
     }
     
     try {
