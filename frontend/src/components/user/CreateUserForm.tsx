@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createUsuario } from "@/services/UserManagementService";
+import { createUsuario, Usuario } from "@/services/UserManagementService";
 
 interface CreateUserFormProps {
   onSuccess: () => void;
@@ -10,12 +10,13 @@ interface CreateUserFormProps {
 }
 
 export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData]: [Usuario, Dispatch<SetStateAction<Usuario>>] = useState({
+    id_usuario: 0,
     nombre: "",
     apellido: "",
     correo: "",
     contrasena: "",
-    rango: 2, // Por defecto, usuario regular
+    rango: 2,
     activo: 1,
   });
   const [loading, setLoading] = useState(false);

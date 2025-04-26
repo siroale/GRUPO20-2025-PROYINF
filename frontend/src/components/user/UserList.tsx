@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search, Users } from "lucide-react";
-import { UserListItem } from "@/components/ui/UserListItem";
+import { UserListItem } from "@/components/user/UserListItem";
 import { fetchUsuarios, Usuario } from "@/services/UserManagementService";
 
 interface UserListProps {
@@ -20,7 +20,7 @@ export function UserList({ onCreateUser }: UserListProps) {
   const loadUsuarios = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const data = await fetchUsuarios();
       setUsuarios(data);
@@ -62,7 +62,7 @@ export function UserList({ onCreateUser }: UserListProps) {
           <Users size={24} />
           Usuarios
         </h2>
-        <Button 
+        <Button
           onClick={onCreateUser}
           className="bg-black text-white hover:bg-gray-800 flex items-center gap-1"
         >
@@ -70,7 +70,7 @@ export function UserList({ onCreateUser }: UserListProps) {
           Nuevo Usuario
         </Button>
       </div>
-      
+
       <div className="relative">
         <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
         <Input
@@ -80,13 +80,13 @@ export function UserList({ onCreateUser }: UserListProps) {
           className="pl-10"
         />
       </div>
-      
+
       {error && (
         <div className="bg-red-50 text-red-800 p-3 rounded-md border border-red-200">
           {error}
         </div>
       )}
-      
+
       {loading ? (
         <div className="flex justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>

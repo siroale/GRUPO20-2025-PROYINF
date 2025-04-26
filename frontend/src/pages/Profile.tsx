@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import UserProfile from "@/components/layout/UserProfile"
+import UserProfile from "@/components/user/UserProfile"
 
 interface UserData {
   id_usuario: number;

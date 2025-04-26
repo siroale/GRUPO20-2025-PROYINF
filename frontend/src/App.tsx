@@ -1,16 +1,13 @@
 import { Routes, Route } from "react-router-dom"
-
-import Home from "@/components/pages/Home"
-import About from "@/components/pages/About"
-import Login from "@/components/pages/Login"
-import Register from "@/components/pages/Register"
-import Profile from "@/components/pages/Profile"
-import CreateBoletin from "@/components/pages/CreateBoletin"
-import AdminPage from "@/components/pages/AdminPage"
-
-// import del layout:
-import Layout from "./components/layout/Layout"
-import BoletinDetail from "./components/pages/BoletinDetail";
+import Layout from "@/layout/Layout"
+import Home from "@/pages/Home"
+import About from "@/pages/About"
+import Login from "@/pages/Login"
+import Register from "@/pages/Register"
+import Profile from "@/pages/Profile"
+import CreateBoletin from "@/pages/CreateBoletin"
+import AdminPage from "@/pages/AdminPage"
+import BoletinDetail from "@/pages/BoletinDetail";
 
 export default function App() {
   return (

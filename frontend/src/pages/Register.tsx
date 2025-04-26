@@ -1,5 +1,5 @@
 // src/components/pages/Register.tsx
-import RegisterForm from "@/components/layout/RegisterForm"
+import RegisterForm from "@/components/RegisterForm"
 
 const Register = () => {
   return (
