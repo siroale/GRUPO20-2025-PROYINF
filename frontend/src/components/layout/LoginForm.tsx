@@ -1,4 +1,3 @@
-// src/components/layout/LoginForm.tsx
 import { useState, FormEvent, ChangeEvent } from "react"
 import axios from "axios"
 import { Label } from "@/components/ui/label"
@@ -7,16 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2 } from "lucide-react"
 
-interface LoginFormProps {
-  onLoginSuccess: (data: any) => void;
-}
-
 interface FormData {
   correo: string;
   contrasena: string;
 }
 
-function LoginForm({ onLoginSuccess }: LoginFormProps) {
+function LoginForm() {
   const [formData, setFormData] = useState<FormData>({
     correo: "",
     contrasena: ""
@@ -42,7 +37,6 @@ function LoginForm({ onLoginSuccess }: LoginFormProps) {
       localStorage.setItem('user', JSON.stringify(response.data.usuario))
       localStorage.setItem('token', response.data.access)
       localStorage.setItem('refreshToken', response.data.refresh)
-      //onLoginSuccess(response.data)
       window.location.href = "/";
     } catch (err: any) {
       console.error("Error al iniciar sesión:", err)

@@ -1,4 +1,3 @@
-// src/components/layout/RegisterForm.tsx
 import { useState, FormEvent, ChangeEvent } from "react"
 import axios from "axios"
 import { Label } from "@/components/ui/label"
@@ -23,7 +22,7 @@ function RegisterForm() {
     contrasena: "",
     confirmar_contrasena: "",
   })
-  
+
   const [error, setError] = useState<string>("")
   const [success, setSuccess] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -38,16 +37,16 @@ function RegisterForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    
+
     // Validar contraseñas
     if (formData.contrasena !== formData.confirmar_contrasena) {
       setError("Las contraseñas no coinciden")
       return
     }
-    
+
     setLoading(true)
     setError("")
-    
+
     // Datos a enviar (sin incluir confirmar_contrasena)
     const submitData = {
       nombre: formData.nombre,
@@ -57,7 +56,7 @@ function RegisterForm() {
       rango: 1, // Por defecto
       activo: 1
     }
-    
+
     try {
       await axios.post("http://localhost:8000/api/registro/", submitData)
       setSuccess(true)
@@ -92,7 +91,7 @@ function RegisterForm() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      
+
       {success && (
         <Alert className="bg-green-50">
           <AlertDescription className="text-green-700">
@@ -112,7 +111,7 @@ function RegisterForm() {
             required
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="apellido">Apellido</Label>
           <Input

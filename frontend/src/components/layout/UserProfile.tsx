@@ -1,4 +1,3 @@
-// src/components/layout/UserProfile.tsx
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { User } from "lucide-react"
@@ -21,11 +20,11 @@ function UserProfile({ userData, onLogout }: UserProfileProps) {
     const handleLogout = () => {
         // Llamar a la función onLogout proporcionada por el componente padre
         onLogout();
-        
+
         // Forzar una recarga de la página después del cierre de sesión
         window.location.href = "/login";
       }
-  return ( // no se pq esto esta mal identado pero prefiero no tocarlo
+  return ( // no se pq esto esta mal indentado pero prefiero no tocarlo
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-center">Perfil de Usuario</CardTitle>
@@ -33,7 +32,7 @@ function UserProfile({ userData, onLogout }: UserProfileProps) {
       <CardContent className="space-y-4">
         <div className="flex justify-center mb-4">
           {userData.foto ? (
-            <img 
+            <img
               src={userData.foto}
               alt="Foto de perfil"
               className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
@@ -50,17 +49,17 @@ function UserProfile({ userData, onLogout }: UserProfileProps) {
             <p className="font-semibold">Nombre:</p>
             <p className="col-span-2">{userData.nombre} {userData.apellido}</p>
           </div>
-          
+
           <div className="grid grid-cols-3 gap-1">
             <p className="font-semibold">Correo:</p>
             <p className="col-span-2">{userData.correo}</p>
           </div>
-          
+
           <div className="grid grid-cols-3 gap-1">
             <p className="font-semibold">Rango:</p>
             <p className="col-span-2">{userData.rango}</p>
           </div>
-          
+
           <div className="grid grid-cols-3 gap-1">
             <p className="font-semibold">ID:</p>
             <p className="col-span-2">{userData.id_usuario}</p>

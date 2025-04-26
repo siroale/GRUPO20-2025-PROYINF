@@ -1,9 +1,7 @@
-// components/ui/CreateUserForm.tsx
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
 import { createUsuario } from "@/services/UserManagementService";
 
 interface CreateUserFormProps {
@@ -41,7 +39,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
         ...formData,
         foto: "/media/profile_picture/murin.png", // Imagen por defecto
       });
-      
+
       onSuccess();
     } catch (err) {
       if (err instanceof Error) {
@@ -57,13 +55,13 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
       <h2 className="text-xl font-bold">Crear nuevo usuario</h2>
-      
+
       {error && (
         <div className="bg-red-50 text-red-800 p-3 rounded-md border border-red-200">
           {error}
         </div>
       )}
-      
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="nombre" className="mb-1">Nombre</Label>
@@ -75,7 +73,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
             required
           />
         </div>
-        
+
         <div>
           <Label htmlFor="apellido" className="mb-1">Apellido</Label>
           <Input
@@ -87,7 +85,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
           />
         </div>
       </div>
-      
+
       <div>
         <Label htmlFor="correo" className="mb-1">Correo electrónico</Label>
         <Input
@@ -99,7 +97,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
           required
         />
       </div>
-      
+
       <div>
         <Label htmlFor="contrasena" className="mb-1">Contraseña</Label>
         <Input
@@ -111,7 +109,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
           required
         />
       </div>
-      
+
       <div>
         <Label htmlFor="rango" className="mb-1">Rol</Label>
         <select
@@ -126,7 +124,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
           <option value={3}>Usuario</option>
         </select>
       </div>
-      
+
       <div className="flex justify-end gap-3 pt-4">
         <Button
           type="button"
