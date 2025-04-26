@@ -1,4 +1,3 @@
-// src/components/pages/Profile.tsx
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import UserProfile from "@/components/layout/UserProfile"

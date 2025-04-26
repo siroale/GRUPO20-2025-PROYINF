@@ -45,7 +45,7 @@ export default function CreateBoletinAI() {
         const usuarioObj = JSON.parse(usuarioActual);
         setUsuario(usuarioObj);
       } catch (e) {
-        console.error("Error al parsear datos de usuario:", e);
+        console.error("Error al sacar los datos de usuario:", e);
         setError("No se pudo obtener información del usuario actual");
       }
     } else {
@@ -74,7 +74,7 @@ export default function CreateBoletinAI() {
   }, []);
 
   // Filtrar fuentes según el término de búsqueda
-  const fuentesFiltradas = fuentes.filter(fuente => 
+  const fuentesFiltradas = fuentes.filter(fuente =>
     fuente.nombre.toLowerCase().includes(busquedaFuente.toLowerCase()) ||
     fuente.link.toLowerCase().includes(busquedaFuente.toLowerCase()) ||
     fuente.categoria.toLowerCase().includes(busquedaFuente.toLowerCase())
@@ -99,10 +99,10 @@ export default function CreateBoletinAI() {
       // En una implementación real, esta sería una llamada a tu API que se comunica con un modelo de IA
       console.log("Generando contenido con prompt:", promptIA);
       console.log("Fuentes seleccionadas:", fuentesSeleccionadas);
-      
+
       // Simulamos una espera de la respuesta de la IA
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Por ahora, generamos un contenido de ejemplo
       const contenidoGenerado = `# Contenido generado basado en el prompt: "${promptIA}"
 
@@ -121,12 +121,12 @@ Aquí se incluiría un análisis más profundo de la información obtenida, con 
 Este contenido es solo un ejemplo y será reemplazado por el contenido real generado por la IA una vez implementada.`;
 
       setGeneratedContent(contenidoGenerado);
-      
+
       // Si no hay título, generamos uno basado en el prompt
       if (!titulo) {
         setTitulo(`Boletín sobre ${promptIA.split(' ').slice(0, 3).join(' ')}...`);
       }
-      
+
     } catch (err) {
       console.error("Error al generar contenido con IA:", err);
       setError("No se pudo generar el contenido. Por favor intenta de nuevo.");
@@ -137,7 +137,7 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!titulo || !generatedContent || !fecha) {
       setError("Por favor completa todos los campos obligatorios y genera contenido");
       return;
@@ -286,12 +286,12 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
           <div className="space-y-2">
             <div className="flex flex-wrap gap-2">
               {getFuentesSeleccionadasInfo().map(fuente => (
-                <div 
-                  key={fuente.id_fuente} 
+                <div
+                  key={fuente.id_fuente}
                   className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-md"
                 >
                   <span>{fuente.nombre}</span>
-                  <button 
+                  <button
                     type="button"
                     onClick={() => handleFuenteSelect(fuente.id_fuente)}
                     className="text-gray-500 hover:text-red-500"
@@ -301,9 +301,9 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
                 </div>
               ))}
             </div>
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => setModalFuentesOpen(true)}
               className="flex items-center gap-2"
             >
@@ -314,8 +314,8 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
         </div>
 
         <div className="pt-4">
-          <Button 
-            type="button" 
+          <Button
+            type="button"
             onClick={generateContent}
             disabled={generatingContent || !promptIA || fuentesSeleccionadas.length === 0}
             className="w-full bg-blue-600 text-white hover:bg-blue-700"
@@ -338,15 +338,15 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
         )}
 
         <div className="flex justify-end gap-4 pt-4">
-          <Button 
-            type="button" 
-            variant="outline" 
+          <Button
+            type="button"
+            variant="outline"
             onClick={() => navigate("/boletines")}
           >
             Cancelar
           </Button>
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             disabled={loading || !generatedContent}
             className="bg-black text-white hover:bg-gray-800"
           >
@@ -382,8 +382,8 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
               {fuentesFiltradas.length > 0 ? (
                 fuentesFiltradas.map(fuente => (
-                  <div 
-                    key={fuente.id_fuente} 
+                  <div
+                    key={fuente.id_fuente}
                     className="flex justify-between items-center bg-gray-50 p-3 rounded-md"
                   >
                     <div className="flex gap-2 items-center">
@@ -412,7 +412,7 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
             </div>
 
             <div className="flex justify-end mt-4">
-              <Button 
+              <Button
                 onClick={() => setModalFuentesOpen(false)}
                 className="bg-black text-white hover:bg-gray-800"
               >
