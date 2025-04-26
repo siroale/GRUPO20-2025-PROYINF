@@ -70,7 +70,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
-                    to="/crearboletin"
+                    to="/crear_boletin"
                     className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
                   >
                     Boletín
@@ -80,7 +80,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
-                    to="/gestionusuarios"
+                    to="/gestion_usuarios"
                     className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
                   >
                     Usuarios
@@ -99,7 +99,7 @@ export default function Navbar() {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          
+
           {!isLoading && (
             <>
               {user ? (

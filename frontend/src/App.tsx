@@ -22,9 +22,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/crearboletin" element={<CreateBoletin />} />
-        <Route path="/gestionusuarios" element={<AdminPage />} />
-        
+        <Route path="/crear_boletin" element={<CreateBoletin />} />
+        <Route path="/gestion_usuarios" element={<AdminPage />} />
       </Routes>
     </Layout>
   )
