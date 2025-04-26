@@ -1,14 +1,13 @@
-import { useState } from 'react';
-import { 
+import {
   Code, Briefcase, Palette, Coffee, Star, Award, Database, Globe,
   BookOpen, Brain, Server, Zap, Cloud, Shield, Archive,
-  Rocket, Bug, Cpu, Layers, FileCode, Users, Heart, LineChart, FileText
+  Rocket, Bug, Layers, Users, Heart, LineChart, FileText
 } from 'lucide-react';
 
 // Componente Badge ampliado con más tipos
-const Badge = ({ type, label }) => {
+const Badge = ({ type, label }: { type: string; label: string }) => {
   const getBadgeStyles = () => {
-    const styles = {
+    const styles: { [key: string]: string } = {
       // Badges
       admin: "bg-black text-white",
       coffee: "bg-amber-800 text-white",
@@ -36,10 +35,10 @@ const Badge = ({ type, label }) => {
       product: "bg-green-500 text-white",
       research: "bg-purple-500 text-white"
     };
-    
+
     return styles[type] || "bg-gray-600 text-white";
   };
-  
+
   const getIcon = () => {
     switch(type) {
       // Iconos originales
@@ -72,7 +71,7 @@ const Badge = ({ type, label }) => {
       default: return <Star className="w-3 h-3 mr-1" />;
     }
   };
-  
+
   return (
     <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${getBadgeStyles()}`}>
       {getIcon()}
@@ -82,14 +81,19 @@ const Badge = ({ type, label }) => {
 };
 
 // Componente para la tarjeta de presentación
-const ProfileCard = ({ image, name, description, badges = [] }) => {
+const ProfileCard = ({ image, name, description, badges = [] }: {
+  image: string,
+  name: string,
+  description: string,
+  badges: { type: string, label: string }[]
+}) => {
   return (
     <div className="flex items-center p-4 bg-white rounded-lg shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
       <div className="flex-shrink-0">
-        <img 
-          src={image || "/api/placeholder/100/100"} 
+        <img
+          src={image || "/api/placeholder/100/100"}
           alt={`Foto de ${name}`}
-          className="w-16 h-16 rounded-full object-cover border-2 border-gray-200" 
+          className="w-16 h-16 rounded-full object-cover border-2 border-gray-200"
         />
       </div>
       <div className="ml-4 flex-grow">
@@ -154,7 +158,7 @@ export default function About() {
         { type: "designer", label: "UX/UI" },
         { type: "data", label: "Data" },
         { type: "spaceship", label: "Rocket Fuel" },
-        
+
       ]
     }
   ];
@@ -162,15 +166,15 @@ export default function About() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold mb-4">Acerca de KESSOFT</h2>
-      
+
       <div className="bg-gray-50 p-6 rounded-lg mb-8">
         <h3 className="text-xl font-semibold mb-4">Nuestra Misión</h3>
         <p className="text-base mb-8">
           En KESSOFT nos dedicamos a crear aplicaciones web innovadoras (mientras sufrimos y no nos pagan) y de alta calidad que resuelvan problemas reales (mentira).
           Utilizamos tecnologías modernas como Django, React y Docker para ofrecer soluciones eficientes y escalables (eso si es verdad).
         </p>
-      
-      
+
+
         <h3 className="text-xl font-semibold mb-4">Nuestro Equipo</h3>
 
         <div className="grid gap-4 md:grid-cols-2">
