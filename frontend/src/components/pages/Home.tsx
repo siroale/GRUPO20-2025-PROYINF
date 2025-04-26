@@ -160,7 +160,7 @@ export default function Home() {
           key={1}
           variant="outline"
           onClick={() => paginate(1)}
-          className="w-10 text-white bg-blue-600 hover:bg-blue-700"
+          className="w-10 text-white"
         >
           1
         </Button>
@@ -174,7 +174,7 @@ export default function Home() {
       }
     }
     
-    // Páginas numeradas
+    // Páginas numeradas PARA CAMBIAR EL COLOR DE LOS BOTONES DE NAVEGACION HAY QUE CAMBIAR EL RING-ORANGE-400
     for (let i = startPage; i <= endPage; i++) {
       paginationItems.push(
         <Button
@@ -183,8 +183,8 @@ export default function Home() {
           onClick={() => paginate(i)}
           className={`w-10 ${
             currentPage === i 
-              ? "text-white bg-blue-800 border-2 border-white shadow-lg font-bold scale-110 transform ring-2 ring-blue-400" 
-              : "text-white bg-blue-600 hover:bg-blue-700"
+              ? "text-white border-2 border-white shadow-lg font-bold scale-110 transform ring-2 ring-orange-400" 
+              : "text-white"
           }`}
         >
           {i}
@@ -206,7 +206,7 @@ export default function Home() {
           key={totalPaginas}
           variant="outline"
           onClick={() => paginate(totalPaginas)}
-          className="w-10 text-white bg-blue-600 hover:bg-blue-700"
+          className="w-10 text-white"
         >
           {totalPaginas}
         </Button>
@@ -292,89 +292,64 @@ export default function Home() {
         </div>
       )}
 
-      {/* Contenedor con altura fija y scroll */}
-      <div className="boletines-container" style={{ height: '71vh', overflowY: 'auto' }}>
-        {boletinesActuales.map((boletin) => (
-          <div key={boletin.id_boletin} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow mb-4" style={{ minHeight: '200px' }}>
-            <div className="md:w-64 h-48 bg-gray-200 flex items-center justify-center">
-              {boletin.imagen ? (
-                <img 
-                  src={boletin.imagen} 
-                  alt={`Imagen de ${boletin.titulo}`} 
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              ) : (
-                <div className="text-gray-400 text-center p-4">
-                  <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p className="mt-2">Sin imagen</p>
+        {/* Contenedor con altura fija y scroll */}
+        <div className="boletines-container" style={{ height: '71vh', overflowY: 'auto' }}>
+          {boletinesActuales.map((boletin) => (
+            <div key={boletin.id_boletin} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow mb-4" style={{ minHeight: '200px' }}>
+              <div className="md:w-64 h-48 bg-gray-200 flex items-center justify-center">
+                {boletin.imagen ? (
+                  <img 
+                    src={boletin.imagen} 
+                    alt={`Imagen de ${boletin.titulo}`} 
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-center p-4">
+                    <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p className="mt-2">Sin imagen</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="p-6 flex-1">
+                <div className="flex justify-between items-start">
+                  <h4 className="text-xl font-bold mb-2 text-blue-800">{boletin.titulo}</h4>
+                  <div className="flex items-center text-gray-500 text-sm">
+                    <Eye size={16} className="mr-1" />
+                    <span>{boletin.vistas}</span>
+                  </div>
                 </div>
-              )}
+                
+                <div className="flex flex-wrap gap-4 mb-3 text-sm text-gray-600">
+                  <div className="flex items-center">
+                    <Calendar size={16} className="mr-1" />
+                    <span>{formatearFecha(boletin.fecha)}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <User size={16} className="mr-1" />
+                    <span>{getNombreAutor(boletin.autor)}</span>
+                  </div>
+                </div>
+                
+                <p className="text-gray-700 mb-4 line-clamp-3">{boletin.cuerpo}</p>
+                
+                <div className="mt-4">
+                  {/* Modificamos el botón para que sea un enlace a la página de detalles */}
+                  <Link to={`/boletin/${boletin.id_boletin}`}>
+                    <Button variant="default" size="default" className="text-white">
+                      Leer más
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             </div>
-            
-            <div className="p-6 flex-1">
-              <div className="flex justify-between items-start">
-                <h4 className="text-xl font-bold mb-2 text-blue-800">{boletin.titulo}</h4>
-                <div className="flex items-center text-gray-500 text-sm">
-                  <Eye size={16} className="mr-1" />
-                  <span>{boletin.vistas}</span>
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap gap-4 mb-3 text-sm text-gray-600">
-                <div className="flex items-center">
-                  <Calendar size={16} className="mr-1" />
-                  <span>{formatearFecha(boletin.fecha)}</span>
-                </div>
-                <div className="flex items-center">
-                  <User size={16} className="mr-1" />
-                  <span>{getNombreAutor(boletin.autor)}</span>
-                </div>
-              </div>
-              
-              <p className="text-gray-700 mb-4 line-clamp-3">{boletin.cuerpo}</p>
-              
-              <div className="mt-4">
-                <Link to={`/boletin/${boletin.id_boletin}`}>
-                  <Button variant="default" size="default" className="text-white">
-                    Leer más
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {/* Paginación mejorada */}
-      {renderPagination()}
-    </>
-  );
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8 bg-white">
-      <h2 className="text-3xl font-bold mb-4">Boletines Informativos</h2>
-      <p className="text-gray-600 mb-8">Aquí podras encontrar boletines con las informaciones agricolas mas relevantes</p>
-      
-      {/* Barra de búsqueda - siempre visible */}
-      <div className="mb-8">
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-          <Input
-            type="text"
-            placeholder="Buscar por título o contenido..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="pl-10 py-2 pr-4 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            disabled={loading}
-          />
+          ))}
         </div>
-      </div>
-      
-      <div className="space-y-6">
-        {/* Renderizado condicional - solo muestra uno u otro, nunca ambos */}
-        {loading ? renderSkeletons() : renderContent()}
+        
+        {/* Paginación */}
+        {renderPagination()}
       </div>
     </div>
   );

@@ -70,6 +70,26 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
+                    to="/crearboletin"
+                    className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                  >
+                    Boletín
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/gestionusuarios"
+                    className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                  >
+                    Usuarios
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
                     to="/about"
                     className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
                   >
