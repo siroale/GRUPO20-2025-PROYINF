@@ -17,6 +17,7 @@ Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/siroal
 - [Video Versión Final Proyecto](https://youtu.be/iCsO8WIfQFA)
 
 ## Levantamiento de página
+
 Este proyecto es una aplicación fullstack separada en dos carpetas principales:
 
 - `backend/` → Django (REST API) con PostgreSQL
@@ -41,6 +42,7 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 ├── backend/ # Django + PostgreSQL
 ├── frontend/ # React + Vite + TailwindCSS + shadcn/ui
 ├── docker-compose.yml # Orquestación de servicios
+├── makefile # Comandos QoL
 └── README.md
 ```
 
@@ -64,20 +66,14 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 	Esto hará lo siguiente:
 
 	- Levanta el frontend en http://localhost:5173
-	- Levanta el backend en http://localhost:8000/api/
-	- PostgreSQL está disponible internamente como db:5432
+	- Levanta el backend en http://localhost:8000
+	- PostgreSQL está disponible en http://localhost:5432
 
-3. Primera vez con Django (no es necesario si solo se quiere ver la página)
-	En otra terminal:
-
-	```bash
-	docker-compose exec backend python manage.py migrate
-	docker-compose exec backend python manage.py createsuperuser
-	```
-
-4. Ingrese al localhost
+3. Ingrese al localhost
 	- Abre tu navegador en: http://localhost:5173
 	- Accede al panel de Django en: http://localhost:8000/admin
+
+4. Cree una cuenta en iniciar sesión para acceder a las páginas de administrador (crear boletines y gestión de usuarios)
 
 ---
 
