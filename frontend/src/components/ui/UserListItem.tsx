@@ -3,18 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash, Save, Edit, X } from "lucide-react";
-import { updateUsuario, deleteUsuario } from "@/services/UserManagementService";
-
-interface Usuario {
-  id_usuario: number;
-  rango: number;
-  correo: string;
-  contrasena: string;
-  nombre: string;
-  apellido: string;
-  foto?: string;
-  activo: number;
-}
+import { updateUsuario, Usuario } from "@/services/UserManagementService";
 
 interface UserListItemProps {
   usuario: Usuario;
@@ -54,7 +43,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
   const handleSave = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       await updateUsuario(usuario.id_usuario, userData);
       setEditing(false);
@@ -74,7 +63,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
     if (window.confirm(`¿Estás seguro de eliminar al usuario ${usuario.nombre} ${usuario.apellido}?`)) {
       setLoading(true);
       setError(null);
-      
+
       try {
         await updateUsuario(usuario.id_usuario, { activo: 0 });
         onDelete();
@@ -97,7 +86,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
           {error}
         </div>
       )}
-      
+
       {editing ? (
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
@@ -120,7 +109,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
               />
             </div>
           </div>
-          
+
           <div>
             <label className="text-sm text-gray-600">Correo</label>
             <Input
@@ -130,7 +119,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
               required
             />
           </div>
-          
+
           <div>
             <label className="text-sm text-gray-600 mb-6">Rol</label>
             <select
@@ -144,7 +133,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
               <option value={3}>Usuario</option>
             </select>
           </div>
-          
+
           <div className="flex justify-end gap-2">
             <Button
               type="button"
@@ -176,15 +165,15 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
               <p className="text-gray-600">{usuario.correo}</p>
               <p className="mt-1">
                 <span className={`text-sm px-2 py-1 rounded-full ${
-                  usuario.rango === 1 ? 'bg-purple-100 text-purple-800' : 
-                  usuario.rango === 2 ? 'bg-blue-100 text-blue-800' : 
+                  usuario.rango === 1 ? 'bg-purple-100 text-purple-800' :
+                  usuario.rango === 2 ? 'bg-blue-100 text-blue-800' :
                   'bg-gray-100 text-gray-800'
                 }`}>
                   {getRangoText(usuario.rango)}
                 </span>
               </p>
             </div>
-            
+
             <div className="flex gap-2">
               <Button
                 type="button"

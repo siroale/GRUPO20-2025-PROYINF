@@ -1,5 +1,5 @@
-interface Usuario {
-    id_usuario?: number;
+export interface Usuario {
+    id_usuario: number;
     rango: number;
     correo: string;
     contrasena: string;
@@ -8,9 +8,9 @@ interface Usuario {
     foto?: string;
     activo: number;
   }
-  
+
   const API_URL = "http://localhost:8000/api";
-  
+
   // Devuelve todos los usuarios activos
   export async function fetchUsuarios(): Promise<Usuario[]> {
     try {
@@ -25,7 +25,7 @@ interface Usuario {
       throw new Error("No se pudieron cargar los usuarios");
     }
   }
-  
+
   export async function createUsuario(userData: Usuario): Promise<Usuario> {
     try {
       const response = await fetch(`${API_URL}/registro/`, {
@@ -35,7 +35,7 @@ interface Usuario {
         },
         body: JSON.stringify(userData),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
@@ -45,7 +45,7 @@ interface Usuario {
       throw new Error("No se pudo crear el usuario");
     }
   }
-  
+
   export async function updateUsuario(id: number, userData: Partial<Usuario>): Promise<Usuario> {
     try {
       const response = await fetch(`${API_URL}/usuario/${id}/`, {
@@ -55,7 +55,7 @@ interface Usuario {
         },
         body: JSON.stringify(userData),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
@@ -65,7 +65,7 @@ interface Usuario {
       throw new Error("No se pudo actualizar el usuario");
     }
   }
-  
+
   export async function deleteUsuario(id: number): Promise<void> {
     try {
       const response = await fetch(`${API_URL}/usuario/${id}/`, {
@@ -74,7 +74,7 @@ interface Usuario {
           "Content-Type": "application/json",
         }
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
@@ -83,7 +83,7 @@ interface Usuario {
       throw new Error("No se pudo eliminar el usuario");
     }
   }
-  
+
   export function getCurrentUser(): Usuario | null {
     const usuarioActual = localStorage.getItem("user");
     if (usuarioActual) {
@@ -96,7 +96,7 @@ interface Usuario {
     }
     return null;
   }
-  
+
   export function isAdmin(usuario: Usuario | null): boolean {
     return usuario?.rango === 1;
   }
