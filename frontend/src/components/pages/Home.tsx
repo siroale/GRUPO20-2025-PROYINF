@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, BaseSyntheticEvent } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -7,10 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-  const [boletines, setBoletines] = useState([]);
-  const [autores, setAutores] = useState({});
+  const [boletines, setBoletines] = useState<any[]>([]);
+  const [autores, setAutores] = useState<Record<number, any>>({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const boletinesPorPagina = 3;
@@ -19,26 +19,26 @@ export default function Home() {
     const fetchBoletines = async () => {
       try {
         const response = await fetch("http://localhost:8000/api/boletin/");
-        
+
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);
         }
-        
+
         const data = await response.json();
         const boletinesArray = Array.isArray(data) ? data : [data];
-        
+
         // Ordenar boletines por fecha (del más reciente al más antiguo)
         const boletinesOrdenados = [...boletinesArray].sort((a, b) => {
-          return new Date(b.fecha) - new Date(a.fecha);
+          return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
         });
-        
+
         setBoletines(boletinesOrdenados);
-        
+
         // Obtener IDs únicos de autores
         const autorIds = [...new Set(boletinesOrdenados.map(b => b.autor))];
-        
+
         // Obtener información de cada autor
-        const autoresInfo = {};
+        const autoresInfo: Record<number, any> = {};
         await Promise.all(
           autorIds.map(async (id) => {
             try {
@@ -52,12 +52,12 @@ export default function Home() {
             }
           })
         );
-        
+
         setAutores(autoresInfo);
         setLoading(false);
       } catch (err) {
         console.error("Error al obtener los datos:", err);
-        setError(err.message);
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
         setLoading(false);
       }
     };
@@ -83,15 +83,15 @@ export default function Home() {
   const indexOfLastBoletin = currentPage * boletinesPorPagina;
   const indexOfFirstBoletin = indexOfLastBoletin - boletinesPorPagina;
   const boletinesActuales = boletinesFiltrados.slice(indexOfFirstBoletin, indexOfLastBoletin);
-  
+
   // Calcular número total de páginas
   const totalPaginas = Math.ceil(boletinesFiltrados.length / boletinesPorPagina);
 
   // Cambiar de página
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   // Formatear fecha
-  const formatearFecha = (fechaStr) => {
+  const formatearFecha = (fechaStr: string) => {
     const fecha = new Date(fechaStr);
     return fecha.toLocaleDateString('es-ES', {
       day: '2-digit',
@@ -101,7 +101,7 @@ export default function Home() {
   };
 
   // Obtener nombre completo del autor
-  const getNombreAutor = (autorId) => {
+  const getNombreAutor = (autorId: number) => {
     if (autores[autorId]) {
       return `${autores[autorId].nombre} ${autores[autorId].apellido}`;
     }
@@ -109,24 +109,24 @@ export default function Home() {
   };
 
   // Función para manejar cambios en la barra de búsqueda
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: BaseSyntheticEvent) => {
     setSearchTerm(e.target.value);
   };
 
   // Generar el componente de paginación con mejor indicación visual
   const renderPagination = () => {
     if (totalPaginas <= 1) return null;
-    
+
     const paginationItems = [];
-    
+
     // Lógica para mostrar ellipsis si hay muchas páginas
     const maxVisiblePages = 5;
     let startPage = 1;
     let endPage = totalPaginas;
-    
+
     if (totalPaginas > maxVisiblePages) {
       const middlePoint = Math.floor(maxVisiblePages / 2);
-      
+
       if (currentPage <= middlePoint + 1) {
         // Estamos cerca del inicio
         endPage = maxVisiblePages;
@@ -139,20 +139,20 @@ export default function Home() {
         endPage = currentPage + middlePoint;
       }
     }
-    
+
     // Botón Anterior
     paginationItems.push(
-      <Button 
+      <Button
         key="prev"
-        variant="default" 
-        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+        variant="default"
+        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
         disabled={currentPage === 1}
         className="text-white"
       >
         Anterior
       </Button>
     );
-    
+
     // Primera página si no es visible
     if (startPage > 1) {
       paginationItems.push(
@@ -165,7 +165,7 @@ export default function Home() {
           1
         </Button>
       );
-      
+
       // Ellipsis si hay salto
       if (startPage > 2) {
         paginationItems.push(
@@ -173,7 +173,7 @@ export default function Home() {
         );
       }
     }
-    
+
     // Páginas numeradas
     for (let i = startPage; i <= endPage; i++) {
       paginationItems.push(
@@ -182,8 +182,8 @@ export default function Home() {
           variant={currentPage === i ? "default" : "outline"}
           onClick={() => paginate(i)}
           className={`w-10 ${
-            currentPage === i 
-              ? "text-white bg-blue-800 border-2 border-white shadow-lg font-bold scale-110 transform ring-2 ring-blue-400" 
+            currentPage === i
+              ? "text-white bg-blue-800 border-2 border-white shadow-lg font-bold scale-110 transform ring-2 ring-blue-400"
               : "text-white bg-blue-600 hover:bg-blue-700"
           }`}
         >
@@ -191,7 +191,7 @@ export default function Home() {
         </Button>
       );
     }
-    
+
     // Última página si no es visible
     if (endPage < totalPaginas) {
       // Ellipsis si hay salto
@@ -200,7 +200,7 @@ export default function Home() {
           <span key="ellipsis2" className="px-2 py-2 text-gray-600">...</span>
         );
       }
-      
+
       paginationItems.push(
         <Button
           key={totalPaginas}
@@ -212,20 +212,20 @@ export default function Home() {
         </Button>
       );
     }
-    
+
     // Botón Siguiente
     paginationItems.push(
-      <Button 
+      <Button
         key="next"
-        variant="default" 
-        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPaginas))} 
+        variant="default"
+        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPaginas))}
         disabled={currentPage === totalPaginas}
         className="text-white"
       >
         Siguiente
       </Button>
     );
-    
+
     return (
       <div className="flex flex-wrap justify-center mt-8 gap-2">
         {paginationItems}
@@ -236,7 +236,7 @@ export default function Home() {
   // Renderizado del esqueleto mientras carga
   const renderSkeletons = () => (
     <div className="space-y-6">
-      {Array(3).fill().map((_, i) => (
+      {Array(3).fill(null).map((_, i) => (
         <div key={i} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden">
           <Skeleton className="h-48 w-full md:w-64" />
           <div className="p-6 w-full space-y-2">
@@ -281,9 +281,9 @@ export default function Home() {
             </p>
           )}
           {searchTerm && (
-            <Button 
-              variant="outline" 
-              onClick={() => setSearchTerm("")} 
+            <Button
+              variant="outline"
+              onClick={() => setSearchTerm("")}
               className="mt-4"
             >
               <p className="text-white">Limpiar búsqueda</p>
@@ -298,9 +298,9 @@ export default function Home() {
           <div key={boletin.id_boletin} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow mb-4" style={{ minHeight: '200px' }}>
             <div className="md:w-64 h-48 bg-gray-200 flex items-center justify-center">
               {boletin.imagen ? (
-                <img 
-                  src={boletin.imagen} 
-                  alt={`Imagen de ${boletin.titulo}`} 
+                <img
+                  src={boletin.imagen}
+                  alt={`Imagen de ${boletin.titulo}`}
                   className="w-full h-full object-cover rounded-lg"
                 />
               ) : (
@@ -312,7 +312,7 @@ export default function Home() {
                 </div>
               )}
             </div>
-            
+
             <div className="p-6 flex-1">
               <div className="flex justify-between items-start">
                 <h4 className="text-xl font-bold mb-2 text-blue-800">{boletin.titulo}</h4>
@@ -321,7 +321,7 @@ export default function Home() {
                   <span>{boletin.vistas}</span>
                 </div>
               </div>
-              
+
               <div className="flex flex-wrap gap-4 mb-3 text-sm text-gray-600">
                 <div className="flex items-center">
                   <Calendar size={16} className="mr-1" />
@@ -332,9 +332,9 @@ export default function Home() {
                   <span>{getNombreAutor(boletin.autor)}</span>
                 </div>
               </div>
-              
+
               <p className="text-gray-700 mb-4 line-clamp-3">{boletin.cuerpo}</p>
-              
+
               <div className="mt-4">
                 <Link to={`/boletin/${boletin.id_boletin}`}>
                   <Button variant="default" size="default" className="text-white">
@@ -346,7 +346,7 @@ export default function Home() {
           </div>
         ))}
       </div>
-      
+
       {/* Paginación mejorada */}
       {renderPagination()}
     </>
@@ -355,8 +355,8 @@ export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-white">
       <h2 className="text-3xl font-bold mb-4">Boletines Informativos</h2>
-      <p className="text-gray-600 mb-8">Aquí podras encontrar boletines con las informaciones agricolas mas relevantes</p>
-      
+      <p className="text-gray-600 mb-8">Aquí podrás encontrar boletines con las informaciones agrícolas mas relevantes</p>
+
       {/* Barra de búsqueda - siempre visible */}
       <div className="mb-8">
         <div className="relative max-w-md">
@@ -371,7 +371,7 @@ export default function Home() {
           />
         </div>
       </div>
-      
+
       <div className="space-y-6">
         {/* Renderizado condicional - solo muestra uno u otro, nunca ambos */}
         {loading ? renderSkeletons() : renderContent()}
