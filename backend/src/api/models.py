@@ -99,6 +99,7 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length=45)
     apellido = models.CharField(max_length=45)
     foto = models.CharField(max_length=300, blank=True, null=True, default='/media/profile_picture/murin.png')
+    activo = models.SmallIntegerField()
 
     class Meta:
         managed = False

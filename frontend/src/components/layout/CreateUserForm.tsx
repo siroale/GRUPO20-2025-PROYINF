@@ -18,6 +18,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
     correo: "",
     contrasena: "",
     rango: 2, // Por defecto, usuario regular
+    activo: 1,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

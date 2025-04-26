@@ -13,6 +13,7 @@ interface Usuario {
   nombre: string;
   apellido: string;
   foto?: string;
+  activo: number;
 }
 
 interface UserListItemProps {
@@ -30,6 +31,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
     apellido: usuario.apellido,
     correo: usuario.correo,
     rango: usuario.rango,
+    activo: usuario.activo,
   });
 
   const getRangoText = (rango: number) => {
@@ -74,7 +76,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
       setError(null);
       
       try {
-        await deleteUsuario(usuario.id_usuario);
+        await updateUsuario(usuario.id_usuario, { activo: 0 });
         onDelete();
       } catch (err) {
         if (err instanceof Error) {
@@ -199,7 +201,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
                 disabled={loading}
                 className="h-9 w-9 p-0 flex items-center justify-center text-red-600 hover:text-red-700 hover:bg-red-50"
               >
-                <Trash size={16} />
+                <Trash className="text-red-700" size={16} />
               </Button>
             </div>
           </div>

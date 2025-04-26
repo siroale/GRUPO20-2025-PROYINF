@@ -6,17 +6,20 @@ interface Usuario {
     nombre: string;
     apellido: string;
     foto?: string;
+    activo: number;
   }
   
   const API_URL = "http://localhost:8000/api";
   
+  // Devuelve todos los usuarios activos
   export async function fetchUsuarios(): Promise<Usuario[]> {
     try {
       const response = await fetch(`${API_URL}/usuario/`);
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
-      return await response.json();
+      const usuarios = await response.json() as Usuario[];
+      return usuarios.filter(usuario => usuario.activo === 1);
     } catch (err) {
       console.error("Error al obtener usuarios:", err);
       throw new Error("No se pudieron cargar los usuarios");

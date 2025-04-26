@@ -69,7 +69,7 @@ function UserProfile({ userData, onLogout }: UserProfileProps) {
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full" onClick={handleLogout}>
-          <p className="text-white">Cerrar sesión</p>
+          <p>Cerrar sesión</p>
         </Button>
       </CardFooter>
     </Card>

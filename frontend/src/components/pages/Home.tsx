@@ -160,7 +160,7 @@ export default function Home() {
           key={1}
           variant="outline"
           onClick={() => paginate(1)}
-          className="w-10 text-white bg-blue-600 hover:bg-blue-700"
+          className="w-10 text-white"
         >
           1
         </Button>
@@ -174,7 +174,7 @@ export default function Home() {
       }
     }
     
-    // Páginas numeradas
+    // Páginas numeradas PARA CAMBIAR EL COLOR DE LOS BOTONES DE NAVEGACION HAY QUE CAMBIAR EL RING-ORANGE-400
     for (let i = startPage; i <= endPage; i++) {
       paginationItems.push(
         <Button
@@ -183,8 +183,8 @@ export default function Home() {
           onClick={() => paginate(i)}
           className={`w-10 ${
             currentPage === i 
-              ? "text-white bg-blue-800 border-2 border-white shadow-lg font-bold scale-110 transform ring-2 ring-blue-400" 
-              : "text-white bg-blue-600 hover:bg-blue-700"
+              ? "text-white border-2 border-white shadow-lg font-bold scale-110 transform ring-2 ring-orange-400" 
+              : "text-white"
           }`}
         >
           {i}
@@ -206,7 +206,7 @@ export default function Home() {
           key={totalPaginas}
           variant="outline"
           onClick={() => paginate(totalPaginas)}
-          className="w-10 text-white bg-blue-600 hover:bg-blue-700"
+          className="w-10 text-white"
         >
           {totalPaginas}
         </Button>
@@ -362,7 +362,7 @@ export default function Home() {
           ))}
         </div>
         
-        {/* Paginación mejorada */}
+        {/* Paginación */}
         {renderPagination()}
       </div>
     </div>

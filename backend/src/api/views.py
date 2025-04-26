@@ -49,6 +49,8 @@ def login_usuario(request):
     
     try:
         usuario = Usuario.objects.get(correo=correo)
+        if usuario.activo == 0:
+            return Response({"error": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
         if check_password(contrasena, usuario.contrasena):
             # Crear payload manualmente
             payload = {
