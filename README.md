@@ -1,10 +1,10 @@
 # KESSOFT
 
-* Joaquín Dominguez - 202273545-7
-* Andres Aguila - 202273615-1
-* Lucas Mosquera - 202273504-k
-* Alexis Mellis - 202273557-0
-* **Tutor**: Sebastían Salgado
+- Joaquín Dominguez - 202273545-7
+- Andrés Águila - 202273615-1
+- Lucas Mosquera - 202273504-k
+- Alexis Mellis - 202273557-0
+- **Tutor:** Sebastían Salgado
 
 ## Wiki
 
@@ -71,7 +71,7 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 	- Levanta el backend en http://localhost:8000/api/
 	- PostgreSQL está disponible internamente como db:5432
 
-3. Primera vez con Django (backend)
+3. Primera vez con Django (no es necesario si solo se quiere ver la página)
 	En otra terminal:
 
 	```bash
@@ -79,7 +79,7 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 	docker-compose exec backend python manage.py createsuperuser
 	```
 
-4. ¡Listo!
+4. Ingrese al localhost
 	- Abre tu navegador en: http://localhost:5173
 	- Accede al panel de Django en: http://localhost:8000/admin
 
@@ -97,20 +97,17 @@ Cualquier cambio en los archivos se reflejará automáticamente:
 ### Scripts útiles
 
 ```bash
-# Levantar todos los servicios
-docker-compose up
+# Corre los contenedores
+make run
 
-# Reconstruir contenedores
-docker-compose up --build
+# Para los contenedores
+make stop
 
-# Entrar a la terminal de Django
-docker-compose exec backend bash
+# Reinicia los contenedores
+make restart
 
-# Ejecutar comandos de Django
-docker-compose exec backend python manage.py <comando>
-
-# Entrar a la terminal de React
-docker-compose exec frontend bash
+# Construye los contenedores desde 0 (hard reset)
+make rebuild
 ```
 
 ---

@@ -65,7 +65,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
       
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="nombre">Nombre</Label>
+          <Label htmlFor="nombre" className="mb-1">Nombre</Label>
           <Input
             id="nombre"
             name="nombre"
@@ -76,7 +76,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
         </div>
         
         <div>
-          <Label htmlFor="apellido">Apellido</Label>
+          <Label htmlFor="apellido" className="mb-1">Apellido</Label>
           <Input
             id="apellido"
             name="apellido"
@@ -88,7 +88,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="correo">Correo electrónico</Label>
+        <Label htmlFor="correo" className="mb-1">Correo electrónico</Label>
         <Input
           id="correo"
           name="correo"
@@ -100,7 +100,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="contrasena">Contraseña</Label>
+        <Label htmlFor="contrasena" className="mb-1">Contraseña</Label>
         <Input
           id="contrasena"
           name="contrasena"
@@ -112,7 +112,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="rango">Rango</Label>
+        <Label htmlFor="rango" className="mb-1">Rol</Label>
         <select
           id="rango"
           name="rango"
@@ -121,7 +121,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         >
           <option value={1}>Administrador</option>
-          <option value={2}>Miembro</option>
+          <option value={2}>Editor</option>
           <option value={3}>Usuario</option>
         </select>
       </div>

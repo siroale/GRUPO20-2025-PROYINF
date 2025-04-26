@@ -46,7 +46,7 @@ interface Usuario {
   export async function updateUsuario(id: number, userData: Partial<Usuario>): Promise<Usuario> {
     try {
       const response = await fetch(`${API_URL}/usuario/${id}/`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -67,6 +67,9 @@ interface Usuario {
     try {
       const response = await fetch(`${API_URL}/usuario/${id}/`, {
         method: "DELETE",
+        headers:{
+          "Content-Type": "application/json",
+        }
       });
   
       if (!response.ok) {

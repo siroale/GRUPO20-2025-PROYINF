@@ -100,7 +100,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm text-gray-600">Nombre</label>
+              <label className="text-sm text-gray-600 mb-6">Nombre</label>
               <Input
                 name="nombre"
                 value={userData.nombre}
@@ -130,7 +130,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
           </div>
           
           <div>
-            <label className="text-sm text-gray-600">Rango</label>
+            <label className="text-sm text-gray-600 mb-6">Rol</label>
             <select
               name="rango"
               value={userData.rango}
@@ -138,7 +138,7 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             >
               <option value={1}>Administrador</option>
-              <option value={2}>Miembro</option>
+              <option value={2}>Editor</option>
               <option value={3}>Usuario</option>
             </select>
           </div>
