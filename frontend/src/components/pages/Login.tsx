@@ -1,5 +1,3 @@
-// src/components/pages/Login.tsx
-import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import LoginForm from "@/components/layout/LoginForm"
 
@@ -10,6 +8,7 @@ const Login = () => {
     // Guardar token y datos de usuario en localStorage
     localStorage.setItem("token", data.access)
     localStorage.setItem("user", JSON.stringify(data.usuario))
+
     // Redirigir al perfil
     navigate("/profile")
   }
