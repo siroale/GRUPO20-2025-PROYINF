@@ -233,64 +233,78 @@ export default function Home() {
     );
   };
 
-  // Renderizado del esqueleto mientras carga
-  const renderSkeletons = () => (
-    <div className="space-y-6">
-      {Array(3).fill().map((_, i) => (
-        <div key={i} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden">
-          <Skeleton className="h-48 w-full md:w-64" />
-          <div className="p-6 w-full space-y-2">
-            <Skeleton className="h-6 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-1/3" />
-            <Skeleton className="h-20 w-full" />
-          </div>
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8 bg-white">
+      <h2 className="text-3xl font-bold mb-4">Boletines Informativos</h2>
+      <p className="text-gray-600 mb-8">Aquí podras encontrar boletines con las informaciones agricolas mas relevantes</p>
+      
+      {/* Barra de búsqueda */}
+      <div className="mb-8">
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+          <Input
+            type="text"
+            placeholder="Buscar por título o contenido..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="pl-10 py-2 pr-4 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
         </div>
-      ))}
-    </div>
-  );
+      </div>
+      
+      <div className="space-y-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-2xl font-semibold">Ultimas Entradas</h3>
+          {!loading && boletinesFiltrados.length > 0 && (
+            <div className="text-sm text-gray-500">
+              Mostrando {indexOfFirstBoletin + 1}-{Math.min(indexOfLastBoletin, boletinesFiltrados.length)} de {boletinesFiltrados.length} boletines
+              {searchTerm && <span> (filtrado de {boletines.length} total)</span>}
+            </div>
+          )}
+        </div>
 
-  // Renderizado del contenido cuando haya terminado de cargar
-  const renderContent = () => (
-    <>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-semibold">Ultimas Entradas</h3>
-        {boletinesFiltrados.length > 0 && (
-          <div className="text-sm text-gray-500">
-            Mostrando {indexOfFirstBoletin + 1}-{Math.min(indexOfLastBoletin, boletinesFiltrados.length)} de {boletinesFiltrados.length} boletines
-            {searchTerm && <span> (filtrado de {boletines.length} total)</span>}
+        {loading && (
+          Array(3).fill().map((_, i) => (
+            <div key={i} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden">
+              <Skeleton className="h-48 w-full md:w-64" />
+              <div className="p-6 w-full space-y-2">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-20 w-full" />
+              </div>
+            </div>
+          ))
+        )}
+
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>
+              Error al cargar los datos: {error}
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {!loading && boletinesFiltrados.length === 0 && (
+          <div className="text-center py-10 bg-gray-50 rounded-lg">
+            <Search className="mx-auto h-12 w-12 text-gray-400 mb-3" />
+            <p className="text-gray-500 mb-2">No se encontraron boletines</p>
+            {searchTerm && (
+              <p className="text-gray-400 text-sm">
+                No hay resultados para "{searchTerm}". Intenta con otros términos.
+              </p>
+            )}
+            {searchTerm && (
+              <Button 
+                variant="outline" 
+                onClick={() => setSearchTerm("")} 
+                className="mt-4"
+              >
+                <p className="text-white">Limpiar búsqueda</p>
+              </Button>
+            )}
           </div>
         )}
-      </div>
-
-      {error && (
-        <Alert variant="destructive">
-          <AlertDescription>
-            Error al cargar los datos: {error}
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {boletinesFiltrados.length === 0 && (
-        <div className="text-center py-10 bg-gray-50 rounded-lg">
-          <Search className="mx-auto h-12 w-12 text-gray-400 mb-3" />
-          <p className="text-gray-500 mb-2">No se encontraron boletines</p>
-          {searchTerm && (
-            <p className="text-gray-400 text-sm">
-              No hay resultados para "{searchTerm}". Intenta con otros términos.
-            </p>
-          )}
-          {searchTerm && (
-            <Button 
-              variant="outline" 
-              onClick={() => setSearchTerm("")} 
-              className="mt-4"
-            >
-              <p className="text-white">Limpiar búsqueda</p>
-            </Button>
-          )}
-        </div>
-      )}
 
         {/* Contenedor con altura fija y scroll */}
         <div className="boletines-container" style={{ height: '71vh', overflowY: 'auto' }}>
