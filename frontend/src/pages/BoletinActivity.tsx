@@ -12,7 +12,7 @@ const ActivityLogTable = () => {
     toDate: "",
   });
 
-  // Simulacion de datos
+  // Simulacion de datos (Hay que hacer bien esto en la base de datos)
   useEffect(() => {
     const fetchActivities = async () => {
       try {
