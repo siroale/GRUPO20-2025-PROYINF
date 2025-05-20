@@ -72,7 +72,7 @@ export default function Navbar() {
                     to="/crear_boletin"
                     className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
                   >
-                    Boletín
+                    Crear Boletín
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
@@ -82,7 +82,17 @@ export default function Navbar() {
                     to="/gestion_usuarios"
                     className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
                   >
-                    Usuarios
+                    Gestion Usuarios
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/gestion_boletines"
+                    className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                  >
+                    Actividad Boletines
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
