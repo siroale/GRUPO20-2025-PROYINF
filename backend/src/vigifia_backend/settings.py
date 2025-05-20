@@ -107,6 +107,9 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'TEST': {
+            'NAME': 'test_' + os.getenv('DB_NAME', 'POSTGRES_DB')
+        }
     }
 }
 
