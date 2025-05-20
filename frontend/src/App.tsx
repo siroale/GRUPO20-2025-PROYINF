@@ -8,6 +8,8 @@ import Profile from "@/pages/Profile"
 import CreateBoletin from "@/pages/CreateBoletin"
 import AdminPage from "@/pages/AdminPage"
 import BoletinDetail from "@/pages/BoletinDetail";
+import BoletinActivity from "@/pages/BoletinActivity";
+
 
 export default function App() {
   return (
@@ -21,6 +23,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/crear_boletin" element={<CreateBoletin />} />
         <Route path="/gestion_usuarios" element={<AdminPage />} />
+        <Route path="/gestion_boletines" element={<BoletinActivity />} />
       </Routes>
     </Layout>
   )
