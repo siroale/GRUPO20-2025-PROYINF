@@ -327,7 +327,7 @@ Este contenido es solo un ejemplo y será reemplazado por el contenido real gene
             <Button
               type="button"
               variant="outline"
-              onClick={() => navigate("/boletines")}
+              onClick={() => navigate("/")}
             >
               Cancelar
             </Button>
