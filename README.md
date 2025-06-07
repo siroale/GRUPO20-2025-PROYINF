@@ -1,4 +1,4 @@
-# KESSOFT
+# VIGIFIA - KESSOFT
 
 - Joaquín Dominguez - 202273545-7
 - Andrés Águila - 202273615-1
@@ -10,13 +10,13 @@
 
 Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/siroale/KESSOFT-2025-PROYINF/wiki).
 
-## Videos
+### Videos
 
 - [Presentacion del cliente](https://youtu.be/abJau21SDIk)
 - [Prototipo del Proyecto](https://youtu.be/Z2_IOhcjPvM)
 - [Video Versión Final Proyecto](https://youtu.be/iCsO8WIfQFA)
 
-## Levantamiento de página
+## Sobre el proyecto
 
 Este proyecto es una aplicación fullstack separada en dos carpetas principales:
 
@@ -25,17 +25,13 @@ Este proyecto es una aplicación fullstack separada en dos carpetas principales:
 
 Todo corre en contenedores Docker para facilitar el desarrollo.
 
----
-
 ### Requisitos
 
 - Docker
 - Docker Compose
 - Make (opcional, para usar atajos)
 
----
-
-### Estructura del proyecto
+### Estructura
 
 ```
 .
@@ -46,45 +42,17 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 └── README.md
 ```
 
----
-
 ### Levantar el entorno de desarrollo
 
-1. **Clona el repositorio**
-
-   ```bash
-   git clone <repo-url>
-   cd <nombre-del-proyecto>
-   ```
-
+1. Clona el repositorio de forma local
 2. Levanta los servicios
 
 	```bash
 	docker-compose up --build
 	```
 
-	Esto hará lo siguiente:
-
-	- Levanta el frontend en http://localhost:5173
-	- Levanta el backend en http://localhost:8000
-	- PostgreSQL está disponible en http://localhost:5432
-
-3. Ingrese al localhost
-	- Abre tu navegador en: http://localhost:5173
-	- Accede al panel de Django en: http://localhost:8000/admin
-
+3. Abre el proyecto en: http://localhost:5173
 4. Cree una cuenta en iniciar sesión para acceder a las páginas de administrador (crear boletines y gestión de usuarios)
-
----
-
-### Desarrollo activo
-
-Cualquier cambio en los archivos se reflejará automáticamente:
-
-- Frontend: Hot Reload con Vite.
-- Backend: Usa watchfiles para autoreload si lo configuraste.
-
----
 
 ### Scripts útiles
 
@@ -101,20 +69,6 @@ make restart
 # Construye los contenedores desde 0 (hard reset)
 make rebuild
 ```
-
----
-
-### Variables de entorno
-
-Puedes definir .env en las carpetas backend/ y frontend/ para configuración sensible. Ejemplo (backend/.env):
-
-```env
-POSTGRES_DB=postgres
-POSTGRES_USER=admin
-POSTGRES_PASSWORD=123
-```
-
----
 
 ### Stack técnico
 
