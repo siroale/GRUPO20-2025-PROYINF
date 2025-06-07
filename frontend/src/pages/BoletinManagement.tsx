@@ -293,8 +293,8 @@ const BulletinAdmin = () => {
     <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Boletines</h1>
-        <p className="text-gray-600">Aquí está la lista de todos los boletines del sistema</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Gestion de Boletines</h1>
+        <p className="text-gray-600">Aquí se muestran todos los boletines del sistema y las acciones realizables sobre estos</p>
       </div>
 
       {/* Controls */}
