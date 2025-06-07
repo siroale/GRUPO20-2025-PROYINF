@@ -41,14 +41,14 @@ export default function BoletinDetail() {
       try {
         // Obtener detalles del boletín
         const response = await fetch(`http://localhost:8000/api/boletin/${id}/`);
-        
+
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);
         }
-        
+
         const data: Boletin = await response.json();
         setBoletin(data);
-        
+
         // Obtener información del autor
         if (data.autor) {
           try {
@@ -61,7 +61,7 @@ export default function BoletinDetail() {
             console.error(`Error al obtener información del autor:`, err);
           }
         }
-        
+
         setLoading(false);
       } catch (err) {
         console.error("Error al obtener los datos del boletín:", err);
@@ -76,12 +76,12 @@ export default function BoletinDetail() {
   // Incrementar contador de vistas
   const incrementarVistas = async () => {
     if (!boletin) return;
-    
+
     try {
       const response = await axios.post(
         `http://localhost:8000/api/boletin/${boletin.id_boletin}/incrementar-vistas/`
       );
-      
+
       if (response.status === 200) {
         // Actualizar el estado local con el nuevo contador de vistas
         setBoletin({
@@ -118,15 +118,15 @@ export default function BoletinDetail() {
     if (boletin && boletin.ruta) {
       // Incrementar contador de vistas
       await incrementarVistas();
-      
+
       // Crear un enlace temporal y simular el clic
       const link = document.createElement('a');
       link.href = boletin.ruta;
-      
+
       // Extraer el nombre del archivo de la ruta
       const fileName = boletin.ruta.split('/').pop() || 'boletin.pdf';
       link.setAttribute('download', fileName);
-      
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -138,7 +138,7 @@ export default function BoletinDetail() {
     if (boletin && boletin.ruta) {
       // Incrementar contador de vistas
       await incrementarVistas();
-      
+
       // Abrir el PDF en una nueva pestaña
       window.open(boletin.ruta, '_blank');
     }
@@ -167,7 +167,8 @@ export default function BoletinDetail() {
         </Alert>
         <div className="mt-4">
           <Link to="/">
-            <Button variant="outline" className="flex items-center">
+            {/* Botón de error: Usar un color de fondo visible */}
+            <Button className="flex items-center bg-blue-600 text-white hover:bg-blue-700">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver a boletines
             </Button>
@@ -187,7 +188,8 @@ export default function BoletinDetail() {
         </Alert>
         <div className="mt-4">
           <Link to="/">
-            <Button variant="secondary" className="flex items-center text-white">
+            {/* Botón de no encontrado: Usar un color de fondo visible */}
+            <Button className="flex items-center bg-blue-600 text-white hover:bg-blue-700">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver a boletines
             </Button>
@@ -201,7 +203,8 @@ export default function BoletinDetail() {
     <div className="max-w-4xl mx-auto px-4 py-8 bg-white">
       <div className="mb-6">
         <Link to="/">
-          <Button variant="secondary" className="flex items-center text-white">
+          {/* Botón "Volver": Usar un color de fondo visible */}
+          <Button className="flex items-center bg-gray-600 text-white hover:bg-gray-700">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Volver a boletines
           </Button>
@@ -211,7 +214,7 @@ export default function BoletinDetail() {
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="p-6">
           <h1 className="text-3xl font-bold text-blue-800 mb-4">{boletin.titulo}</h1>
-          
+
           <div className="flex flex-wrap gap-4 mb-6 text-sm text-gray-600">
             <div className="flex items-center">
               <Calendar size={16} className="mr-1" />
@@ -233,34 +236,36 @@ export default function BoletinDetail() {
 
           {boletin.imagen && (
             <div className="mb-6">
-              <img 
-                src={boletin.imagen} 
-                alt={`Imagen de ${boletin.titulo}`} 
+              <img
+                src={boletin.imagen}
+                alt={`Imagen de ${boletin.titulo}`}
                 className="w-full max-h-96 object-cover rounded-lg"
               />
             </div>
           )}
-          
+
           <div className="prose max-w-none mb-8">
             <p className="text-gray-700 whitespace-pre-line">{boletin.cuerpo}</p>
           </div>
 
-          <div className="flex space-x-4">
-            <Button 
-              variant="secondary" 
-              size="lg" 
-              className="flex items-center text-white"
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            {/* Botón de Vista Previa: Usar un color de fondo claro y texto oscuro */}
+            <Button
+              // Eliminado variant="secondary" para tomar control total con className
+              size="lg"
+              className="flex items-center bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
               onClick={handlePreview}
               disabled={!boletin.ruta}
             >
               <FileText className="mr-2 h-4 w-4" />
               Vista Previa
             </Button>
-            
-            <Button 
-              variant="secondary"
-              size="lg" 
-              className="flex items-center text-white"
+
+            {/* Botón Descargar PDF: Usar un color de fondo claro y texto oscuro */}
+            <Button
+              // Eliminado variant="secondary" para tomar control total con className
+              size="lg"
+              className="flex items-center bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
               onClick={handleDownload}
               disabled={!boletin.ruta}
             >

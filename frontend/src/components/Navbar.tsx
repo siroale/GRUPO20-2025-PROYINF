@@ -69,40 +69,10 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
-                    to="/crear_boletin"
+                    to="/dashboard"
                     className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
                   >
-                    Crear Boletín
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    to="/gestion_usuarios"
-                    className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
-                  >
-                    Gestion Usuarios
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    to="/actividad_boletines"
-                    className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
-                  >
-                    Actividad Boletines
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    to="/gestion_boletines"
-                    className="bg-black !text-white px-4 py-2 rounded hover:bg-gray-800 transition"
-                  >
-                    Gestion Boletines
+                    Dashboard
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>

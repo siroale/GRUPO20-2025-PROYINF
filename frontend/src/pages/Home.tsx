@@ -132,7 +132,7 @@ export default function Home() {
         endPage = maxVisiblePages;
       } else if (currentPage >= totalPaginas - middlePoint) {
         // Estamos cerca del final
-        startPage = totalPaginas - maxVisiblePages + 1;
+        startPage = totalPagalias - maxVisiblePages + 1;
       } else {
         // Estamos en el medio
         startPage = currentPage - middlePoint;
@@ -144,10 +144,12 @@ export default function Home() {
     paginationItems.push(
       <Button
         key="prev"
-        variant="default"
         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
         disabled={currentPage === 1}
-        className="text-white"
+        className="
+          bg-gray-800 text-white hover:bg-gray-700
+          disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed
+        "
       >
         Anterior
       </Button>
@@ -158,9 +160,11 @@ export default function Home() {
       paginationItems.push(
         <Button
           key={1}
-          variant="outline"
           onClick={() => paginate(1)}
-          className="w-10 text-white bg-blue-600 hover:bg-blue-700"
+          className="
+            w-10 bg-gray-800 text-white hover:bg-gray-700
+            disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed
+          "
         >
           1
         </Button>
@@ -179,13 +183,17 @@ export default function Home() {
       paginationItems.push(
         <Button
           key={i}
-          variant={currentPage === i ? "default" : "outline"}
           onClick={() => paginate(i)}
-          className={`w-10 ${
-            currentPage === i
-              ? "text-white bg-blue-800 border-2 border-white shadow-lg font-bold scale-110 transform ring-2 ring-blue-400"
-              : "text-white bg-blue-600 hover:bg-blue-700"
-          }`}
+          className={`
+            w-10
+            ${
+              currentPage === i
+                ? "bg-black text-white font-bold border-2 border-gray-400 shadow-md scale-105" // Página activa: Negro con borde gris
+                : "bg-gray-800 text-white hover:bg-gray-700" // Página inactiva: Gris oscuro
+            }
+            transition-all duration-200 ease-in-out
+            disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed
+          `}
         >
           {i}
         </Button>
@@ -204,9 +212,11 @@ export default function Home() {
       paginationItems.push(
         <Button
           key={totalPaginas}
-          variant="outline"
           onClick={() => paginate(totalPaginas)}
-          className="w-10 text-white bg-blue-600 hover:bg-blue-700"
+          className="
+            w-10 bg-gray-800 text-white hover:bg-gray-700
+            disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed
+          "
         >
           {totalPaginas}
         </Button>
@@ -217,10 +227,12 @@ export default function Home() {
     paginationItems.push(
       <Button
         key="next"
-        variant="default"
         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPaginas))}
         disabled={currentPage === totalPaginas}
-        className="text-white"
+        className="
+          bg-gray-800 text-white hover:bg-gray-700
+          disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed
+        "
       >
         Siguiente
       </Button>
@@ -254,7 +266,7 @@ export default function Home() {
   const renderContent = () => (
     <>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-semibold">Ultimas Entradas</h3>
+        <h3 className="text-2xl font-semibold text-gray-800">Últimas Entradas</h3> {/* Título gris oscuro */}
         {boletinesFiltrados.length > 0 && (
           <div className="text-sm text-gray-500">
             Mostrando {indexOfFirstBoletin + 1}-{Math.min(indexOfLastBoletin, boletinesFiltrados.length)} de {boletinesFiltrados.length} boletines
@@ -282,11 +294,10 @@ export default function Home() {
           )}
           {searchTerm && (
             <Button
-              variant="outline"
               onClick={() => setSearchTerm("")}
-              className="mt-4"
+              className="mt-4 bg-gray-800 text-white hover:bg-gray-700" // Botón Limpiar búsqueda gris oscuro
             >
-              <p className="text-white">Limpiar búsqueda</p>
+              Limpiar búsqueda
             </Button>
           )}
         </div>
@@ -315,7 +326,7 @@ export default function Home() {
 
             <div className="p-6 flex-1">
               <div className="flex justify-between items-start">
-                <h4 className="text-xl font-bold mb-2 text-blue-800">{boletin.titulo}</h4>
+                <h4 className="text-xl font-bold mb-2 text-gray-800">{boletin.titulo}</h4> {/* Título gris oscuro */}
                 <div className="flex items-center text-gray-500 text-sm">
                   <Eye size={16} className="mr-1" />
                   <span>{boletin.vistas}</span>
@@ -337,7 +348,13 @@ export default function Home() {
 
               <div className="mt-4">
                 <Link to={`/boletin/${boletin.id_boletin}`}>
-                  <Button variant="default" size="default" className="text-white">
+                  <Button
+                    size="default"
+                    className="
+                      bg-gray-800 text-white hover:bg-gray-700
+                      disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed
+                    "
+                  >
                     Leer más
                   </Button>
                 </Link>
@@ -354,8 +371,8 @@ export default function Home() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-white">
-      <h2 className="text-3xl font-bold mb-4">Boletines Informativos</h2>
-      <p className="text-gray-600 mb-8">Aquí podrás encontrar boletines con las informaciones agrícolas mas relevantes</p>
+      <h2 className="text-3xl font-bold mb-4 text-gray-900">Boletines Informativos</h2> {/* Título principal gris oscuro */}
+      <p className="text-gray-600 mb-8">Aquí podrás encontrar boletines con las informaciones agrícolas más relevantes</p>
 
       {/* Barra de búsqueda - siempre visible */}
       <div className="mb-8">
@@ -366,14 +383,13 @@ export default function Home() {
             placeholder="Buscar por título o contenido..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="pl-10 py-2 pr-4 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            className="pl-10 py-2 pr-4 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500" // Focus ring gris
             disabled={loading}
           />
         </div>
       </div>
 
       <div className="space-y-6">
-        {/* Renderizado condicional - solo muestra uno u otro, nunca ambos */}
         {loading ? renderSkeletons() : renderContent()}
       </div>
     </div>

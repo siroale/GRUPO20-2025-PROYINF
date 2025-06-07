@@ -10,6 +10,7 @@ import AdminPage from "@/pages/AdminPage"
 import BoletinDetail from "@/pages/BoletinDetail";
 import BoletinActivity from "@/pages/BoletinActivity";
 import BoletinManagement from "@/pages/BoletinManagement";
+import Dashboard from "@/pages/Dashboard";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/gestion_usuarios" element={<AdminPage />} />
         <Route path="/actividad_boletines" element={<BoletinActivity />} />
         <Route path="/gestion_boletines" element={<BoletinManagement />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Layout>
   )

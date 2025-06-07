@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FileText, 
-  Calendar, 
-  Eye, 
-  Edit3, 
-  Trash2, 
-  Plus, 
+import {
+  FileText,
+  Calendar,
+  Eye,
+  Edit3,
+  Trash2,
+  Plus,
   Search,
   Filter,
   Download,
@@ -19,15 +19,15 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { 
-  fetchTodosBoletines, 
-  deleteBoletin, 
+import {
+  fetchTodosBoletines,
+  deleteBoletin,
   updateBoletin,
-  Boletin 
+  Boletin
 } from '@/services/BoletinManagementService';
-import { 
+import {
   fetchUsuarios,
-  Usuario 
+  Usuario
 } from '@/services/UserManagementService';
 
 // Modal de confirmación personalizado
@@ -112,10 +112,10 @@ const BulletinAdmin = () => {
   const [selectedBulletin, setSelectedBulletin] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [expandedRows, setExpandedRows] = useState({});
+  const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({}); // Corrected type
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Estados para el modal de confirmación
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -169,10 +169,10 @@ const BulletinAdmin = () => {
   const confirmDelete = async () => {
     try {
       setDeleteModal(prev => ({ ...prev, isDeleting: true }));
-      
+
       await deleteBoletin(deleteModal.bulletinId);
       setBulletins(bulletins.filter(b => b.id_boletin !== deleteModal.bulletinId));
-      
+
       // Cerrar modal después de eliminar exitosamente
       setDeleteModal({
         isOpen: false,
@@ -190,8 +190,8 @@ const BulletinAdmin = () => {
     try {
       const newStatus = bulletin.estado === 1 ? 0 : 1;
       await updateBoletin(bulletin.id_boletin, { estado: newStatus });
-      setBulletins(bulletins.map(b => 
-        b.id_boletin === bulletin.id_boletin 
+      setBulletins(bulletins.map(b =>
+        b.id_boletin === bulletin.id_boletin
           ? { ...b, estado: newStatus }
           : b
       ));
@@ -218,6 +218,8 @@ const BulletinAdmin = () => {
     window.location.href = '/crear_boletin';
   };
 
+  // --- CAMBIO CLAVE AQUÍ ---
+  // Ahora el toggleExpand se llama directamente en la fila <tr> para que toda la fila reaccione
   const toggleExpand = (id: number) => {
     setExpandedRows(prev => ({
       ...prev,
@@ -226,13 +228,14 @@ const BulletinAdmin = () => {
   };
 
   const getStatusBadge = (estado: number) => {
-    return estado === 1 
+    return estado === 1
       ? <span className="inline-block px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full text-center min-w-[60px]">Activo</span>
       : <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full text-center min-w-[60px]">Inactivo</span>;
   };
 
   const getDocumentIcon = (titulo: string) => {
-    return <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>;
+    // Puedes personalizar este icono si lo necesitas, por ahora es un simple círculo
+    return <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>;
   };
 
   const formatDate = (dateString: string) => {
@@ -247,17 +250,17 @@ const BulletinAdmin = () => {
     const user = users.find(u => u.id_usuario === autorId);
     return {
       name: user ? `${user.nombre} ${user.apellido}` : `Usuario ${autorId}`,
-      avatar: user?.foto || `https://images.unsplash.com/photo-1494790108755-2616b9c03d4c?w=40&h=40&fit=crop&crop=face`
+      avatar: user?.foto || `https://images.unsplash.com/photo-1494790108755-2616b9c03d4c?w=40&h=40&fit=crop&crop=face` // Default avatar
     };
   };
 
   const filteredBulletins = bulletins.filter(bulletin => {
     const authorInfo = getAuthorInfo(bulletin.autor);
     const matchesSearch = bulletin.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         authorInfo.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || 
-                         (statusFilter === 'active' && bulletin.estado === 1) ||
-                         (statusFilter === 'inactive' && bulletin.estado === 0);
+      authorInfo.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'all' ||
+      (statusFilter === 'active' && bulletin.estado === 1) ||
+      (statusFilter === 'inactive' && bulletin.estado === 0);
     return matchesSearch && matchesStatus;
   });
 
@@ -265,7 +268,8 @@ const BulletinAdmin = () => {
     return (
       <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
         <div className="flex items-center justify-center h-64">
-          <div className="text-gray-500">Cargando boletines...</div>
+          <div className="text-gray-500 animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="ml-4 text-lg">Cargando boletines...</div>
         </div>
       </div>
     );
@@ -274,16 +278,16 @@ const BulletinAdmin = () => {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-red-500">
+        <div className="flex flex-col items-center justify-center h-64">
+          <div className="text-red-500 text-lg mb-4">
             {error}
-            <button 
-              onClick={loadData}
-              className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Reintentar
-            </button>
           </div>
+          <Button
+            onClick={loadData}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Reintentar
+          </Button>
         </div>
       </div>
     );
@@ -293,7 +297,7 @@ const BulletinAdmin = () => {
     <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Gestion de Boletines</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Gestión de Boletines</h1>
         <p className="text-gray-600">Aquí se muestran todos los boletines del sistema y las acciones realizables sobre estos</p>
       </div>
 
@@ -309,7 +313,7 @@ const BulletinAdmin = () => {
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
-        
+
         <div className="flex gap-2">
           <select
             value={statusFilter}
@@ -324,9 +328,9 @@ const BulletinAdmin = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
                 Detalle
@@ -352,139 +356,148 @@ const BulletinAdmin = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {filteredBulletins.map((bulletin) => (
-              <React.Fragment key={bulletin.id_boletin}>
-                <tr className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <button
-                      onClick={() => toggleExpand(bulletin.id_boletin)}
-                      className="flex items-center text-white hover:text-white"
-                    >
+            {filteredBulletins.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
+                  No se encontraron boletines.
+                </td>
+              </tr>
+            ) : (
+              filteredBulletins.map((bulletin) => (
+                <React.Fragment key={bulletin.id_boletin}>
+                  {/* Fila principal */}
+                  <tr
+                    className="hover:bg-gray-100 transition-colors cursor-pointer" // Añadido hover y cursor
+                    onClick={() => toggleExpand(bulletin.id_boletin)} // Ahora toda la fila es clicable
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {/* El botón interno ya no es necesario, solo mostramos el icono */}
                       {expandedRows[bulletin.id_boletin] ? (
-                        <ChevronDown className="w-4 h-4" />
+                        <ChevronDown className="w-4 h-4 text-gray-600" />
                       ) : (
-                        <ChevronRight className="w-4 h-4" />
+                        <ChevronRight className="w-4 h-4 text-gray-600" />
                       )}
-                    </button>
-                  </td>
-                  
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <img
-                        className="w-8 h-8 rounded-full mr-3"
-                        src={getAuthorInfo(bulletin.autor).avatar}
-                        alt={getAuthorInfo(bulletin.autor).name}
-                      />
-                      <span className="text-sm font-medium text-gray-900">
-                        {getAuthorInfo(bulletin.autor).name}
-                      </span>
-                    </div>
-                  </td>
-                  
-                  <td className="px-6 py-4">
-                    <div className="flex items-center min-w-0">
-                      {getDocumentIcon(bulletin.titulo)}
-                      <div className="min-w-0 flex-1">
-                        <div className="text-sm font-medium text-gray-900 truncate">
-                          {bulletin.titulo}
-                        </div>
-                        <div className="text-xs text-gray-500">PDF Document</div>
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <img
+                          className="w-8 h-8 rounded-full mr-3 object-cover" // Added object-cover
+                          src={getAuthorInfo(bulletin.autor).avatar}
+                          alt={getAuthorInfo(bulletin.autor).name}
+                        />
+                        <span className="text-sm font-medium text-gray-900">
+                          {getAuthorInfo(bulletin.autor).name}
+                        </span>
                       </div>
-                    </div>
-                  </td>
-                  
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-600">
-                      {formatDate(bulletin.fecha)}
-                    </span>
-                  </td>
-                  
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <Eye className="w-4 h-4 text-gray-400 mr-1" />
-                      <span className="text-sm font-medium text-gray-900">
-                        {bulletin.vistas.toLocaleString()}
-                      </span>
-                    </div>
-                  </td>
-                  
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(bulletin.estado)}
-                  </td>
-                  
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="text-white bg-blue-600 hover:bg-blue-50 hover:text-blue-600"
-                        onClick={() => handleDownload(bulletin)}
-                        title="Descargar"
-                      >
-                        <Download className="w-4 h-4" />
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="text-white bg-green-600 hover:bg-green-50 hover:text-green-600"
-                        onClick={() => handleEdit(bulletin)}
-                        title="Editar"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600"
-                        onClick={() => handleToggleStatus(bulletin)}
-                        title={bulletin.estado === 1 ? "Desactivar" : "Activar"}
-                      >
-                        {bulletin.estado === 1 ? <PowerOff className="w-4 h-4" /> : <Power className="w-4 h-4" />}
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="text-white bg-red-600 hover:bg-red-50 hover:text-red-600"
-                        onClick={() => handleDeleteClick(bulletin)}
-                        title="Eliminar"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-                
-                {expandedRows[bulletin.id_boletin] && (
-                  <tr className="bg-gray-50">
-                    <td colSpan={7} className="px-6 py-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <span className="font-medium text-gray-700">Período:</span>
-                          <p className="text-gray-600 mt-1">
-                            {bulletin.desde && bulletin.hasta 
-                              ? `${formatDate(bulletin.desde)} - ${formatDate(bulletin.hasta)}`
-                              : 'No especificado'
-                            }
-                          </p>
-                        </div>
-                        <div>
-                          <span className="font-medium text-gray-700">Instrucciones:</span>
-                          <p className="text-gray-600 mt-1">{bulletin.instruccion || 'Sin instrucciones'}</p>
-                        </div>
-                        <div className="md:col-span-2">
-                          <span className="font-medium text-gray-700">Contenido:</span>
-                          <p className="text-gray-600 mt-1">{bulletin.cuerpo || 'Sin descripción'}</p>
-                        </div>
-                        <div className="md:col-span-2">
-                          <span className="font-medium text-gray-700">Archivo:</span>
-                          <p className="text-gray-600 mt-1">{bulletin.ruta || 'Sin archivo'}</p>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <div className="flex items-center min-w-0">
+                        {getDocumentIcon(bulletin.titulo)}
+                        <div className="min-w-0 flex-1">
+                          <div className="text-sm font-medium text-gray-900 truncate">
+                            {bulletin.titulo}
+                          </div>
+                          <div className="text-xs text-gray-500">PDF Document</div>
                         </div>
                       </div>
                     </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="text-sm text-gray-600">
+                        {formatDate(bulletin.fecha)}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <Eye className="w-4 h-4 text-gray-400 mr-1" />
+                        <span className="text-sm font-medium text-gray-900">
+                          {bulletin.vistas.toLocaleString()}
+                        </span>
+                      </div>
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {getStatusBadge(bulletin.estado)}
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-white bg-blue-600 hover:bg-blue-700" // Cambiado hover bg
+                          onClick={(e) => { e.stopPropagation(); handleDownload(bulletin); }} // Stop propagation
+                          title="Descargar"
+                        >
+                          <Download className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-white bg-green-600 hover:bg-green-700" // Cambiado hover bg
+                          onClick={(e) => { e.stopPropagation(); handleEdit(bulletin); }} // Stop propagation
+                          title="Editar"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-white bg-gray-600 hover:bg-gray-700" // Cambiado hover bg
+                          onClick={(e) => { e.stopPropagation(); handleToggleStatus(bulletin); }} // Stop propagation
+                          title={bulletin.estado === 1 ? "Desactivar" : "Activar"}
+                        >
+                          {bulletin.estado === 1 ? <PowerOff className="w-4 h-4" /> : <Power className="w-4 h-4" />}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-white bg-red-600 hover:bg-red-700" // Cambiado hover bg
+                          onClick={(e) => { e.stopPropagation(); handleDeleteClick(bulletin); }} // Stop propagation
+                          title="Eliminar"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
                   </tr>
-                )}
-              </React.Fragment>
-            ))}
+
+                  {/* Fila expandida */}
+                  {expandedRows[bulletin.id_boletin] && (
+                    <tr className="bg-gray-50 border-b border-gray-200"> {/* Añadido border-b */}
+                      <td colSpan={7} className="px-6 py-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <span className="font-medium text-gray-700">Período:</span>
+                            <p className="text-gray-600 mt-1">
+                              {bulletin.desde && bulletin.hasta
+                                ? `${formatDate(bulletin.desde)} - ${formatDate(bulletin.hasta)}`
+                                : 'No especificado'
+                              }
+                            </p>
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-700">Instrucciones:</span>
+                            <p className="text-gray-600 mt-1">{bulletin.instruccion || 'Sin instrucciones'}</p>
+                          </div>
+                          <div className="md:col-span-2">
+                            <span className="font-medium text-gray-700">Contenido:</span>
+                            <p className="text-gray-600 mt-1">{bulletin.cuerpo || 'Sin descripción'}</p>
+                          </div>
+                          <div className="md:col-span-2">
+                            <span className="font-medium text-gray-700">Archivo:</span>
+                            <p className="text-gray-600 mt-1">{bulletin.ruta || 'Sin archivo'}</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))
+            )}
           </tbody>
         </table>
       </div>
