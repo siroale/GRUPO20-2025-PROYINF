@@ -35,6 +35,7 @@ import CrearBoletinPage from '@/pages/CreateBoletin';
 import GestionUsuariosPage from '@/pages/AdminPage';
 import ActividadBoletinesPage from '@/pages/BoletinActivity';
 import GestionBoletinesPage from '@/pages/BoletinManagement';
+import Stats from '@/pages/Stats';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -432,19 +433,7 @@ const Dashboard = () => {
       case 'estadisticas':
         return (
           <AdminRouteGuard>
-            <Card>
-              <CardHeader>
-                <CardTitle>Estadísticas</CardTitle>
-                <CardDescription>
-                  Esta funcionalidad está siendo desarrollada.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  La sección de estadísticas estará disponible próximamente.
-                </p>
-              </CardContent>
-            </Card>
+            <Stats />
           </AdminRouteGuard>
         );
 
