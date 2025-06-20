@@ -45,7 +45,19 @@ Todo corre en contenedores Docker para facilitar el desarrollo.
 ### Levantar el entorno de desarrollo
 
 1. Clona el repositorio de forma local
-2. Levanta los servicios
+2. Cree un archivo `.env` en la carpeta `/backend` con el siguiente contenido:
+
+	```env
+	POSTGRES_HOST=db
+	POSTGRES_PORT=5432
+	POSTGRES_DB=postgres
+	POSTGRES_USER=admin
+	POSTGRES_PASSWORD=123
+	DEBUG=True
+	SECRET_KEY=django-insecure-tcf(p(xn$2p*gwwgb7d-es%&mu0y+k7q0z%$^wm1wmdcxegvsm
+	```
+
+3. Levanta los servicios
 
 	```bash
 	docker-compose up --build

@@ -314,3 +314,4 @@ dist
 
 # VSCODE extensions
 .devcontainer/
+.env
