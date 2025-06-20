@@ -91,47 +91,55 @@ export function UserListItem({ usuario, onUpdate, onDelete }: UserListItemProps)
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm text-gray-600 mb-6">Nombre</label>
-              <Input
-                name="nombre"
-                value={userData.nombre}
-                onChange={handleChange}
-                required
-              />
+              <label className="text-sm text-gray-600 mb-6">
+                Nombre
+                <Input
+                  name="nombre"
+                  value={userData.nombre}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
             </div>
             <div>
-              <label className="text-sm text-gray-600">Apellido</label>
-              <Input
-                name="apellido"
-                value={userData.apellido}
-                onChange={handleChange}
-                required
-              />
+              <label className="text-sm text-gray-600">
+                Apellido
+                <Input
+                  name="apellido"
+                  value={userData.apellido}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
             </div>
           </div>
 
           <div>
-            <label className="text-sm text-gray-600">Correo</label>
-            <Input
-              name="correo"
-              value={userData.correo}
-              onChange={handleChange}
-              required
-            />
+            <label className="text-sm text-gray-600">
+              Correo
+              <Input
+                name="correo"
+                value={userData.correo}
+                onChange={handleChange}
+                required
+              />
+            </label>
           </div>
 
           <div>
-            <label className="text-sm text-gray-600 mb-6">Rol</label>
-            <select
-              name="rango"
-              value={userData.rango}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            >
-              <option value={1}>Administrador</option>
-              <option value={2}>Editor</option>
-              <option value={3}>Usuario</option>
-            </select>
+            <label className="text-sm text-gray-600 mb-6">
+              Rol
+              <select
+                name="rango"
+                value={userData.rango}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value={1}>Administrador</option>
+                <option value={2}>Editor</option>
+                <option value={3}>Usuario</option>
+              </select>
+            </label>
           </div>
 
           <div className="flex justify-end gap-2">

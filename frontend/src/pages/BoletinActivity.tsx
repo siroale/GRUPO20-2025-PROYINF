@@ -12,7 +12,7 @@ const ActivityLogTable = () => {
     toDate: "",
   });
 
-  // Simulacion de datos (Hay que hacer bien esto en la base de datos)
+  // Simulación de datos (Hay que hacer bien esto en la base de datos)
   useEffect(() => {
     const fetchActivities = async () => {
       try {
@@ -79,7 +79,7 @@ const ActivityLogTable = () => {
             }
           },
         ];
-        
+
         setActivities(mockData);
         setFilteredActivities(mockData);
         setLoading(false);
@@ -95,17 +95,17 @@ const ActivityLogTable = () => {
   // Aplicar filtros a los datos
   const handleFilter = () => {
     setLoading(true);
-    
+
     // Filtrar los datos según los criterios seleccionados
     const filtered = activities.filter(activity => {
       // Filtro por usuario (nombre o correo)
-      const userMatch = filters.user === "" || 
-        activity.doneBy.name.toLowerCase().includes(filters.user.toLowerCase()) || 
+      const userMatch = filters.user === "" ||
+        activity.doneBy.name.toLowerCase().includes(filters.user.toLowerCase()) ||
         activity.doneBy.email.toLowerCase().includes(filters.user.toLowerCase());
-      
+
       // Filtro por tipo de log
       const logTypeMatch = filters.logType === "" || activity.logType === filters.logType;
-      
+
       // Filtro por fecha (desde)
       let fromDateMatch = true;
       if (filters.fromDate) {
@@ -114,7 +114,7 @@ const ActivityLogTable = () => {
         fromDate.setHours(0, 0, 0, 0);
         fromDateMatch = activityDate >= fromDate;
       }
-      
+
       // Filtro por fecha (hasta)
       let toDateMatch = true;
       if (filters.toDate) {
@@ -123,10 +123,10 @@ const ActivityLogTable = () => {
         toDate.setHours(23, 59, 59, 999);
         toDateMatch = activityDate <= toDate;
       }
-      
+
       return userMatch && logTypeMatch && fromDateMatch && toDateMatch;
     });
-    
+
     setFilteredActivities(filtered);
     setTimeout(() => {
       setLoading(false);
@@ -167,15 +167,15 @@ const ActivityLogTable = () => {
       const date = new Date(dateString);
       const now = new Date();
       const diffInSeconds = Math.floor((now - date) / 1000);
-      
+
       if (diffInSeconds < 60) return `${diffInSeconds} segundos atrás`;
-      
+
       const diffInMinutes = Math.floor(diffInSeconds / 60);
       if (diffInMinutes < 60) return `${diffInMinutes} minuto${diffInMinutes > 1 ? 's' : ''} atrás`;
-      
+
       const diffInHours = Math.floor(diffInMinutes / 60);
       if (diffInHours < 24) return `${diffInHours} hora${diffInHours > 1 ? 's' : ''} atrás`;
-      
+
       const diffInDays = Math.floor(diffInHours / 24);
       return `${diffInDays} día${diffInDays > 1 ? 's' : ''} atrás`;
     } catch (e) {
@@ -190,7 +190,7 @@ const ActivityLogTable = () => {
       edit: "bg-orange-400 text-white px-2 py-1 rounded-md text-xs",
       delete: "bg-red-500 text-white px-2 py-1 rounded-md text-xs",
     };
-    
+
     return (
       <span className={styles[logType] || "bg-gray-500 text-white px-2 py-1 rounded-md text-xs"}>
         {logType}
@@ -202,66 +202,74 @@ const ActivityLogTable = () => {
     <AdminRouteGuard>
       <div className="space-y-4 p-4">
         <h2 className="text-2xl font-bold">Registro de Actividad de Boletines</h2>
-        
+
         {/* Filtros */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 bg-gray-50 p-4 rounded-lg">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">USUARIO</label>
-            <input
-              type="text"
-              placeholder="Nombre o correo"
-              value={filters.user}
-              onChange={(e) => setFilters({...filters, user: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">TIPO DE LOG</label>
-            <select
-              value={filters.logType}
-              onChange={(e) => setFilters({...filters, logType: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="">Todos</option>
-              <option value="create">Crear</option>
-              <option value="edit">Editar</option>
-              <option value="delete">Eliminar</option>
-            </select>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">DESDE</label>
-            <div className="flex">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              USUARIO
               <input
-                type="date"
-                value={filters.fromDate}
-                onChange={(e) => setFilters({...filters, fromDate: e.target.value})}
+                type="text"
+                placeholder="Nombre o correo"
+                value={filters.user}
+                onChange={(e) => setFilters({...filters, user: e.target.value})}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
-            </div>
+            </label>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">HASTA</label>
-            <div className="flex">
-              <input
-                type="date"
-                value={filters.toDate}
-                onChange={(e) => setFilters({...filters, toDate: e.target.value})}
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              TIPO DE LOG
+              <select
+                value={filters.logType}
+                onChange={(e) => setFilters({...filters, logType: e.target.value})}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
+              >
+                <option value="">Todos</option>
+                <option value="create">Crear</option>
+                <option value="edit">Editar</option>
+                <option value="delete">Eliminar</option>
+              </select>
+            </label>
           </div>
-          
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              DESDE
+              <div className="flex">
+                <input
+                  type="date"
+                  value={filters.fromDate}
+                  onChange={(e) => setFilters({...filters, fromDate: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              HASTA
+              <div className="flex">
+                <input
+                  type="date"
+                  value={filters.toDate}
+                  onChange={(e) => setFilters({...filters, toDate: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+            </label>
+          </div>
+
           <div className="flex items-end justify-between gap-2">
-            <button 
+            <button
               className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-md shadow-sm flex-1"
               onClick={handleFilter}
             >
               FILTRAR
             </button>
-            <button 
+            <button
               className="px-4 py-2 bg-gray-300 hover:bg-gray-400 font-medium rounded-md shadow-sm"
               onClick={resetFilters}
             >
@@ -269,13 +277,13 @@ const ActivityLogTable = () => {
             </button>
           </div>
         </div>
-        
+
         {/* Tabla de actividades */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="p-2 text-sm text-gray-500">
             Mostrando 1 a {filteredActivities.length} de {activities.length} registros
           </div>
-          
+
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-700">
               <tr>
