@@ -30,7 +30,9 @@ import {
   Usuario
 } from '@/services/UserManagementService';
 
-// Modal de confirmación personalizado
+import BoletinEditor from './EditarBoletin';
+
+// Modal de confirmación
 const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, bulletinTitle, isDeleting }) => {
   if (!isOpen) return null;
 
@@ -109,22 +111,20 @@ const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, bulletinTitle, isDelet
 const BulletinAdmin = () => {
   const [bulletins, setBulletins] = useState<Boletin[]>([]);
   const [users, setUsers] = useState<Usuario[]>([]);
-  const [selectedBulletin, setSelectedBulletin] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({}); // Corrected type
+  const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Estados para el modal de confirmación
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
     bulletinId: null,
     bulletinTitle: '',
     isDeleting: false
   });
+  // Nuevo estado para el boletín que se está editando directamente en la tabla
+  const [editingBoletinIdInTable, setEditingBoletinIdInTable] = useState<number | null>(null);
 
-  // Cargar boletines y usuarios al montar el componente
   useEffect(() => {
     loadData();
   }, []);
@@ -173,7 +173,6 @@ const BulletinAdmin = () => {
       await deleteBoletin(deleteModal.bulletinId);
       setBulletins(bulletins.filter(b => b.id_boletin !== deleteModal.bulletinId));
 
-      // Cerrar modal después de eliminar exitosamente
       setDeleteModal({
         isOpen: false,
         bulletinId: null,
@@ -202,29 +201,41 @@ const BulletinAdmin = () => {
 
   const handleDownload = (bulletin: Boletin) => {
     if (bulletin.ruta) {
-      // Abrir el PDF en una nueva ventana
       window.open(bulletin.ruta, '_blank');
     } else {
       alert('No hay archivo disponible para descargar');
     }
   };
 
+  // Esta función ahora abre el editor directamente en la tabla
   const handleEdit = (bulletin: Boletin) => {
-    // Redirigir a la página de edición
-    window.location.href = `/editar_boletin/${bulletin.id_boletin}`;
-  };
-
-  const handleNewBulletin = () => {
-    window.location.href = '/crear_boletin';
-  };
-
-  // --- CAMBIO CLAVE AQUÍ ---
-  // Ahora el toggleExpand se llama directamente en la fila <tr> para que toda la fila reaccione
-  const toggleExpand = (id: number) => {
-    setExpandedRows(prev => ({
+    setEditingBoletinIdInTable(bulletin.id_boletin);
+    setExpandedRows(prev => ({ // Asegúrate de que la fila esté expandida
       ...prev,
-      [id]: !prev[id]
+      [bulletin.id_boletin]: true
     }));
+  };
+
+  const handleSaveBoletin = (updatedBoletin: Boletin) => {
+    setBulletins(bulletins.map(b =>
+      b.id_boletin === updatedBoletin.id_boletin ? updatedBoletin : b
+    ));
+    // Cierra el editor en la tabla después de guardar
+    setEditingBoletinIdInTable(null);
+  };
+
+  // Modificado para alternar expansión O iniciar edición si es el caso
+  const toggleExpand = (id: number) => {
+    // Si ya está en modo edición, no hagas nada con la expansión al hacer clic en la fila
+    if (editingBoletinIdInTable === id) {
+      setEditingBoletinIdInTable(null); // Si se hace clic en la fila mientras se edita, cierra el editor
+    } else {
+      setEditingBoletinIdInTable(null); // Asegura que no haya otro editor abierto
+      setExpandedRows(prev => ({
+        ...prev,
+        [id]: !prev[id]
+      }));
+    }
   };
 
   const getStatusBadge = (estado: number) => {
@@ -234,7 +245,6 @@ const BulletinAdmin = () => {
   };
 
   const getDocumentIcon = (titulo: string) => {
-    // Puedes personalizar este icono si lo necesitas, por ahora es un simple círculo
     return <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>;
   };
 
@@ -250,7 +260,7 @@ const BulletinAdmin = () => {
     const user = users.find(u => u.id_usuario === autorId);
     return {
       name: user ? `${user.nombre} ${user.apellido}` : `Usuario ${autorId}`,
-      avatar: user?.foto || `https://images.unsplash.com/photo-1494790108755-2616b9c03d4c?w=40&h=40&fit=crop&crop=face` // Default avatar
+      avatar: user?.foto || `https://images.unsplash.com/photo-1494790108755-2616b9c03d4c?w=40&h=40&fit=crop&crop=face`
     };
   };
 
@@ -367,12 +377,11 @@ const BulletinAdmin = () => {
                 <React.Fragment key={bulletin.id_boletin}>
                   {/* Fila principal */}
                   <tr
-                    className="hover:bg-gray-100 transition-colors cursor-pointer" // Añadido hover y cursor
-                    onClick={() => toggleExpand(bulletin.id_boletin)} // Ahora toda la fila es clicable
+                    className="hover:bg-gray-100 transition-colors cursor-pointer"
+                    onClick={() => toggleExpand(bulletin.id_boletin)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {/* El botón interno ya no es necesario, solo mostramos el icono */}
-                      {expandedRows[bulletin.id_boletin] ? (
+                      {expandedRows[bulletin.id_boletin] || editingBoletinIdInTable === bulletin.id_boletin ? (
                         <ChevronDown className="w-4 h-4 text-gray-600" />
                       ) : (
                         <ChevronRight className="w-4 h-4 text-gray-600" />
@@ -382,7 +391,7 @@ const BulletinAdmin = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <img
-                          className="w-8 h-8 rounded-full mr-3 object-cover" // Added object-cover
+                          className="w-8 h-8 rounded-full mr-3 object-cover"
                           src={getAuthorInfo(bulletin.autor).avatar}
                           alt={getAuthorInfo(bulletin.autor).name}
                         />
@@ -428,8 +437,8 @@ const BulletinAdmin = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-white bg-blue-600 hover:bg-blue-700" // Cambiado hover bg
-                          onClick={(e) => { e.stopPropagation(); handleDownload(bulletin); }} // Stop propagation
+                          className="text-white bg-blue-600 hover:bg-blue-700"
+                          onClick={(e) => { e.stopPropagation(); handleDownload(bulletin); }}
                           title="Descargar"
                         >
                           <Download className="w-4 h-4" />
@@ -437,8 +446,8 @@ const BulletinAdmin = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-white bg-green-600 hover:bg-green-700" // Cambiado hover bg
-                          onClick={(e) => { e.stopPropagation(); handleEdit(bulletin); }} // Stop propagation
+                          className="text-white bg-green-600 hover:bg-green-700"
+                          onClick={(e) => { e.stopPropagation(); handleEdit(bulletin); }}
                           title="Editar"
                         >
                           <Edit3 className="w-4 h-4" />
@@ -446,8 +455,8 @@ const BulletinAdmin = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-white bg-gray-600 hover:bg-gray-700" // Cambiado hover bg
-                          onClick={(e) => { e.stopPropagation(); handleToggleStatus(bulletin); }} // Stop propagation
+                          className="text-white bg-gray-600 hover:bg-gray-700"
+                          onClick={(e) => { e.stopPropagation(); handleToggleStatus(bulletin); }}
                           title={bulletin.estado === 1 ? "Desactivar" : "Activar"}
                         >
                           {bulletin.estado === 1 ? <PowerOff className="w-4 h-4" /> : <Power className="w-4 h-4" />}
@@ -455,8 +464,8 @@ const BulletinAdmin = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-white bg-red-600 hover:bg-red-700" // Cambiado hover bg
-                          onClick={(e) => { e.stopPropagation(); handleDeleteClick(bulletin); }} // Stop propagation
+                          className="text-white bg-red-600 hover:bg-red-700"
+                          onClick={(e) => { e.stopPropagation(); handleDeleteClick(bulletin); }}
                           title="Eliminar"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -465,9 +474,9 @@ const BulletinAdmin = () => {
                     </td>
                   </tr>
 
-                  {/* Fila expandida */}
-                  {expandedRows[bulletin.id_boletin] && (
-                    <tr className="bg-gray-50 border-b border-gray-200"> {/* Añadido border-b */}
+                  {/* Fila expandida para detalles O editor */}
+                  {(expandedRows[bulletin.id_boletin] && editingBoletinIdInTable !== bulletin.id_boletin) && (
+                    <tr className="bg-gray-50 border-b border-gray-200">
                       <td colSpan={7} className="px-6 py-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                           <div>
@@ -492,6 +501,19 @@ const BulletinAdmin = () => {
                             <p className="text-gray-600 mt-1">{bulletin.ruta || 'Sin archivo'}</p>
                           </div>
                         </div>
+                      </td>
+                    </tr>
+                  )}
+                  {/* Fila de edición */}
+                  {editingBoletinIdInTable === bulletin.id_boletin && (
+                    <tr className="bg-white border-b border-gray-200">
+                      <td colSpan={7} className="p-0"> {/* Ocupa toda la fila */}
+                        <BoletinEditor
+                          isOpen={true} // Siempre abierto cuando editingBoletinIdInTable coincide
+                          onClose={() => setEditingBoletinIdInTable(null)} // Cierra el editor
+                          boletinId={bulletin.id_boletin}
+                          onSave={handleSaveBoletin}
+                        />
                       </td>
                     </tr>
                   )}
